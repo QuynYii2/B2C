@@ -1,0 +1,1 @@
+[06-Jun-2023 18:23:55 UTC] PHP Fatal error:  Class App\Services\ApiService contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (App\Services\ApiServiceInterface::getTaoBao) in /home/u0tg2fjicbap/order.2188.info/app/Services/ApiService.php on line 7

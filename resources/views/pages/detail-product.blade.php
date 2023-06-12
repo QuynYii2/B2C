@@ -15,7 +15,6 @@
     </style>
     <div class="container mt-5">
         @php $props = []; @endphp
-{{--        @dd($data['item']['props_list'])--}}
         @foreach($data['item']['props_list'] as $key => $value)
             @php
                 $colonPosition = strpos($key, ":");
@@ -33,7 +32,7 @@
 
         <ul id="sizeList"  data-property="尺码" class="J_TSaleProp tb-clearfix" style="display: flex;">
             <div><b>Size</b></div>
-            @foreach($props['1627207'] as $valueSize => $labelSize)
+            @foreach($props['20509'] as $valueSize => $labelSize)
                 <li data-value="size {{ substr($labelSize,5,1) }}" class="" style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">
                     <a><span>{{ substr($labelSize,5,1) }}</span></a>
                 </li>
@@ -42,7 +41,7 @@
 
         <ul id="colorList"  data-property="尺码" class="J_TSaleProp tb-clearfix" style="display: flex;">
             <div><b>Color</b></div>
-            @foreach($props['228680323'] as $valueColor => $labelColor)
+            @foreach($props['1627207'] as $valueColor => $labelColor)
                 @php
                     $parts = explode(":", $labelColor);
                     $color = $parts[1];

@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-cart-quantity', [\App\Http\Controllers\CartController::class, 'updateQuantity'])->name('cart.update');
     Route::delete('/delete-cart-item/{itemId}', [\App\Http\Controllers\CartController::class, 'deleteCartItem'])->name('cart.delete');
     Route::delete('/delete-all-cart-items', [\App\Http\Controllers\CartController::class, 'deleteAllCartItems'])->name('cart/delete-all');
-//    Route::post('/checkout', [\App\Http\Controllers\CheckoutController::class, 'processPayment'])->name('checkout.process');
+    Route::post('/checkout', [\App\Http\Controllers\CheckoutController::class, 'processPayment'])->name('checkout.process');
     // Checkout
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'show'])->name('checkout.show');
     // Paypal

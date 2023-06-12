@@ -20,10 +20,12 @@ class SearchController extends Controller
         $dropdownValue = $request->input('site');
         $text = $request->input('text');
 
-        if ($dropdownValue == 'alibaba') {
-            $this->dataProduct = $this->apiService->getAliBaBa($text);
-        } elseif ($dropdownValue = 'taobao') {
+        if ($dropdownValue == 'taobao') {
             $this->dataProduct = $this->apiService->getTaoBao($text);
+        } elseif ($dropdownValue = '1688') {
+            $this->dataProduct = $this->apiService->get1688($text);
+        } elseif($dropdownValue = 'alibaba') {
+            $this->dataProduct = $this->apiService->getAliBaBa($text);
         }
 
         return view('pages/search-result', [
@@ -47,7 +49,7 @@ class SearchController extends Controller
 //                'Content-Type' => 'application/json',
 //                'APIKey' => 'k_ea939e4a58469312b35d7c1db46c9c6a'
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => 'a9007c5328mshf8e6b10b1bc9c8fp1ac418jsn7b82822017e8'
+                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
             ]
         ]);
 

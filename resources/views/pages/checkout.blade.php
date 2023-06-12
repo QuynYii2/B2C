@@ -47,8 +47,7 @@
                     </tbody>
                 </table>
                 <div class="total">
-                    <div class="col text-right" id="price_total">TOTAL PRICE: <b
-                            id="total-price-value">{{ $cartItem->sum('total_price') }}</b></div>
+                    <div class="col text-right" id="price_total">TOTAL PRICE: <b id="total-price-value">{{ $cartItem->sum('total_price') }}</b></div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -62,17 +61,17 @@
 
                     <div class="form-group">
                         <label for="address">Địa chỉ:</label>
-                        <input type="text" name="address" class="form-control" value="{{ $user->address }}" required>
+                        <input type="text" name="address" class="form-control" value="{{ $user->address }}"  required>
                     </div>
 
                     <div class="form-group">
                         <label for="phone">Số điện thoại:</label>
-                        <input type="text" name="phone" class="form-control" value="{{ $user->phone }}" required>
+                        <input type="text" name="phone" class="form-control" value="{{ $user->phone }}"   required>
                     </div>
 
                     <div class="form-group">
                         <label for="mail">Số điện thoại:</label>
-                        <input type="text" name="mail" class="form-control" value="{{ $user->email }}" required>
+                        <input type="text" name="mail" class="form-control" value="{{ $user->email }}"   required>
                     </div>
 
                     <div class="form-group">
@@ -89,48 +88,47 @@
                 </form>
 
                 <!-- Modal hiển thị khi thanh toán thành công -->
-                {{--                <div class="modal fade" id="checkoutSuccessModal" tabindex="-1" role="dialog" aria-labelledby="checkoutSuccessModalLabel" aria-hidden="true">--}}
-                {{--                    <div class="modal-dialog" role="document">--}}
-                {{--                        <div class="modal-content">--}}
-                {{--                            <div class="modal-header">--}}
-                {{--                                <h5 class="modal-title" id="checkoutSuccessModalLabel">Thanh toán thành công</h5>--}}
-                {{--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                {{--                                    <span aria-hidden="true">&times;</span>--}}
-                {{--                                </button>--}}
-                {{--                            </div>--}}
-                {{--                            <div class="modal-body">--}}
-                {{--                                <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được ghi nhận.</p>--}}
-                {{--                            </div>--}}
-                {{--                            <div class="modal-footer">--}}
-                {{--                                <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
+                <div class="modal fade" id="checkoutSuccessModal" tabindex="-1" role="dialog" aria-labelledby="checkoutSuccessModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="checkoutSuccessModalLabel">Thanh toán thành công</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được ghi nhận.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                {{--                <!-- Modal hiển thị khi có lỗi trong quá trình thanh toán -->--}}
-                {{--                <div class="modal fade" id="checkoutErrorModal" tabindex="-1" role="dialog" aria-labelledby="checkoutErrorModalLabel" aria-hidden="true">--}}
-                {{--                    <div class="modal-dialog" role="document">--}}
-                {{--                        <div class="modal-content">--}}
-                {{--                            <div class="modal-header">--}}
-                {{--                                <h5 class="modal-title" id="checkoutErrorModalLabel">Lỗi thanh toán</h5>--}}
-                {{--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                {{--                                    <span aria-hidden="true">&times;</span>--}}
-                {{--                                </button>--}}
-                {{--                            </div>--}}
-                {{--                            <div class="modal-body">--}}
-                {{--                                <p>Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại sau.</p>--}}
-                {{--                            </div>--}}
-                {{--                            <div class="modal-footer">--}}
-                {{--                                <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
+                <!-- Modal hiển thị khi có lỗi trong quá trình thanh toán -->
+                <div class="modal fade" id="checkoutErrorModal" tabindex="-1" role="dialog" aria-labelledby="checkoutErrorModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="checkoutErrorModalLabel">Lỗi thanh toán</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại sau.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script>
         function getAllTotal() {
             let totalPrice = document.getElementById('total-price-value').innerText;

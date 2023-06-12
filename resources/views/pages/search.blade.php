@@ -10,10 +10,9 @@
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <button style="border-radius: 0;" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img id="selected-image" src="https://muahang.orderhangtrung.vn/static/skins/images/logo_shop/TAOBAO-logo.png" alt="alibaba">
+                        <img id="selected-image" src="https://muahang.orderhangtrung.vn/static/skins/images/logo_shop/TAOBAO-logo.png" alt="alibaba" width="105px">
                     </button>
                     <input type="hidden" name="site" id="dropdownValue" value="taobao">
-
 
                     <div class="dropdown-menu"  style="border-radius: 0;">
                         <a class="dropdown-item" href="#" onclick="changeImage('https://muahang.orderhangtrung.vn/static/skins/images/logo_shop/TAOBAO-logo.png', 'taobao')">
@@ -21,6 +20,8 @@
                         </a>
                         <a class="dropdown-item" href="#" onclick="changeImage('https://muahang.orderhangtrung.vn/static/skins/images/logo_shop/CN1688-logo.png', '1688')">
                             <img src="https://muahang.orderhangtrung.vn/static/skins/images/logo_shop/CN1688-logo.png" alt="1688">
+                        </a><a class="dropdown-item" href="#" onclick="changeImage('{{ asset('images/alibaba.png') }}', 'alibaba')">
+                            <img src="{{ asset('images/alibaba.png') }}" alt="alibaba" width="105px">
                         </a>
                         <!-- Thêm các categories khác tương tự -->
                     </div>

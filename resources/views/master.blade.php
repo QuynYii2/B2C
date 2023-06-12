@@ -100,6 +100,8 @@
         var imageElement = document.getElementById('thumb_product');
         var imageUrl = imageElement.src;
 
+
+
         $.ajax({
             url: '/cart/add',
             method: 'POST',
@@ -117,8 +119,9 @@
             success: function(response) {
                 $('#add_cart_success').modal('show');
                 console.log(response);
-            }
+            },
         });
+        console.log(data);
     });
 
     $('.decrease-number').click(function(e) {
@@ -211,36 +214,36 @@
     }
 
     // Xử lý sự kiện click nút thanh toán
-    {{--$('#checkoutButton').on('click', function(e) {--}}
-    {{--    console.log(1111);--}}
-    {{--    e.preventDefault();--}}
+    $('#checkoutButton').on('click', function(e) {
+        console.log(1111);
+        e.preventDefault();
 
-    {{--    var checkoutUrl = $(this).attr('href');--}}
-    {{--    var name = $("input[name=full_name]").val();--}}
-    {{--    var address = $("input[name=address]").val();--}}
-    {{--    var phone = $("input[name=phone]").val();--}}
-    {{--    var mail = $("input[name=mail]").val();--}}
-    {{--    var paymentMethod = $('#payment_method').val();--}}
+        var checkoutUrl = $(this).attr('href');
+        var name = $("input[name=full_name]").val();
+        var address = $("input[name=address]").val();
+        var phone = $("input[name=phone]").val();
+        var mail = $("input[name=mail]").val();
+        var paymentMethod = $('#payment_method').val();
 
-    {{--    $.ajax({--}}
-    {{--        url: checkoutUrl,--}}
-    {{--        type: 'POST',--}}
-    {{--        data: {--}}
-    {{--            name : name,--}}
-    {{--            address: address,--}}
-    {{--            phone : phone,--}}
-    {{--            mail : mail,--}}
-    {{--            paymentMethod : paymentMethod,--}}
-    {{--            _token: '{{ csrf_token() }}'--}}
-    {{--        },--}}
-    {{--        success: function(response) {--}}
-    {{--            $('#checkoutSuccessModal').modal('show');--}}
-    {{--        },--}}
-    {{--        error: function(xhr, status, error) {--}}
-    {{--            console.log(xhr.responseText);--}}
-    {{--        }--}}
-    {{--    });--}}
-    {{--});--}}
+        $.ajax({
+            url: checkoutUrl,
+            type: 'POST',
+            data: {
+                name : name,
+                address: address,
+                phone : phone,
+                mail : mail,
+                paymentMethod : paymentMethod,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $('#checkoutSuccessModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
 
 
 

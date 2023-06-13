@@ -27,7 +27,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'Content-Type' => 'application/json',
-                'APIKey' => 'k_7ce90489daab9f03fd3bccac1456c77b'
+                'APIKey' => 'k_5fd81d1f87b75c66b7f2e80f922e1dda'
             ]
         ]);
 
@@ -53,7 +53,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
+                'X-RapidAPI-Key' => '01d6366a6cmsh2ffddf98b1a9216p1225bdjsn8fa4fa929898'
             ]
         ]);
 
@@ -79,7 +79,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
+                'X-RapidAPI-Key' => '01d6366a6cmsh2ffddf98b1a9216p1225bdjsn8fa4fa929898'
             ]
         ]);
 
@@ -101,7 +101,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
+                'X-RapidAPI-Key' => '01d6366a6cmsh2ffddf98b1a9216p1225bdjsn8fa4fa929898'
             ]
         ]);
 

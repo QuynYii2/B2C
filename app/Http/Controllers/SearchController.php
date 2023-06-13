@@ -24,21 +24,23 @@ class SearchController extends Controller
             $this->dataProduct = $this->apiService->getTaoBao($text);
         } elseif ($dropdownValue = '1688') {
             $this->dataProduct = $this->apiService->get1688($text);
-        } elseif($dropdownValue = 'alibaba') {
+        } elseif ($dropdownValue = 'alibaba') {
             $this->dataProduct = $this->apiService->getAliBaBa($text);
         }
 
         return view('pages/search-result', [
             'data' => $this->dataProduct,
-            'nameProduct' => $text
+            'nameProduct' => $text,
+            'services' => $dropdownValue
         ]);
 
     }
 
-    public function getDetailProduct(Request $request, $id) {
+    public function getDetailProduct(Request $request, $service, $id)
+    {
         $client = new Client();
 
-        $key = "57a2910becmsh1cb3d50b1bdacc7p1eefe9jsn0f1078941a47";
+        $key = "01d6366a6cmsh2ffddf98b1a9216p1225bdjsn8fa4fa929898";
 
         $response = $client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_get', [
             'query' => [
@@ -58,9 +60,23 @@ class SearchController extends Controller
         $body = $response->getBody();
         $data = json_decode($body, true);
 
-        return view('pages/detail-product', [
-            'data' => $data,
-        ]);
+        if ($service == 'taobao') {
+            return view('pages/product_pages/detail-product-taobao', [
+                'data' => $data,
+            ]);
+        } elseif ($service == '1688') {
+            return view('pages/product_pages/detail-product-1688', [
+                'data' => $data,
+            ]);
+        } elseif ($service == 'alibaba') {
+            return view('pages/product_pages/detail-product-alibaba', [
+                'data' => $data,
+            ]);
+        } else {
+            return view('pages/detail-product', [
+                'data' => $data,
+            ]);
+        }
     }
 }
 

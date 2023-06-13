@@ -34,6 +34,7 @@
 
     </style>
     <div class="container mt-5">
+        @dd($data)
         @php $props = []; @endphp
         @foreach($data['item']['props_list'] as $key => $value)
             @php
@@ -92,7 +93,7 @@
                         </p>
                         <p>Sales: {{ $data['item']['sales'] }}</p>
                     </div>
-{{--                                        @dd($data['item']);--}}
+                    {{--                                        @dd($data['item']);--}}
                     <div class="row">
                         @foreach(array_keys($props) as $prop)
                             @if($prop == '20509')

@@ -16,6 +16,7 @@
     <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/light-bootstrap-dashboard.css?v=2.0.0')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/demo.css')}}" rel="stylesheet" />
+    <link href="{{asset('/assets/css/custom.css')}}" rel="stylesheet" />
 </head>
 
 <body>
@@ -46,8 +47,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
         demo.initDashboardPageCharts();
-
-        demo.showNotification();
 
     });
 
@@ -100,8 +99,6 @@
         var imageElement = document.getElementById('thumb_product');
         var imageUrl = imageElement.src;
 
-
-
         $.ajax({
             url: '/cart/add',
             method: 'POST',
@@ -119,9 +116,8 @@
             success: function(response) {
                 $('#add_cart_success').modal('show');
                 console.log(response);
-            },
+            }
         });
-        console.log(data);
     });
 
     $('.decrease-number').click(function(e) {

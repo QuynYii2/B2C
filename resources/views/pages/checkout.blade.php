@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-4">
                 <h2>Thông tin thanh toán</h2>
-                <form id="" method="post" action="{{route('checkout.create')}}">
+                <form id="" method="post" action="{{route('checkout.create')}}" >
                     @csrf
                     <div class="form-group">
                         <label for="name">Họ tên:</label>

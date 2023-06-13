@@ -26,7 +26,6 @@ class AlibabaController extends Controller
         ]);
 
         $body = $response->getBody();
-        dd($body);
     }
 
     public function getDetailProduct(Request $request, $id) {

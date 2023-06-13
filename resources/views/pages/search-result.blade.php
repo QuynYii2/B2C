@@ -68,7 +68,7 @@
             <div class="row">
                 @foreach($data['items']['item'] as $item)
                     <div class="col-md-3 col-6 col-sm-4 col-xl-2 mt-4">
-                        <a href="{{ route('product.detail', ['id' => $item['num_iid']]) }}">
+                        <a href="{{ route('product.detail', ['id' => $item['num_iid'], 'service' => $services]) }}">
                             <div class="card product-card">
                                 <img src="{{ $item['pic_url'] }}" class="card-img-top custom-img" alt="Hình ảnh">
                                 <div class="card-body">

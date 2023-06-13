@@ -24,25 +24,27 @@ class SearchController extends Controller
             $this->dataProduct = $this->apiService->getTaoBao($text);
         } elseif ($dropdownValue = '1688') {
             $this->dataProduct = $this->apiService->get1688($text);
-        } elseif($dropdownValue = 'alibaba') {
+        } elseif ($dropdownValue = 'alibaba') {
             $this->dataProduct = $this->apiService->getAliBaBa($text);
         }
 
         return view('pages/search-result', [
             'data' => $this->dataProduct,
-            'nameProduct' => $text
+            'nameProduct' => $text,
+            'services' => $dropdownValue,
         ]);
 
     }
 
-    public function getDetailProduct(Request $request, $id) {
+    public function getDetailProduct(Request $request, $service, $id)
+    {
         $client = new Client();
 
-        $key = "865f276a27msh260c18f52ce27a4p1ea688jsnce35b3167ac6";
+        $key = "14e8316501mshee42908e2dc0bd4p15dcfcjsnd7a6b11f9a0b";
 
         $response = $client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_get', [
             'query' => [
-                'provider' => 'taobao',
+                'provider' => '1688',
                 'num_id' => $id,
                 'lang' => 'en',
                 'is_promotion' => '1',
@@ -58,9 +60,23 @@ class SearchController extends Controller
         $body = $response->getBody();
         $data = json_decode($body, true);
 
-        return view('pages/detail-product', [
-            'data' => $data,
-        ]);
+        if ($service == 'taobao') {
+            return view('pages/product_pages/detail-product-taobao', [
+                'data' => $data,
+            ]);
+        } elseif ($service == '1688') {
+            return view('pages/product_pages/detail-product-1688', [
+                'data' => $data,
+            ]);
+        } elseif ($service == 'alibaba') {
+            return view('pages/product_pages/detail-product-alibaba', [
+                'data' => $data,
+            ]);
+        } else {
+            return view('pages/detail-product', [
+                'data' => $data,
+            ]);
+        }
     }
 }
 

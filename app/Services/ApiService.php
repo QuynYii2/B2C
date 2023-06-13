@@ -53,7 +53,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
+                'X-RapidAPI-Key' => '01d6366a6cmsh2ffddf98b1a9216p1225bdjsn8fa4fa929898'
             ]
         ]);
 
@@ -65,25 +65,20 @@ class ApiService implements ApiServiceInterface
 
     public function get1688($text)
     {
-        // TODO: Implement get1688() method.
-        $response = $this->client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_search', [
+        $response = $this->client->request('GET', 'https://otapi-1688.p.rapidapi.com/BatchSearchItemsFrame', [
             'query' => [
-                'keyword' => $text,
-                'start_price' => '0',
-                'end_price' => '99999',
-                'provider' => '1688',
-                'sort' => '_sale',
-                'page' => '20',
-                'cat' => '0',
-                'lang' => 'cn', // available value en,cn,ru
+                'language' => 'en',
+                'framePosition' => '0',
+                'frameSize' => '50',
+                'ItemTitle' => $text
             ],
             'headers' => [
-                'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
+                'X-RapidAPI-Key' => 'db553f5e5amshb338708daa1685cp1702b5jsn70481f99e43d',
+                'X-RapidAPI-Host' => 'otapi-1688.p.rapidapi.com'
             ]
         ]);
 
-        $body = $response->getBody();
+        $body = $response->getBody()->getContents();
         $search1688 = json_decode($body, true);
 
         return $search1688;
@@ -101,7 +96,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
+                'X-RapidAPI-Key' => '14e8316501mshee42908e2dc0bd4p15dcfcjsnd7a6b11f9a0b'
             ]
         ]);
 
@@ -125,7 +120,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'ali-express1.p.rapidapi.com',
-                'X-RapidAPI-Key' => 'a9007c5328mshf8e6b10b1bc9c8fp1ac418jsn7b82822017e8',
+                'X-RapidAPI-Key' => 'db553f5e5amshb338708daa1685cp1702b5jsn70481f99e43d',
             ],
         ]);
 

@@ -86,6 +86,7 @@ class CheckoutController extends Controller
             'customer_address' => $email,
             'customer_phone' => $phone,
             'customer_email' => $address,
+            'status' => 'payment_success',
         ]);
 
         $cartItems = Cart::where('user_id', Auth::id())->get();

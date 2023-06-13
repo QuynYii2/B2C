@@ -38,6 +38,8 @@ class SearchController extends Controller
     public function getDetailProduct(Request $request, $id) {
         $client = new Client();
 
+        $key = "865f276a27msh260c18f52ce27a4p1ea688jsnce35b3167ac6";
+
         $response = $client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_get', [
             'query' => [
                 'provider' => 'taobao',
@@ -49,7 +51,7 @@ class SearchController extends Controller
 //                'Content-Type' => 'application/json',
 //                'APIKey' => 'k_ea939e4a58469312b35d7c1db46c9c6a'
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7b2135e174msh19d71786a52d326p108060jsn3bec55c24554'
+                'X-RapidAPI-Key' => $key,
             ]
         ]);
 

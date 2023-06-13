@@ -13,9 +13,11 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- CSS Files -->
-    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/light-bootstrap-dashboard.css?v=2.0.0')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/demo.css')}}" rel="stylesheet" />
+    <link href="{{asset('/assets/css/custom.css')}}" rel="stylesheet" />
+    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -47,8 +49,6 @@
     $(document).ready(function() {
         demo.initDashboardPageCharts();
 
-        demo.showNotification();
-
     });
 
 
@@ -67,22 +67,12 @@
     var product_size = ''; // Biến lưu trữ size
     var product_color = ''; // Biến lưu trữ color
 
-    $('#sizeList li').on('click', function() {
-        console.log(1111);
-        product_size = $(this).data('value');
-
-        $(this).addClass('active-item').siblings().removeClass('active-item');
-        $(this).find('span').addClass('active-text');
-        $(this).siblings().find('span').removeClass('active-text');
+    $('#sizeList').on('click', function() {
+        product_size = $(this).val();
     });
 
-    $('#colorList li').on('click', function() {
-        console.log(222);
-        product_color = $(this).data('value');
-
-        $(this).addClass('active-item').siblings().removeClass('active-item');
-        $(this).find('span').addClass('active-text');
-        $(this).siblings().find('span').removeClass('active-text');
+    $('#colorList').on('click', function() {
+        product_color = $(this).val();
     });
 
     $('.add-to-cart').on('click', function() {
@@ -93,14 +83,11 @@
         var sizeList = document.getElementById('sizeList');
         var colorList = document.getElementById('colorList');
 
-
         var quantity = document.getElementById('myNumber').value;
         console.log(quantity, price);
 
         var imageElement = document.getElementById('thumb_product');
         var imageUrl = imageElement.src;
-
-
 
         $.ajax({
             url: '/cart/add',
@@ -118,10 +105,8 @@
             },
             success: function(response) {
                 $('#add_cart_success').modal('show');
-                console.log(response);
-            },
+            }
         });
-        console.log(data);
     });
 
     $('.decrease-number').click(function(e) {

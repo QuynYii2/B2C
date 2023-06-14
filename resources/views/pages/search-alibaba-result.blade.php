@@ -63,24 +63,25 @@
 @section('content')
     <div class="container-fluid">
         <h2>Kết quả tìm kiếm sản phẩm: {{$nameProduct}}</h2>
-
-        @if(isset($data['items']) && count($data['items']['item']) > 0)
+        @if(isset($data['Result']['Items']) && count($data['Result']['Items']['Items']) > 0)
             <div class="row">
-                @foreach($data['items']['item'] as $item)
-                    <div class="col-md-3 col-6 col-sm-4 col-xl-2 mt-4">
-                        <a href="{{ route('product.detail', ['id' => $item['num_iid'],  'service' => $services]) }}">
+                @foreach($data['Result']['Items'] as $item)
+                    @foreach($item['Content'] as $value)
+                        <div class="col-md-3 col-6 col-sm-4 col-xl-2 mt-4">
+                            <a href="{{ route('product.detail', ['id' => Illuminate\Support\Str::after($value['Id'], '-'), 'service' => $services]) }}">
                             <div class="card product-card">
-                                <img src="{{ $item['pic_url'] }}" class="card-img-top custom-img" alt="Hình ảnh">
-                                <div class="card-body">
-                                    <h5 class="card-title" >{{ $item['title'] }}</h5>
-                                    <div>
-                                    <p class="card-text">Giá: {{ $item['price'] }}</p>
-                                    <p class="card-text">Số lượng bán: {{ $item['sales'] }}</p>
+                                    <img src="{{ $value['MainPictureUrl'] }}" class="card-img-top custom-img" alt="Hình ảnh">
+                                    <div class="card-body">
+                                        <h5 class="card-title" >{{ $value['Title'] }}</h5>
+                                        <div>
+                                        <p class="card-text">Giá : {{ convertCurrency($value['Price']['OriginalPrice'], 'USD', 'VND') }} VND </p>
+                                        <p class="card-text">Số lượng bán: {{ $value['sales'] }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    @endforeach
                 @endforeach
             </div>
         @else

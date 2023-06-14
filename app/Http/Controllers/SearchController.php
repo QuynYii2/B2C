@@ -31,7 +31,7 @@ class SearchController extends Controller
         return view('pages/search-result', [
             'data' => $this->dataProduct,
             'nameProduct' => $text,
-            'services' => $dropdownValue,
+            'services' => $dropdownValue
         ]);
 
     }
@@ -40,11 +40,11 @@ class SearchController extends Controller
     {
         $client = new Client();
 
-        $key = "14e8316501mshee42908e2dc0bd4p15dcfcjsnd7a6b11f9a0b";
+        $key = "039f2a7faamshbd80c6354ad3e9bp188e5bjsn29e22531e480";
 
         $response = $client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_get', [
             'query' => [
-                'provider' => '1688',
+                'provider' => $service,
                 'num_id' => $id,
                 'lang' => 'en',
                 'is_promotion' => '1',

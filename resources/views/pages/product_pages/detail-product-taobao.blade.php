@@ -49,7 +49,7 @@
                     <div class="img-showcase d-flex flex-row bd-highlight">
                         @foreach ($data['item']['item_imgs'] as $key => $image)
                             @if ($key === 0)
-                                <img id="img mt-2 img-focus" class="img w-100 h-100" src="{{ $image['url'] }}"
+                                <img id="thumb_product" class="img w-100 h-100" src="{{ $image['url'] }}"
                                      onclick="zoomImgModal(this)"
                                      alt="image" width="360px" height="250px" data-toggle="modal"
                                      data-target="#seeImageProduct">
@@ -73,7 +73,8 @@
             <div class="product-content col-md-12 py-1 col-12" style="z-index: 88;">
                 <form>
                     @csrf
-                    <h2 class="product-title">{{ $data['item']['title'] }}</h2>
+                    <div id="product_name"><h2 class="product-title">{{ $data['item']['title'] }}</h2></div>
+                    <div id="product_url" hidden>{{ $data['item']['detail_url'] }}</div>
                     <div class="product-rating">
                         <?php
                         $score_p = $data['item']['seller_info']['score_p'];
@@ -91,6 +92,7 @@
                                 href="{{ $data['item']['seller_info']['zhuy'] }}"> {{ $data['item']['seller_info']['shop_name'] }}</a>
                         </p>
                         <p>Sales: {{ $data['item']['sales'] }}</p>
+                        <p class="price">Price: <b>{{ $data['item']['price'] }}</b></p>
                     </div>
                     {{--                                        @dd($data['item']);--}}
                     <div class="row">
@@ -139,16 +141,15 @@
                         @endforeach
                         <div class="col-sm-4 col-4">
                             <label for="qty">{{ __('home.quantity') }}</label>
-                            <input class="product-qty input form-control" type="number" name="quantity" min="0"
-
-                                   value="1">
+                            <input class="product-qty input form-control" type="number" name="myNumber" id="myNumber"
+                                   min="1" value="1">
                         </div>
 
 
                     </div>
 
                     <div class="purchase-info d-flex mt-3">
-                        <button type="submit" class="btn-danger btn btn-16 add-to-cart" id="btn-order-now"
+                        <button type="button" class="btn-danger btn btn-16 add-to-cart" id="btn-order-now"
                                 data-product-id="{{ $data['item']['num_iid'] }}"><i
                                 class="fa fa-shopping-cart"></i>
                             {{ __('home.buy now') }}
@@ -204,7 +205,7 @@
                     <p>Thêm sản phẩm vào giỏ hàng thành công.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"><a href="/search_product">Tiếp tục mua hàng</a>
+                    <button type="button" class="btn btn-primary"><a href="/search-product">Tiếp tục mua hàng</a>
                     </button>
                     <button type="button" class="btn btn-secondary"><a href="/cart">Xem giỏ hàng</a></button>
                 </div>

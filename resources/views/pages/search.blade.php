@@ -35,7 +35,8 @@
                            onclick="changeImage('https://muahang.orderhangtrung.vn/static/skins/images/logo_shop/CN1688-logo.png', '1688')">
                             <img src="https://muahang.orderhangtrung.vn/static/skins/images/logo_shop/CN1688-logo.png"
                                  alt="1688">
-                        </a><a class="dropdown-item" href="#"
+                        </a>
+                        <a class="dropdown-item" href="#"
                                onclick="changeImage('{{ asset('images/alibaba.png') }}', 'alibaba')">
                             <img src="{{ asset('images/alibaba.png') }}" alt="alibaba" width="105px">
                         </a>
@@ -58,7 +59,6 @@
             document.getElementById('selected-image').alt = alt;
             document.getElementById('dropdownValue').value = alt;
         }
-
         // document.addEventListener('DOMContentLoaded', function() {
         //     var firstLink = document.querySelector('.dropdown-item:first-of-type');
         //     console.log(firstLink);

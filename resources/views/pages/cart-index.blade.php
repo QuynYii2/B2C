@@ -182,7 +182,7 @@
                                     <img class="img-fluid" src="{{ $cart->image}}">
                                 </td>
                                 <td>
-                                    <div class="row align-content-center text-nowrap" >{{ $cart->product_name}}</div>
+                                    <div class="row align-content-center text-nowrap">{{ $cart->product_name}}</div>
                                 </td>
                                 <td class="text-nowrap">
                                     @if(is_string($cart->attribute))
@@ -196,9 +196,14 @@
                                         <p>Color: {{ $cart->attribute['color'] }}</p>
                                     @endif
                                 </td>
-                                <td><input type="number" id="myNumber" class="mb-0" value="{{ $cart->quantity }}"
+                                <td>
+                                    <div class="col-md-6 col-2 d-flex align-items-center">
+                                    <a href="#" class="decrease-number" data-item-id="{{ $cart->id }}">-</a>
+                                    <input type="text" id="myNumber" class="mb-0" value="{{ $cart->quantity }}"
                                            min="0"
-                                           max="100" step="1" data-item-id="{{ $cart->id }}">
+                                           max="100" step="1" data-item-id="{{ $cart->id }}" disabled>
+                                    <a href="#" class="increase-number" data-item-id="{{ $cart->id }}">+</a>
+                                    </div>
                                 </td>
                                 <td data-item-id="{{ $cart->id }}" class="text-nowrap">$ <span
                                         id="totalPrice{{ $cart->id }}">{{ $cart->total_price }}</span></td>
@@ -251,7 +256,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-6 total float-right">
-                        <div id="price_total">TOTAL PRICE: {{ $cart->sum('total_price') }}</div>
+                        <div id="price_total">TOTAL PRICE: {{ $listCart->sum('total_price') }}</div>
                     </div>
                 </div>
                 <div class="row pb-3"><a href="{{ route('checkout.show') }}">

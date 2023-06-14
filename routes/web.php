@@ -26,7 +26,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
     Route::get('/search-product', [App\Http\Controllers\DashboardController::class, 'search_product']);
     Route::get('/search', [\App\Http\Controllers\SearchController::class, 'searchProduct'])->name('search');
-
     Route::get('/detail-product/{service}/{id}', [\App\Http\Controllers\SearchController::class, 'getDetailProduct'])->name('product.detail');
     Route::get('/cart', [\App\Http\Controllers\CartController::class, 'showCart'])->name('cart.index');
     Route::post('/cart/add', [\App\Http\Controllers\CartController::class,'addToCart'])->name('cart.add');

@@ -50,7 +50,7 @@
                 </div>
                 <div class="total">
                     <div class="col text-right" id="price_total">TOTAL PRICE: <b
-                            id="total-price-value">{{ $cartItem->sum('total_price') }}</b></div>
+                            id="total-price-value">{{ $cartItems->sum('total_price') }}</b></div>
                 </div>
             </div>
             <div class="col-md-4">

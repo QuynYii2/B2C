@@ -65,20 +65,25 @@ class ApiService implements ApiServiceInterface
 
     public function get1688($text)
     {
-        $response = $this->client->request('GET', 'https://otapi-1688.p.rapidapi.com/BatchSearchItemsFrame', [
+        // TODO: Implement get1688() method.
+        $response = $this->client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_search', [
             'query' => [
-                'language' => 'en',
-                'framePosition' => '0',
-                'frameSize' => '50',
-                'ItemTitle' => $text
+                'keyword' => $text,
+                'start_price' => '0',
+                'end_price' => '99999',
+                'provider' => '1688',
+                'sort' => '_sale',
+                'page' => '20',
+                'cat' => '0',
+                'lang' => 'cn', // available value en,cn,ru
             ],
             'headers' => [
-                'X-RapidAPI-Key' => 'db553f5e5amshb338708daa1685cp1702b5jsn70481f99e43d',
-                'X-RapidAPI-Host' => 'otapi-1688.p.rapidapi.com'
+                'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
+                'X-RapidAPI-Key' => '039f2a7faamshbd80c6354ad3e9bp188e5bjsn29e22531e480'
             ]
         ]);
 
-        $body = $response->getBody()->getContents();
+        $body = $response->getBody();
         $search1688 = json_decode($body, true);
 
         return $search1688;
@@ -96,7 +101,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '14e8316501mshee42908e2dc0bd4p15dcfcjsnd7a6b11f9a0b'
+                'X-RapidAPI-Key' => '039f2a7faamshbd80c6354ad3e9bp188e5bjsn29e22531e480'
             ]
         ]);
 
@@ -120,7 +125,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'ali-express1.p.rapidapi.com',
-                'X-RapidAPI-Key' => 'db553f5e5amshb338708daa1685cp1702b5jsn70481f99e43d',
+                'X-RapidAPI-Key' => 'a9007c5328mshf8e6b10b1bc9c8fp1ac418jsn7b82822017e8',
             ],
         ]);
 

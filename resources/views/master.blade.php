@@ -13,11 +13,10 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- CSS Files -->
+    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/light-bootstrap-dashboard.css?v=2.0.0')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/demo.css')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/custom.css')}}" rel="stylesheet" />
-    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" />
-
 </head>
 
 <body>
@@ -67,15 +66,25 @@
     var product_size = ''; // Biến lưu trữ size
     var product_color = ''; // Biến lưu trữ color
 
-    $('#sizeList').on('click', function() {
-        product_size = $(this).val();
+    $('#sizeList li').on('click', function() {
+        console.log(1111);
+        product_size = $(this).data('value');
+
+        $(this).addClass('active-item').siblings().removeClass('active-item');
+        $(this).find('span').addClass('active-text');
+        $(this).siblings().find('span').removeClass('active-text');
     });
 
-    $('#colorList').on('click', function() {
-        product_color = $(this).val();
+    $('#colorList li').on('click', function() {
+        console.log(222);
+        product_color = $(this).data('value');
+
+        $(this).addClass('active-item').siblings().removeClass('active-item');
+        $(this).find('span').addClass('active-text');
+        $(this).siblings().find('span').removeClass('active-text');
     });
 
-    $('.add-to-cart').on('click', function() {
+    $('#btn-order-now').on('click', function() {
         var productId = $(this).data('product-id');
         var price = document.querySelector('.price b').innerText;
         var productName = document.querySelector('#product_name').innerText;
@@ -97,14 +106,18 @@
                 product_name: productName,
                 product_url: productUrl,
                 product_price: price,
-                product_size: product_size,
-                product_color: product_color,
+                product_size: sizeList,
+                product_color: colorList,
                 product_img: imageUrl,
                 product_quanlity: quantity,
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
                 $('#add_cart_success').modal('show');
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response)
             }
         });
     });

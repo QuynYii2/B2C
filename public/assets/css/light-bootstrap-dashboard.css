@@ -2104,7 +2104,7 @@ fieldset[disabled] .form-control {
 }
 
 .navbar.fixed {
-    width: calc(100% - $sidebar-width);
+    /*width: calc(100% - $sidebar-width);*/
     right: 0;
     left: auto;
     border-radius: 0;
@@ -2949,7 +2949,6 @@ Copyright (c) 2015 Daniel Eden
 .card .table tbody td:last-child,
 .card .table thead th:last-child {
     padding-right: 15px;
-    display: inline-flex;
 }
 
 .card .alert {

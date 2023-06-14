@@ -49,12 +49,9 @@
                     <div class="img-showcase d-flex flex-row bd-highlight">
                         @foreach ($data['item']['item_imgs'] as $key => $image)
                             @if ($key === 0)
-                                <img id="img mt-2 img-focus" class="img w-100 h-100" src="{{ $image['url'] }}"
+                                <img id="thumb_product" class="img w-100 h-100 mt-2 img-focus" src="{{ $image['url'] }}"
                                      onclick="zoomImgModal(this)"
-                                     alt="image" width="360px" height="250px" data-toggle="modal"
-                                     data-target="#seeImageProduct">
-                                <img id="img-default" class="img w-100" src="{{ $image['url'] }}"
-                                     alt="image" width="360px" height="250px" data-toggle="modal"
+                                     alt="image" data-toggle="modal"
                                      data-target="#seeImageProduct">
                             @endif
                         @endforeach
@@ -71,90 +68,69 @@
                 </div>
             </div>
             <div class="product-content col-md-12 py-1 col-12" style="z-index: 88;">
-                <form>
-                    @csrf
-                    <h2 class="product-title">{{ $data['item']['title'] }}</h2>
-                    <div class="product-rating">
-                        <?php
-                        $score_p = $data['item']['seller_info']['score_p'];
-                        for ($i = 0; $i < $score_p; $i++) {
-                            echo '<i class="fa fa-star"></i>';
-                        }
-                        if ($score_p % 1 !== 0) {
-                            echo '<i class="fa fa-star-half-o"></i>';
-                        }
-                        ?>
-                        <span><?php echo $score_p; ?></span>
+                @csrf
+                <div id="product_name"><h2 class="product-title">{{ $data['item']['title'] }}</h2></div>
+                <div id="product_url" hidden>{{ $data['item']['detail_url'] }}</div>
+                <div class="product-rating">
+                    <?php
+                    $score_p = $data['item']['seller_info']['score_p'];
+                    for ($i = 0; $i < $score_p; $i++) {
+                        echo '<i class="fa fa-star"></i>';
+                    }
+                    if ($score_p % 1 !== 0) {
+                        echo '<i class="fa fa-star-half-o"></i>';
+                    }
+                    ?>
+                    <span><?php echo $score_p; ?></span>
+                </div>
+                <div class="product-price d-flex" style="gap: 3rem">
+                    <p>Seller: <a
+                            href="{{ $data['item']['seller_info']['zhuy'] }}"> {{ $data['item']['seller_info']['shop_name'] }}</a>
+                    </p>
+                    <p>Sales: {{ $data['item']['sales'] }}</p>
+                    <p class="price">Price: <b>{{ $data['item']['price'] }}</b></p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-4">
+                        <label for="sizeList">{{ __('home.size') }}</label>
+                        <select id="sizeList" name="sizeList"
+                                class="form-control">
+                            @foreach($props['20509'] as $valueSize => $labelSize)
+                                <option value="size {{ substr($labelSize,5,1) }}"
+                                        style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">
+                                    {{ substr($labelSize,5,1) }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="product-price d-flex" style="gap: 3rem">
-                        <p>Seller: <a
-                                href="{{ $data['item']['seller_info']['zhuy'] }}"> {{ $data['item']['seller_info']['shop_name'] }}</a>
-                        </p>
-                        <p>Sales: {{ $data['item']['sales'] }}</p>
+                    <div class="col-sm-4 col-4">
+                        <label for="colorList">{{ __('home.color') }}</label>
+                        <select id="colorList" name="colorList"
+                                class="form-control">
+                            @foreach($props['1627207'] as $valueColor => $labelColor)
+                                @php
+                                    $parts = explode(":", $labelColor);
+                                    $color = $parts[1];
+                                @endphp
+                                <option value="{{$color}}"
+                                        style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$color}}</option>
+                            @endforeach
+                        </select>
                     </div>
-{{--                                        @dd($data['item']);--}}
-                    <div class="row">
-                        @foreach(array_keys($props) as $prop)
-                            @if($prop == '20509')
-                                <div class="col-sm-4 col-4">
-                                    <label for="size">{{ __('home.size') }}</label>
-                                    <select id="size" name="size" class="form-control">
-                                        @foreach($props['20509'] as $valueSize => $labelSize)
-                                            <option value="size {{ substr($labelSize,5,1) }}"
-                                                    style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">
-                                                {{ substr($labelSize,5,1) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @elseif($prop == '1627207')
-                                <div class="col-sm-4 col-4">
-                                    <label for="color">{{ __('home.color') }}</label>
-                                    <select id="color" name="color" class="form-control">
-                                        @foreach($props['1627207'] as $valueColor => $labelColor)
-                                            @php
-                                                $parts = explode(":", $labelColor);
-                                                $color = $parts[1];
-                                            @endphp
-                                            <option value="{{$color}}"
-                                                    style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$color}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @elseif($prop == '228680323')
-                                <div class="col-sm-4 col-4">
-                                    <label for="model">{{ __('home.model') }}</label>
-                                    <select id="model" name="model" class="form-control">
-                                        @foreach($props['228680323'] as $valueModel => $labelModel)
-                                            @php
-                                                $models = explode(":", $labelModel);
-                                                $model = $models[1];
-                                            @endphp
-                                            <option value="{{$model}}"
-                                                    style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$model}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
-                        @endforeach
-                        <div class="col-sm-4 col-4">
-                            <label for="qty">{{ __('home.quantity') }}</label>
-                            <input class="product-qty input form-control" type="number" name="quantity" min="0"
-
-                                   value="1">
-                        </div>
-
-
+                    <div class="col-sm-4 col-4">
+                        <label for="myNumber">{{ __('home.quantity') }}</label>
+                        <input class="product-qty input form-control" type="number" name="myNumber" id="myNumber"
+                               min="0"
+                               value="1">
                     </div>
-
-                    <div class="purchase-info d-flex mt-3">
-                        <button type="submit" class="btn-danger btn btn-16 add-to-cart" id="btn-order-now"
-                                data-product-id="{{ $data['item']['num_iid'] }}"><i
-                                class="fa fa-shopping-cart"></i>
-                            {{ __('home.buy now') }}
-                        </button>
-                    </div>
-                </form>
+                </div>
+                <div class="purchase-info d-flex mt-3">
+                    <button type="button" class="btn-danger btn btn-16 add-to-cart"
+                            data-product-id="{{ $data['item']['num_iid'] }}"><i
+                            class="fa fa-shopping-cart"></i>
+                        {{ __('home.buy now') }}
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -183,7 +159,6 @@
                 </a>
             </div>
             <?php } ?>
-
         </div>
 
 
@@ -204,15 +179,20 @@
                     <p>Thêm sản phẩm vào giỏ hàng thành công.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"><a href="/search_product">Tiếp tục mua hàng</a>
-                    </button>
-                    <button type="button" class="btn btn-secondary"><a href="/cart">Xem giỏ hàng</a></button>
+                    <a href="/search_product">
+                        <button type="button" class="btn btn-primary">Tiếp tục mua hàng
+                        </button>
+                    </a>
+                    <a href="/cart">
+                        <button type="button" class="btn btn-secondary">Xem giỏ hàng</button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+
 
         function zoomImgModal(x) {
             imgDf = document.getElementById('img-modal');
@@ -224,6 +204,41 @@
             imgDf.src = x.src;
         }
 
+        {{--function addToCart() {--}}
+        {{--    var productId = document.querySelector('.add-to-cart').getAttribute('data-product-id');--}}
+        {{--    var price = document.querySelector('.price b').textContent;--}}
+        {{--    var productName = document.querySelector('#product_name').textContent;--}}
+        {{--    var productUrl = document.querySelector('#product_url').textContent;--}}
+        {{--    var sizeList = document.getElementById('sizeList');--}}
+        {{--    var colorList = document.getElementById('colorList');--}}
+
+
+        {{--    var quantity = document.getElementById('myNumber').value;--}}
+
+        {{--    var imageElement = document.getElementById('thumb_product');--}}
+        {{--    var imageUrl = imageElement.src;--}}
+        {{--    console.log(productId, price,productName, productUrl,sizeList, colorList, imageUrl);--}}
+
+        {{--    --}}{{--$.ajax({--}}
+        {{--    --}}{{--    url: '/cart/add',--}}
+        {{--    --}}{{--    method: 'POST',--}}
+        {{--    --}}{{--    data: {--}}
+        {{--    --}}{{--        product_id: productId,--}}
+        {{--    --}}{{--        product_name: productName,--}}
+        {{--    --}}{{--        product_url: productUrl,--}}
+        {{--    --}}{{--        product_price: price,--}}
+        {{--    --}}{{--        product_size: product_size,--}}
+        {{--    --}}{{--        product_color: product_color,--}}
+        {{--    --}}{{--        product_img: imageUrl,--}}
+        {{--    --}}{{--        product_quanlity: quantity,--}}
+        {{--    --}}{{--        _token: '{{ csrf_token() }}'--}}
+        {{--    --}}{{--    },--}}
+        {{--    --}}{{--    success: function(response) {--}}
+        {{--    --}}{{--        $('#add_cart_success').modal('show');--}}
+        {{--    --}}{{--        console.log(response);--}}
+        {{--    --}}{{--    }--}}
+        {{--    --}}{{--});--}}
+        {{--}--}}
 
     </script>
 @endsection

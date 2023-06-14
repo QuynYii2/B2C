@@ -7,52 +7,55 @@
         <div class="row">
             <div class="col-md-8">
                 <h2>Thông tin đơn hàng</h2>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($cartItems as $cartItem)
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td>
-                                <div class="item" style="display: flex; gap: 30px;">
-                                    <img class="img-fluid" src="{{ $cartItem->image}}" width="50px">
-                                    <div class="info_product">
-                                        {{ $cartItem->product_name }}
-                                        @if(is_string($cartItem->attribute))
-                                            @php
-                                                $attributeData = json_decode($cartItem->attribute, true);
-                                            @endphp
-                                            <div class="attribute">
-                                                Size: {{ $attributeData['size'] }}<br>
-                                                Color: {{ $attributeData['color'] }}
-                                            </div>
-                                        @else
-                                            <div class="attribute">
-                                                Size: {{ $cartItem->attribute['size'] }}<br>
-                                                Color: {{ $cartItem->attribute['color'] }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $cartItem->quantity }}</td>
-                            <td>{{ $cartItem->total_price }}</td>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @foreach ($cartItems as $cartItem)
+                            <tr>
+                                <td>
+                                    <div class="item" style="display: flex; gap: 30px;">
+                                        <img class="img-fluid" src="{{ $cartItem->image}}" width="50px">
+                                        <div class="info_product">
+                                            {{ $cartItem->product_name }}
+                                            @if(is_string($cartItem->attribute))
+                                                @php
+                                                    $attributeData = json_decode($cartItem->attribute, true);
+                                                @endphp
+                                                <div class="attribute">
+                                                    Size: {{ $attributeData['size'] }}<br>
+                                                    Color: {{ $attributeData['color'] }}
+                                                </div>
+                                            @else
+                                                <div class="attribute">
+                                                    Size: {{ $cartItem->attribute['size'] }}<br>
+                                                    Color: {{ $cartItem->attribute['color'] }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ $cartItem->quantity }}</td>
+                                <td>{{ $cartItem->total_price }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 <div class="total">
-                    <div class="col text-right" id="price_total">TOTAL PRICE: <b id="total-price-value">{{ $cartItem->sum('total_price') }}</b></div>
+                    <div class="col text-right" id="price_total">TOTAL PRICE: <b
+                            id="total-price-value">{{ $cartItems->sum('total_price') }}</b></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <h2>Thông tin thanh toán</h2>
-                <form id="" method="post" action="{{route('checkout.create')}}" >
+                <form id="" method="post" action="{{route('checkout.create')}}">
                     @csrf
                     <div class="form-group">
                         <label for="name">Họ tên:</label>
@@ -61,17 +64,17 @@
 
                     <div class="form-group">
                         <label for="address">Địa chỉ:</label>
-                        <input type="text" name="address" class="form-control" value="{{ $user->address }}"  required>
+                        <input type="text" name="address" class="form-control" value="{{ $user->address }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="phone">Số điện thoại:</label>
-                        <input type="text" name="phone" class="form-control" value="{{ $user->phone }}"   required>
+                        <input type="text" name="phone" class="form-control" value="{{ $user->phone }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="mail">Số điện thoại:</label>
-                        <input type="text" name="mail" class="form-control" value="{{ $user->email }}"   required>
+                        <input type="text" name="mail" class="form-control" value="{{ $user->email }}" required>
                     </div>
 
                     <div class="form-group">
@@ -88,7 +91,8 @@
                 </form>
 
                 <!-- Modal hiển thị khi thanh toán thành công -->
-                <div class="modal fade" id="checkoutSuccessModal" tabindex="-1" role="dialog" aria-labelledby="checkoutSuccessModalLabel" aria-hidden="true">
+                <div class="modal fade" id="checkoutSuccessModal" tabindex="-1" role="dialog"
+                     aria-labelledby="checkoutSuccessModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -108,7 +112,8 @@
                 </div>
 
                 <!-- Modal hiển thị khi có lỗi trong quá trình thanh toán -->
-                <div class="modal fade" id="checkoutErrorModal" tabindex="-1" role="dialog" aria-labelledby="checkoutErrorModalLabel" aria-hidden="true">
+                <div class="modal fade" id="checkoutErrorModal" tabindex="-1" role="dialog"
+                     aria-labelledby="checkoutErrorModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">

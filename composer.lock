@@ -4,8 +4,209 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "515aa2110afcb9413f72552bc6544667",
+    "content-hash": "0a24b9a2cd09da91300b08f7fbc1c20d",
     "packages": [
+        {
+            "name": "amrshawky/currency",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amrshawky/currency.git",
+                "reference": "39f13b6783ef611fd13916d48abd31bca2ab1e54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amrshawky/currency/zipball/39f13b6783ef611fd13916d48abd31bca2ab1e54",
+                "reference": "39f13b6783ef611fd13916d48abd31bca2ab1e54",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": ">=6.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AmrShawky\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amr Shawky",
+                    "homepage": "https://amrshawky.com"
+                }
+            ],
+            "description": "A PHP library for current and historical currency exchange rates & crypto exchange rates based on the free API provided by exchangerate.host",
+            "keywords": [
+                "crypto exchange rates",
+                "currency",
+                "currency converter",
+                "exchange rates",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/amrshawky/currency/issues",
+                "source": "https://github.com/amrshawky/currency/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/amrshawky",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2021-05-13T23:41:33+00:00"
+        },
+        {
+            "name": "amrshawky/laravel-currency",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amrshawky/laravel-currency.git",
+                "reference": "a6ab6c4f65b58b4a89e2f467e91cc139e59c4df7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amrshawky/laravel-currency/zipball/a6ab6c4f65b58b4a89e2f467e91cc139e59c4df7",
+                "reference": "a6ab6c4f65b58b4a89e2f467e91cc139e59c4df7",
+                "shasum": ""
+            },
+            "require": {
+                "amrshawky/currency": "^1.0",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": ">=6.0",
+                "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=8.5.23"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AmrShawky\\LaravelCurrency\\CurrencyServiceProvider"
+                    ],
+                    "aliases": {
+                        "Currency": "AmrShawky\\LaravelCurrency\\Facade\\Currency"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AmrShawky\\LaravelCurrency\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amr Shawky",
+                    "homepage": "https://amrshawky.com"
+                }
+            ],
+            "description": "A Laravel package for current and historical currency exchange rates & crypto exchange rates based on the free API provided by exchangerate.host",
+            "keywords": [
+                "currency",
+                "currency converter",
+                "exchange rates",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/amrshawky/laravel-currency/issues",
+                "source": "https://github.com/amrshawky/laravel-currency/tree/6.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/amrshawky",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2023-02-17T18:40:31+00:00"
+        },
+        {
+            "name": "ashallendesign/laravel-exchange-rates",
+            "version": "v7.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ash-jc-allen/laravel-exchange-rates.git",
+                "reference": "ae616de3772fbacb8e9ee0d8b254ed3b2c53a8a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ash-jc-allen/laravel-exchange-rates/zipball/ae616de3772fbacb8e9ee0d8b254ed3b2c53a8a2",
+                "reference": "ae616de3772fbacb8e9ee0d8b254ed3b2c53a8a2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/cache": "^8.0|^9.0|^10.0",
+                "illuminate/container": "^8.0|^9.0|^10.0",
+                "nesbot/carbon": "~2.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "nunomaduro/larastan": "^1.0|^2.0",
+                "orchestra/testbench": "^6.0|^7.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AshAllenDesign\\LaravelExchangeRates\\Providers\\ExchangeRatesProvider"
+                    ],
+                    "aliases": {
+                        "ExchangeRate": "AshAllenDesign\\LaravelExchangeRates\\Facades\\ExchangeRate"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AshAllenDesign\\LaravelExchangeRates\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ash Allen",
+                    "email": "mail@ashallendesign.co.uk"
+                }
+            ],
+            "description": "A wrapper package for interacting with the exchangeratesapi.io API.",
+            "homepage": "https://github.com/ash-jc-allen/laravel-exchange-rates",
+            "keywords": [
+                "ashallendesign",
+                "exchange-rate",
+                "exchangeratesapi.io",
+                "laravel-exchange-rates"
+            ],
+            "support": {
+                "issues": "https://github.com/ash-jc-allen/laravel-exchange-rates/issues",
+                "source": "https://github.com/ash-jc-allen/laravel-exchange-rates/tree/v7.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ash-jc-allen",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-23T17:03:22+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.1.1",
@@ -2054,6 +2255,95 @@
                 "source": "https://github.com/maxmind/web-service-common-php/tree/v0.9.0"
             },
             "time": "2022-03-28T17:43:20+00:00"
+        },
+        {
+            "name": "moneyphp/money",
+            "version": "v4.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moneyphp/money.git",
+                "reference": "9682220995ffd396843be5b4ee1e5f2c2d6ecee2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moneyphp/money/zipball/9682220995ffd396843be5b4ee1e5f2c2d6ecee2",
+                "reference": "9682220995ffd396843be5b4ee1e5f2c2d6ecee2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-filter": "*",
+                "ext-json": "*",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
+            },
+            "require-dev": {
+                "cache/taggable-cache": "^1.1.0",
+                "doctrine/coding-standard": "^9.0",
+                "doctrine/instantiator": "^1.4.0",
+                "ext-gmp": "*",
+                "ext-intl": "*",
+                "florianv/exchanger": "^2.6.3",
+                "florianv/swap": "^4.3.0",
+                "moneyphp/crypto-currencies": "^1.0.0",
+                "moneyphp/iso-currencies": "^3.2.1",
+                "php-http/message": "^1.11.0",
+                "php-http/mock-client": "^1.4.1",
+                "phpbench/phpbench": "^1.2.5",
+                "phpspec/phpspec": "^7.3",
+                "phpunit/phpunit": "^9.5.4",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "psr/cache": "^1.0.1",
+                "vimeo/psalm": "~5.3.0"
+            },
+            "suggest": {
+                "ext-gmp": "Calculate without integer limits",
+                "ext-intl": "Format Money objects with intl",
+                "florianv/exchanger": "Exchange rates library for PHP",
+                "florianv/swap": "Exchange rates library for PHP",
+                "psr/cache-implementation": "Used for Currency caching"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Money\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathias Verraes",
+                    "email": "mathias@verraes.net",
+                    "homepage": "http://verraes.net"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com"
+                },
+                {
+                    "name": "Frederik Bosch",
+                    "email": "f.bosch@genkgo.nl"
+                }
+            ],
+            "description": "PHP implementation of Fowler's Money pattern",
+            "homepage": "http://moneyphp.org",
+            "keywords": [
+                "Value Object",
+                "money",
+                "vo"
+            ],
+            "support": {
+                "issues": "https://github.com/moneyphp/money/issues",
+                "source": "https://github.com/moneyphp/money/tree/v4.1.1"
+            },
+            "time": "2023-04-11T09:18:34+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -6136,16 +6426,16 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.22.0",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "f85772abd508bd04e20bb4b1bbe260a68d0066d2"
+                "reference": "e3daa170d00fde61ea7719ef47bb09bb8f1d9b01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/f85772abd508bd04e20bb4b1bbe260a68d0066d2",
-                "reference": "f85772abd508bd04e20bb4b1bbe260a68d0066d2",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/e3daa170d00fde61ea7719ef47bb09bb8f1d9b01",
+                "reference": "e3daa170d00fde61ea7719ef47bb09bb8f1d9b01",
                 "shasum": ""
             },
             "require": {
@@ -6198,9 +6488,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.22.0"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.23.0"
             },
-            "time": "2023-05-14T12:31:37+00:00"
+            "time": "2023-06-12T08:44:38+00:00"
         },
         {
             "name": "filp/whoops",

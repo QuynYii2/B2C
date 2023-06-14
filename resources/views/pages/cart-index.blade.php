@@ -159,36 +159,41 @@
                         </div>
                     </div>
                 </div>
-                @foreach($listCart as $cart)
-                    <div class="row border-top border-bottom" data-item-id="{{ $cart->id }}">
-                        <div class="col-md-3">
-                            <img class="img-fluid" src="{{ $cart->image}}">
-                            <div class="row">{{ $cart->product_name}}</div>
-                        </div>
-                        <div class="col-md-3">
-                            @if(is_string($cart->attribute))
-                                @php
-                                    $attributeData = json_decode($cart->attribute, true);
-                                @endphp
-                                <p>Size: {{ $attributeData['size'] }}</p>
-                                <p>Color: {{ $attributeData['color'] }}</p>
-                            @else
-                                <p>Size: {{ $cart->attribute['size'] }}</p>
-                                <p>Color: {{ $cart->attribute['color'] }}</p>
-                            @endif
-                        </div>
-                        <div class="col-md-3">
-                            <a href="#" class="decrease-number" data-item-id="{{ $cart->id }}">-</a>
-                            <input type="number" id="myNumber" value="{{ $cart->quantity }}" min="0" max="100" step="1" data-item-id="{{ $cart->id }}">
-                            <a href="#" class="increase-number" data-item-id="{{ $cart->id }}">+</a>
+                @if($listCart->isEmpty())
+                    <h3 class="text-center">No product</h3>
+                @else
+                    @foreach($listCart as $cart)
+                        <div class="row border-top border-bottom" data-item-id="{{ $cart->id }}">
+                            <div class="col-md-3">
+                                <img class="img-fluid" src="{{ $cart->image}}">
+                                <div class="row">{{ $cart->product_name}}</div>
+                            </div>
+                            <div class="col-md-3">
+                                @if(is_string($cart->attribute))
+                                    @php
+                                        $attributeData = json_decode($cart->attribute, true);
+                                    @endphp
+                                    <p>Size: {{ $attributeData['size'] }}</p>
+                                    <p>Color: {{ $attributeData['color'] }}</p>
+                                @else
+                                    <p>Size: {{ $cart->attribute['size'] }}</p>
+                                    <p>Color: {{ $cart->attribute['color'] }}</p>
+                                @endif
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="decrease-number" data-item-id="{{ $cart->id }}">-</a>
+                                <input type="number" id="myNumber" value="{{ $cart->quantity }}" min="0" max="100" step="1" data-item-id="{{ $cart->id }}">
+                                <a href="#" class="increase-number" data-item-id="{{ $cart->id }}">+</a>
 
+                            </div>
+                            <div class="col-md-3" data-item-id="{{ $cart->id }}">
+                                &euro; <span id="totalPrice{{ $cart->id }}">{{ $cart->total_price }}</span>
+                                <a href="#" data-item-id="{{ $cart->id }}" onclick="deleteCartItem({{ $cart->id }})">Xóa</a>
+                            </div>
                         </div>
-                        <div class="col-md-3" data-item-id="{{ $cart->id }}">
-                            &euro; <span id="totalPrice{{ $cart->id }}">{{ $cart->total_price }}</span>
-                            <a href="#" data-item-id="{{ $cart->id }}" onclick="deleteCartItem({{ $cart->id }})">Xóa</a>
-                        </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
+
 
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col-md-6 ">
@@ -196,7 +201,7 @@
                     </div>
                     <div class="col-md-6 total">
                         <div class="col">TOTAL PRICE</div>
-                        <div class="col text-right" id="price_total">{{ $cart->sum('total_price') }}</div>
+                        <div class="col text-right" id="price_total">{{ $listCart->sum('total_price') }}</div>
                     </div>
                 </div>
                 <div class="row">

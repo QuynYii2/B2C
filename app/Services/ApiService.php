@@ -79,7 +79,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7a8efdc972mshcc7eb417f8be513p18e891jsn458023ccedba'
+                'X-RapidAPI-Key' => '039f2a7faamshbd80c6354ad3e9bp188e5bjsn29e22531e480'
             ]
         ]);
 
@@ -101,7 +101,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '7a8efdc972mshcc7eb417f8be513p18e891jsn458023ccedba'
+                'X-RapidAPI-Key' => '039f2a7faamshbd80c6354ad3e9bp188e5bjsn29e22531e480'
             ]
         ]);
 

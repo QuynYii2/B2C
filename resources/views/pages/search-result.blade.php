@@ -63,8 +63,9 @@
 @section('content')
     <div class="container-fluid">
         <h2>Kết quả tìm kiếm sản phẩm: {{$nameProduct}}</h2>
+        {{ number_format($response, 0, ',', '.') }} VND
 
-        @if(isset($data['items']) && count($data['items']['item']) > 0)
+    @if(isset($data['items']) && count($data['items']['item']) > 0)
             <div class="row">
                 @foreach($data['items']['item'] as $item)
                     <div class="col-md-3 col-6 col-sm-4 col-xl-2 mt-4">

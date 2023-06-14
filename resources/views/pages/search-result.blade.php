@@ -63,7 +63,7 @@
 @section('content')
     <div class="container-fluid">
         <h2>Kết quả tìm kiếm sản phẩm: {{$nameProduct}}</h2>
-        {{ number_format($response, 0, ',', '.') }} VND
+            {{ number_format(convertCurrency('USD', 'VND', 25), 0, ',', '.') }} VND
 
     @if(isset($data['items']) && count($data['items']['item']) > 0)
             <div class="row">

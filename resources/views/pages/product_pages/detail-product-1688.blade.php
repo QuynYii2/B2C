@@ -1,3 +1,6 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
 @extends('master')
 
 @section('title', 'Kết quả tìm kiếm')
@@ -34,7 +37,7 @@
 
     </style>
     <div class="container mt-5">
-        @dd($data)
+        {{--        @dd($data)--}}
         @php $props = []; @endphp
         @foreach($data['item']['props_list'] as $key => $value)
             @php
@@ -71,21 +74,22 @@
                     @endforeach
                 </div>
             </div>
+
             <div class="product-content col-md-12 py-1 col-12" style="z-index: 88;">
                 <form>
                     @csrf
                     <h2 class="product-title">{{ $data['item']['title'] }}</h2>
                     <div class="product-rating">
-                        <?php
-                        $score_p = $data['item']['seller_info']['score_p'];
-                        for ($i = 0; $i < $score_p; $i++) {
-                            echo '<i class="fa fa-star"></i>';
-                        }
-                        if ($score_p % 1 !== 0) {
-                            echo '<i class="fa fa-star-half-o"></i>';
-                        }
-                        ?>
-                        <span><?php echo $score_p; ?></span>
+                        {{--                        <?php--}}
+                        {{--                        $score_p = $data['item']['seller_info']['score_p'];--}}
+                        {{--                        for ($i = 0; $i < $score_p; $i++) {--}}
+                        {{--                            echo '<i class="fa fa-star"></i>';--}}
+                        {{--                        }--}}
+                        {{--                        if ($score_p % 1 !== 0) {--}}
+                        {{--                            echo '<i class="fa fa-star-half-o"></i>';--}}
+                        {{--                        }--}}
+                        {{--                        ?>--}}
+                        {{--                        <span><?php echo $score_p; ?></span>--}}
                     </div>
                     <div class="product-price d-flex" style="gap: 3rem">
                         <p>Seller: <a
@@ -93,46 +97,76 @@
                         </p>
                         <p>Sales: {{ $data['item']['sales'] }}</p>
                     </div>
-                    {{--                                        @dd($data['item']);--}}
                     <div class="row">
-                        @foreach(array_keys($props) as $prop)
-                            @if($prop == '20509')
+                        @foreach($props as $prop)
+                            @php
+                                $myArray = null;
+                                   foreach ($prop as $values => $value){
+                                        $parts = explode(":", $value);
+                                        $object = new stdClass();
+                                        if ($contains = Str::contains('colour', $parts[0])){
+                                            $object->color = $parts[1];
+                                        }elseif ($contains = Str::contains('model', $parts[0])){
+                                            $object->model = $parts[1];
+                                        }elseif ($contains = Str::contains('size', $parts[0])){
+                                            $object->size = $parts[1];
+                                        } else{
+                                            $key = $parts[0];
+                                            $object->key = $parts[1];
+                                        }
+                                        $myArray[] = $object;
+                                   }
+                            @endphp
+                            @if($key = key((array)$myArray[0]) == 'size')
                                 <div class="col-sm-4 col-4">
                                     <label for="size">{{ __('home.size') }}</label>
                                     <select id="size" name="size" class="form-control">
-                                        @foreach($props['20509'] as $valueSize => $labelSize)
-                                            <option value="size {{ substr($labelSize,5,1) }}"
-                                                    style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">
-                                                {{ substr($labelSize,5,1) }}
+                                        @foreach($myArray as $labelSize)
+                                            @php
+                                                $size = current((array)$labelSize);
+                                            @endphp
+                                            <option value="{{$size}}"
+                                                    style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{ $size }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                            @elseif($prop == '1627207')
+                            @elseif($key = key((array)$myArray[0]) == 'color')
                                 <div class="col-sm-4 col-4">
                                     <label for="color">{{ __('home.color') }}</label>
                                     <select id="color" name="color" class="form-control">
-                                        @foreach($props['1627207'] as $valueColor => $labelColor)
+                                        @foreach($myArray as $labelColor)
                                             @php
-                                                $parts = explode(":", $labelColor);
-                                                $color = $parts[1];
+                                                $color = current((array)$labelColor);
                                             @endphp
                                             <option value="{{$color}}"
                                                     style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$color}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                            @elseif($prop == '228680323')
+                            @elseif($key = key((array)$myArray[0]) == 'model')
                                 <div class="col-sm-4 col-4">
                                     <label for="model">{{ __('home.model') }}</label>
                                     <select id="model" name="model" class="form-control">
-                                        @foreach($props['228680323'] as $valueModel => $labelModel)
+                                        @foreach($myArray as $labelModel)
                                             @php
-                                                $models = explode(":", $labelModel);
-                                                $model = $models[1];
+                                                $model = current((array)$labelModel);
                                             @endphp
                                             <option value="{{$model}}"
                                                     style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$model}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @else
+                                <div class="col-sm-4 col-4">
+                                    <label for="other">{{ __('home.other') }}</label>
+                                    <select id="other" name="other" class="form-control">
+                                        @foreach($myArray as $labelOther)
+                                            @php
+                                                $other = current((array)$labelOther);
+                                            @endphp
+                                            <option value="{{$other}}"
+                                                    style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$other}}</option>
                                         @endforeach
                                     </select>
                                 </div>

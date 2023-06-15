@@ -40,7 +40,7 @@ class SearchController extends Controller
     {
         $client = new Client();
 
-        $key = "039f2a7faamshbd80c6354ad3e9bp188e5bjsn29e22531e480";
+        $key = "2cb1343662mshcbd42fc3925f96bp1a9ba1jsn03ed90473b79";
 
         $response = $client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_get', [
             'query' => [

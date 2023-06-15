@@ -3,20 +3,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('/assets/img/apple-icon.png')}}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('/assets/img/favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('/assets/img/favicon.ico')}}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Order Shopping Mall</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
-    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('/assets/css/light-bootstrap-dashboard.css?v=2.0.0')}}" rel="stylesheet" />
-    <link href="{{asset('/assets/css/demo.css')}}" rel="stylesheet" />
-    <link href="{{asset('/assets/css/custom.css')}}" rel="stylesheet" />
+    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('/assets/css/light-bootstrap-dashboard.css?v=2.0.0')}}" rel="stylesheet"/>
+    <link href="{{asset('/assets/css/demo.css')}}" rel="stylesheet"/>
+    <link href="{{asset('/assets/css/custom.css')}}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -45,7 +46,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         demo.initDashboardPageCharts();
 
     });
@@ -64,27 +65,43 @@
     }
 
     var product_size = ''; // Biến lưu trữ size
-    var product_color = ''; // Biến lưu trữ color
+    var product_color = '';// Biến lưu trữ color
+    var product_model = '';// Biến lưu trữ model
+    var attribute_array = {};
 
-    $('#sizeList li').on('click', function() {
-        console.log(1111);
-        product_size = $(this).data('value');
-
-        $(this).addClass('active-item').siblings().removeClass('active-item');
-        $(this).find('span').addClass('active-text');
-        $(this).siblings().find('span').removeClass('active-text');
+    $('#labelsize').click(function () {
+        product_size = $(this).val();
     });
 
-    $('#colorList li').on('click', function() {
-        console.log(222);
-        product_color = $(this).data('value');
-
-        $(this).addClass('active-item').siblings().removeClass('active-item');
-        $(this).find('span').addClass('active-text');
-        $(this).siblings().find('span').removeClass('active-text');
+    $('#labelcolor').click(function () {
+        product_color = $(this).val();
     });
 
-    $('#btn-order-now').on('click', function() {
+    $('#labelmodel').click(function () {
+        product_model = $(this).val();
+    });
+
+    $('.label-select').click(function () {
+        var inputProps = document.getElementsByClassName('input-hidden');
+        for (i = 0; i < inputProps.length; i++) {
+            var value = inputProps[i].value;
+
+            function myFun(id) {
+                var labelSelect = document.getElementById('label-' + id);
+                var labelText = document.getElementById('id-label-other-' + id).innerText;
+                attribute_array[labelText] = labelSelect.value;
+                console.log(attribute_array)
+            }
+
+            myFun(value);
+        }
+
+    });
+
+    // product_model: product_model,
+    // attribute_array: attribute_array.toString(),
+
+    $('#btn-order-now').on('click', function () {
         var productId = $(this).data('product-id');
         var price = document.querySelector('.price b').innerText;
         var productName = document.querySelector('#product_name').innerText;
@@ -106,13 +123,15 @@
                 product_name: productName,
                 product_url: productUrl,
                 product_price: price,
-                product_size: sizeList,
-                product_color: colorList,
+                product_size: product_size,
+                product_color: product_color,
+                product_model: product_model,
+                attribute_array: attribute_array,
                 product_img: imageUrl,
                 product_quanlity: quantity,
                 _token: '{{ csrf_token() }}'
             },
-            success: function(response) {
+            success: function (response) {
                 $('#add_cart_success').modal('show');
                 console.log(response);
             },
@@ -122,7 +141,7 @@
         });
     });
 
-    $('.decrease-number').click(function(e) {
+    $('.decrease-number').click(function (e) {
         e.preventDefault();
         var itemId = $(this).data('item-id');
         var input = $(this).next('input');
@@ -134,7 +153,7 @@
         }
     });
 
-    $('.increase-number').click(function(e) {
+    $('.increase-number').click(function (e) {
         e.preventDefault();
         var itemId = $(this).data('item-id');
         var input = $(this).prev('input');
@@ -154,7 +173,7 @@
                 quantity: quantity,
                 _token: '{{ csrf_token() }}'
             },
-            success: function(response) {
+            success: function (response) {
                 alert('Cập nhật số lượng sản phẩm trong giỏ hàng thành công !')
                 var itemElement = document.querySelector('[data-item-id="' + itemId + '"]');
                 var quantityElement = itemElement.querySelector('#myNumber');
@@ -164,7 +183,7 @@
                 totalPriceElement.textContent = response.totalPrice;
                 $('#price_total').text(response.priceTotal);
             },
-            error: function(xhr) {
+            error: function (xhr) {
             }
         });
     }
@@ -174,7 +193,7 @@
 
         if (confirmation) {
             axios.delete('/delete-cart-item/' + itemId)
-                .then(function(response) {
+                .then(function (response) {
                     if (response.data.success) {
                         var itemElement = document.querySelector('[data-item-id="' + itemId + '"]');
                         if (itemElement) {
@@ -184,7 +203,7 @@
                     } else {
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                 });
         }
     }
@@ -194,11 +213,11 @@
 
         if (confirmation) {
             axios.delete('/delete-all-cart-items')
-                .then(function(response) {
+                .then(function (response) {
                     if (response.data.success) {
                         var cartItems = document.querySelectorAll('.row.border-top.border-bottom');
                         if (cartItems) {
-                            cartItems.forEach(function(item) {
+                            cartItems.forEach(function (item) {
                                 item.remove();
                                 alert("Xóa thành công!");
                             });
@@ -206,13 +225,13 @@
                     } else {
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                 });
         }
     }
 
     // Xử lý sự kiện click nút thanh toán
-    $('#checkoutButton').on('click', function(e) {
+    $('#checkoutButton').on('click', function (e) {
         console.log(1111);
         e.preventDefault();
 
@@ -227,22 +246,21 @@
             url: checkoutUrl,
             type: 'POST',
             data: {
-                name : name,
+                name: name,
                 address: address,
-                phone : phone,
-                mail : mail,
-                paymentMethod : paymentMethod,
+                phone: phone,
+                mail: mail,
+                paymentMethod: paymentMethod,
                 _token: '{{ csrf_token() }}'
             },
-            success: function(response) {
+            success: function (response) {
                 $('#checkoutSuccessModal').modal('show');
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.log(xhr.responseText);
             }
         });
     });
-
 
 
 </script>

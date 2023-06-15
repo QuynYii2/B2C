@@ -79,7 +79,7 @@
     $(document).ready(function () {
         product_size = $('#labelsize').val();
         product_color = $('#labelcolor').val();
-        product_color = $('#labelmodel').val();
+        product_model = $('#labelmodel').val();
 
         var inputProps = document.getElementsByClassName('input-hidden');
         for (i = 0; i < inputProps.length; i++) {
@@ -97,7 +97,7 @@
     });
 
     $('#labelmodel').change(function () {
-        product_color = $(this).val();
+        product_model = $(this).val();
     });
 
     $('.label-select').change(function () {

@@ -27,7 +27,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'Content-Type' => 'application/json',
-                'APIKey' => 'k_5fd81d1f87b75c66b7f2e80f922e1dda'
+                'APIKey' => 'k_37f21b63f78d6d3d9071371f01f5444a'
             ]
         ]);
 

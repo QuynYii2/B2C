@@ -102,9 +102,13 @@
                                     <label for="size">{{ __('home.size') }}</label>
                                     <select id="labelsize" name="size" class="form-control">
                                         @foreach($props['20509'] as $valueSize => $labelSize)
-                                            <option value="{{ substr($labelSize,5,1) }}"
+                                            @php
+                                                $sizes = explode(":", $labelSize);
+                                                $size = $sizes[1];
+                                            @endphp
+                                            <option value="{{ $size }}"
                                                     style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">
-                                                {{ substr($labelSize,5,1) }}
+                                                {{ $size }}
                                             </option>
                                         @endforeach
                                     </select>

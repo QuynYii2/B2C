@@ -69,30 +69,41 @@
     var product_model = '';// Biến lưu trữ model
     var attribute_array = {};
 
-    $('#labelsize').click(function () {
-        product_size = $(this).val();
-    });
+    function myFun(id) {
+        var labelSelect = document.getElementById('label-' + id);
+        var labelText = document.getElementById('id-label-other-' + id).innerText;
+        attribute_array[labelText] = labelSelect.value;
+        console.log(attribute_array)
+    }
 
-    $('#labelcolor').click(function () {
-        product_color = $(this).val();
-    });
+    $(document).ready(function () {
+        product_size = $('#labelsize').val();
+        product_color = $('#labelcolor').val();
+        product_color = $('#labelmodel').val();
 
-    $('#labelmodel').click(function () {
-        product_model = $(this).val();
-    });
-
-    $('.label-select').click(function () {
         var inputProps = document.getElementsByClassName('input-hidden');
         for (i = 0; i < inputProps.length; i++) {
             var value = inputProps[i].value;
+            myFun(value);
+        }
+    });
 
-            function myFun(id) {
-                var labelSelect = document.getElementById('label-' + id);
-                var labelText = document.getElementById('id-label-other-' + id).innerText;
-                attribute_array[labelText] = labelSelect.value;
-                console.log(attribute_array)
-            }
+    $('#labelsize').change(function () {
+        product_size = $(this).val();
+    });
 
+    $('#labelcolor').change(function () {
+        product_color = $(this).val();
+    });
+
+    $('#labelmodel').change(function () {
+        product_color = $(this).val();
+    });
+
+    $('.label-select').change(function () {
+        var inputProps = document.getElementsByClassName('input-hidden');
+        for (i = 0; i < inputProps.length; i++) {
+            var value = inputProps[i].value;
             myFun(value);
         }
 

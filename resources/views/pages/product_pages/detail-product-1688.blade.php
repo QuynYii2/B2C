@@ -100,17 +100,21 @@
                         <p class="price">Price: <b>{{ $data['item']['price'] }}</b></p>
                     </div>
                     <div class="row">
+                        {{--                        @dd($props)--}}
                         @foreach($props as $prop)
                             @php
                                 $myArray = null;
                                    foreach ($prop as $values => $value){
+//                                       dd($value);
                                         $parts = explode(":", $value);
+//                                        dd($parts);
                                         $object = new stdClass();
-                                        if ($contains = Str::contains('colour', $parts[0])){
+//                                        dd($parts[0]);
+                                        if ($contains = Str::contains($parts[0], 'colo')){
                                             $object->color = $parts[1];
-                                        }elseif ($contains = Str::contains('model', $parts[0])){
+                                        }elseif ($contains = Str::contains($parts[0], 'model')){
                                             $object->model = $parts[1];
-                                        }elseif ($contains = Str::contains('size', $parts[0])){
+                                        }elseif ($contains = Str::contains($parts[0], 'size')){
                                             $object->size = $parts[1];
                                         } else{
                                             $key = $parts[0];
@@ -119,10 +123,11 @@
                                         $myArray[] = $object;
                                    }
                             @endphp
+                            {{--                            @dd($myArray)--}}
                             @if($key = key((array)$myArray[0]) == 'size')
                                 <div class="col-sm-4 col-4">
                                     <label for="size">{{ __('home.size') }}</label>
-                                    <select id="size" name="size" class="form-control">
+                                    <select id="labelsize" name="size" class="form-control">
                                         @foreach($myArray as $labelSize)
                                             @php
                                                 $size = current((array)$labelSize);
@@ -136,7 +141,7 @@
                             @elseif($key = key((array)$myArray[0]) == 'color')
                                 <div class="col-sm-4 col-4">
                                     <label for="color">{{ __('home.color') }}</label>
-                                    <select id="color" name="color" class="form-control">
+                                    <select id="labelcolor" name="color" class="form-control">
                                         @foreach($myArray as $labelColor)
                                             @php
                                                 $color = current((array)$labelColor);
@@ -149,7 +154,7 @@
                             @elseif($key = key((array)$myArray[0]) == 'model')
                                 <div class="col-sm-4 col-4">
                                     <label for="model">{{ __('home.model') }}</label>
-                                    <select id="model" name="model" class="form-control">
+                                    <select id="labelmodel" name="model" class="form-control">
                                         @foreach($myArray as $labelModel)
                                             @php
                                                 $model = current((array)$labelModel);
@@ -161,8 +166,14 @@
                                 </div>
                             @else
                                 <div class="col-sm-4 col-4">
-                                    <label for="other">{{ __('home.other') }}</label>
-                                    <select id="other" name="other" class="form-control">
+                                    @php
+                                        $values = array_values($prop);
+                                        $others = explode(":", $values[0]);
+                                        $keys = array_keys($prop);
+                                        $otherKeys = explode(":", $keys[0]);
+                                    @endphp
+                                    <label id="id-label-other-{{$otherKeys[0]}}" for="other">{{ $others[0] }}</label>
+                                    <select id="label-{{$otherKeys[0]}}" name="other" class="form-control label-select">
                                         @foreach($myArray as $labelOther)
                                             @php
                                                 $other = current((array)$labelOther);
@@ -170,6 +181,7 @@
                                             <option value="{{$other}}"
                                                     style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$other}}</option>
                                         @endforeach
+                                            <input type="text" hidden value="{{$otherKeys[0]}}" class="input-hidden">
                                     </select>
                                 </div>
                             @endif

@@ -94,15 +94,15 @@
                         <p>Sales: {{ $data['item']['sales'] }}</p>
                         <p class="price">Price: <b>{{ $data['item']['price'] }}</b></p>
                     </div>
-                    {{--                                        @dd($data['item']);--}}
                     <div class="row">
+                        {{--                        @dd(array_keys($props), $props, array_values($props))--}}
                         @foreach(array_keys($props) as $prop)
                             @if($prop == '20509')
                                 <div class="col-sm-4 col-4">
                                     <label for="size">{{ __('home.size') }}</label>
-                                    <select id="size" name="size" class="form-control">
+                                    <select id="labelsize" name="size" class="form-control">
                                         @foreach($props['20509'] as $valueSize => $labelSize)
-                                            <option value="size {{ substr($labelSize,5,1) }}"
+                                            <option value="{{ substr($labelSize,5,1) }}"
                                                     style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">
                                                 {{ substr($labelSize,5,1) }}
                                             </option>
@@ -112,7 +112,7 @@
                             @elseif($prop == '1627207')
                                 <div class="col-sm-4 col-4">
                                     <label for="color">{{ __('home.color') }}</label>
-                                    <select id="color" name="color" class="form-control">
+                                    <select id="labelcolor" name="color" class="form-control">
                                         @foreach($props['1627207'] as $valueColor => $labelColor)
                                             @php
                                                 $parts = explode(":", $labelColor);
@@ -126,7 +126,7 @@
                             @elseif($prop == '228680323')
                                 <div class="col-sm-4 col-4">
                                     <label for="model">{{ __('home.model') }}</label>
-                                    <select id="model" name="model" class="form-control">
+                                    <select id="labelmodel" name="model" class="form-control">
                                         @foreach($props['228680323'] as $valueModel => $labelModel)
                                             @php
                                                 $models = explode(":", $labelModel);
@@ -135,6 +135,24 @@
                                             <option value="{{$model}}"
                                                     style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$model}}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            @else
+                                <div class="col-sm-4 col-4">
+                                    <label id="id-label-other-{{$prop}}" for="{{$prop}}">{{ __('home.other') }}</label>
+                                    <select id="label-{{$prop}}" name="{{$prop}}"
+                                            class="form-control label-select">
+                                        @foreach($props[$prop] as $valueOther => $labelOther)
+                                            @php
+                                                $others = explode(":", $labelOther);
+                                                $other = $others[1];
+                                                $keyText = $others[0];
+                                            @endphp
+                                            <option value="{{$other}}"
+                                                    style="list-style: none; padding: 5px 10px; border: 1px solid gray; cursor: pointer;">{{$other}}</option>
+                                        @endforeach
+                                        <input type="text" hidden value="{{$keyText}}" id="input-hidden-name-{{$prop}}">
+                                        <input type="text" hidden value="{{$prop}}" class="input-hidden">
                                     </select>
                                 </div>
                             @endif
@@ -224,6 +242,21 @@
             imgDf = document.getElementById('img-default');
             imgDf.src = x.src;
         }
+
+        function test() {
+            var inputProps = document.getElementsByClassName('input-hidden');
+            for (i = 0; i < inputProps.length; i++) {
+                var value = inputProps[i].value;
+                function myFun(id) {
+                    var labelText = document.getElementById('id-label-other-' + id);
+                    labelText.innerText = document.getElementById('input-hidden-name-' + id).value;
+                }
+
+                myFun(value);
+            }
+        }
+
+        test();
 
 
     </script>

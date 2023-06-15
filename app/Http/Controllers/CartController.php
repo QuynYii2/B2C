@@ -28,7 +28,9 @@ class CartController extends Controller
             $total = $request->input('product_quanlity') * $request->input('product_price');
             $mergedAttribute = [
                 'size' => $request->input('product_size'),
-                'color' => $request->input('product_color')
+                'color' => $request->input('product_color'),
+                'model' => $request->input('product_model'),
+                'other' => $request->input('attribute_array'),
             ];
 
             Cart::create([

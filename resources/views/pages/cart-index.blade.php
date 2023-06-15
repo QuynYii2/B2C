@@ -189,20 +189,44 @@
                                         @php
                                             $attributeData = json_decode($cart->attribute, true);
                                         @endphp
-                                        <p>Size: {{ $attributeData['size'] }}</p>
-                                        <p>Color: {{ $attributeData['color'] }}</p>
+                                        @if($attributeData['size'] !== null)
+                                            <p>Size: {{ $attributeData['size'] }}</p>
+                                        @endif
+                                        @if($attributeData['color'] !== null)
+                                            <p>Color: {{ $attributeData['color'] }}</p>
+                                        @endif
+                                        @if($attributeData['model'] !== null)
+                                            <p>Color: {{ $attributeData['model'] }}</p>
+                                        @endif
+
                                     @else
-                                        <p>Size: {{ $cart->attribute['size'] }}</p>
-                                        <p>Color: {{ $cart->attribute['color'] }}</p>
+                                        @if($cart->attribute['size'] !== null)
+                                            <p>Size: {{ $cart->attribute['size'] }}</p>
+                                        @endif
+                                        @if($cart->attribute['color'] !== null)
+                                            <p>Color: {{ $cart->attribute['color'] }}</p>
+                                        @endif
+                                        @if($cart->attribute['model'] !== null)
+                                            <p>Color: {{ $cart->attribute['model'] }}</p>
+                                        @endif
+                                        @if($cart->attribute['other'] !== null)
+                                            @php
+                                                $otherAttributes = $cart->attribute['other'];
+                                            @endphp
+                                            @foreach(array_keys($otherAttributes) as $otherAttribute)
+                                                    <p>{{  $otherAttribute }} : {{ $otherAttributes[$otherAttribute] }}</p>
+                                            @endforeach
+                                        @endif
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="col-md-6 col-2 d-flex align-items-center">
-                                    <a href="#" class="decrease-number" data-item-id="{{ $cart->id }}">-</a>
-                                    <input type="text" id="myNumber" class="mb-0" value="{{ $cart->quantity }}"
-                                           min="0"
-                                           max="100" step="1" data-item-id="{{ $cart->id }}" disabled>
-                                    <a href="#" class="increase-number" data-item-id="{{ $cart->id }}">+</a>
+                                    <div class=" d-flex align-items-center">
+                                        <a href="#" class="decrease-number" data-item-id="{{ $cart->id }}">-</a>
+                                        <input type="number" id="myNumber" class="mb-0 form-control"
+                                               value="{{ $cart->quantity }}"
+                                               min="0"
+                                               max="100" step="1" data-item-id="{{ $cart->id }}" disabled>
+                                        <a href="#" class="increase-number" data-item-id="{{ $cart->id }}">+</a>
                                     </div>
                                 </td>
                                 <td data-item-id="{{ $cart->id }}" class="text-nowrap">$ <span

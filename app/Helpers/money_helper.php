@@ -14,7 +14,7 @@ if (!function_exists('convertCurrency')) {
             ],
             'headers' => [
                 'Content-Type' => 'text/plain',
-                'apikey' => 'FwDuSvp8PRBjTtudKWgv4qFF5jD0qijf',
+                'apikey' => '0TzgBcCTnNA3NKONZzGXPLFU7E7J2NUE',
             ],
         ]);
 

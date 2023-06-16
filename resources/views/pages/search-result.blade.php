@@ -63,7 +63,6 @@
 @section('content')
     <div class="container-fluid">
         <h2>Kết quả tìm kiếm sản phẩm: {{$nameProduct}}</h2>
-{{--            {{ number_format(convertCurrency('USD', 'VND', 25), 0, ',', '.') }} VND--}}
 
     @if(isset($data['items']) && count($data['items']['item']) > 0)
             <div class="row">
@@ -75,7 +74,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title" >{{ $item['title'] }}</h5>
                                     <div>
-                                    <p class="card-text">Giá: {{ $item['price'] }}</p>
+                                    <p class="card-text">Giá: {{ number_format(convertCurrency('CNY', 'VND', 1), 0, ',', '.') }} VND - {{ $item['price'] }} ¥</p>
                                     <p class="card-text">Số lượng bán: {{ $item['sales'] }}</p>
                                     </div>
                                 </div>

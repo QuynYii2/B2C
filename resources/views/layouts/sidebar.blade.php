@@ -20,7 +20,7 @@
                 </a>
             </li>
             <li>
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{{route('order.manager.index')}}">
                     <i class="nc-icon nc-circle-09"></i>
                     <p>Quản lý Đơn hàng</p>
                 </a>

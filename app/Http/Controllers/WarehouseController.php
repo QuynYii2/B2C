@@ -3,18 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Enums\WarehouseStatus;
+use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WarehouseController extends Controller
 {
     public function index()
     {
-        $warehouses = Warehouse::where('status', '!=', WarehouseStatus::DELETED)->get();
-        return view('pages/warehouse/list', compact('warehouses'));
+        $isAdmin = $this->checkAdmin();
+        if ($isAdmin) {
+            $warehouses = Warehouse::where('status', '!=', WarehouseStatus::DELETED)->get();
+            return view('pages/warehouse/list', compact('warehouses'));
+        }
+        return redirect(route('index'));
     }
 
     // warehouse.index
+    public function checkAdmin()
+    {
+        $user = User::find(Auth::user()->id);
+        $roles = $user->roles;
+        $isAdmin = false;
+        for ($i = 0; $i < count($roles); $i++) {
+            if ($roles[$i]->name == \App\Enums\Role::ADMIN) {
+                $isAdmin = true;
+            }
+        }
+        return $isAdmin;
+    }
 
     public function detail($id)
     {
@@ -24,7 +42,12 @@ class WarehouseController extends Controller
         }
         $reflector = new \ReflectionClass('App\Enums\WarehouseStatus');
         $listStatus = $reflector->getConstants();
-        return view('pages/warehouse/detail', compact('warehouse', 'listStatus'));
+
+        $isAdmin = $this->checkAdmin();
+        if ($isAdmin) {
+            return view('pages/warehouse/detail', compact('warehouse', 'listStatus'));
+        }
+        return redirect(route('index'));
     }
 
     public function update(Request $request, $id)
@@ -50,9 +73,13 @@ class WarehouseController extends Controller
 
     public function processCreate()
     {
-        $reflector = new \ReflectionClass('App\Enums\WarehouseStatus');
-        $listStatus = $reflector->getConstants();
-        return view('pages/warehouse/create', compact('listStatus'));
+        $isAdmin = $this->checkAdmin();
+        if ($isAdmin) {
+            $reflector = new \ReflectionClass('App\Enums\WarehouseStatus');
+            $listStatus = $reflector->getConstants();
+            return view('pages/warehouse/create', compact('listStatus'));
+        }
+        return redirect(route('index'));
     }
 
     public function create(Request $request)

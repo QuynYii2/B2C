@@ -53,8 +53,8 @@
                         <i class="nc-icon nc-paper-2"></i>
                         <a class="dropdown-toggle" data-toggle="dropdown">Quản lý kho hàng</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Danh sách kho hàng đã tạo</a>
-                            <a class="dropdown-item" href="#">Thêm mới kho hàng</a>
+                            <a class="dropdown-item" href="{{route('warehouse.index')}}">Danh sách kho hàng đã tạo</a>
+                            <a class="dropdown-item" href="{{route('warehouse.processCreate')}}">Thêm mới kho hàng</a>
                         </div>
                     </div>
                 </li>

@@ -73,8 +73,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="mail">Số điện thoại:</label>
-                        <input type="text" name="mail" class="form-control" value="{{ $user->email }}" required>
+                        <label for="mail">Email:</label>
+                        <input type="text" name="email" class="form-control" value="{{ $user->email }}" required>
                     </div>
 
                     <div class="form-group">
@@ -82,6 +82,15 @@
                         <select name="payment_method" id="payment_method" class="form-control" required>
                             <option value="paypal">PayPal</option>
                             <option value="credit_card">Credit Card</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ware_house">Chọn kho hàng muốn giao đến:</label>
+                        <select name="ware_house" id="ware_house" class="form-control">
+                            @foreach($allWareHouse as $wareHouse)
+                                <option value="{{$wareHouse->id}}">{{$wareHouse->name}}</option>
+                            @endforeach
                         </select>
                     </div>
 

@@ -196,7 +196,7 @@
                                             <p>Color: {{ $attributeData['color'] }}</p>
                                         @endif
                                         @if($attributeData['model'] !== null)
-                                            <p>Color: {{ $attributeData['model'] }}</p>
+                                            <p>Model: {{ $attributeData['model'] }}</p>
                                         @endif
 
                                     @else
@@ -207,7 +207,7 @@
                                             <p>Color: {{ $cart->attribute['color'] }}</p>
                                         @endif
                                         @if($cart->attribute['model'] !== null)
-                                            <p>Color: {{ $cart->attribute['model'] }}</p>
+                                            <p>Model: {{ $cart->attribute['model'] }}</p>
                                         @endif
                                         @if($cart->attribute['other'] !== null)
                                             @php

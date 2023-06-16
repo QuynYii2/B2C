@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\WarehouseStatus;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -17,10 +19,12 @@ class CheckoutController extends Controller
     {
         $carts = Cart::where('user_id', Auth::id())->get();
         $infoUser = User::find(Auth::id());
+        $allWareHouse = Warehouse::where('status', WarehouseStatus::ACTIVE)->get();
 
         return view('pages/checkout', [
             'cartItems' => $carts,
-            'user' => $infoUser
+            'user' => $infoUser,
+            'allWareHouse' => $allWareHouse
         ]);
     }
 
@@ -28,15 +32,18 @@ class CheckoutController extends Controller
     {
         $price = $request->input('total-checkout');
         $name = $request->input('full_name');
-        $email = $request->input('address');
+        $email = $request->input('email');
         $phone = $request->input('phone');
         $address = $request->input('address');
+        $ware_house = $request->input('ware_house');
 
         $response = (new PayPalController())->paypalTotal($request, $price, route('checkout.success', [
             'name' => $name,
             'email' => $email,
             'phone' => $phone,
-            'address' => $address]));
+            'address' => $address,
+            'ware_house' => $ware_house,
+        ]));
 
         if (isset($response['id']) && $response['id'] != null) {
             foreach ($response['links'] as $links) {
@@ -56,7 +63,7 @@ class CheckoutController extends Controller
         }
     }
 
-    public function successPayment(Request $request, $name, $email, $phone, $address)
+    public function successPayment(Request $request, $name, $email, $phone, $address, $ware_house)
     {
 
         $provider = new PayPalClient;
@@ -65,7 +72,7 @@ class CheckoutController extends Controller
         $response = $provider->capturePaymentOrder($request['token']);
 
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-            $payment = $this->processPayment($request, $name, $email, $phone, $address);
+            $payment = $this->processPayment($request, $name, $email, $phone, $address, $ware_house);
             return redirect()
                 ->route('index')
                 ->with('success', 'Transaction complete.');
@@ -76,7 +83,7 @@ class CheckoutController extends Controller
         }
     }
 
-    private function processPayment(Request $request, $name, $email, $phone, $address)
+    private function processPayment(Request $request, $name, $email, $phone, $address, $ware_house)
     {
 
         $order = Order::create([
@@ -86,6 +93,7 @@ class CheckoutController extends Controller
             'customer_address' => $email,
             'customer_phone' => $phone,
             'customer_email' => $address,
+            'warehouse_id' => $ware_house,
             'status' => 'payment_success',
         ]);
 

@@ -37,9 +37,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/checkout', [\App\Http\Controllers\CheckoutController::class, 'processPayment'])->name('checkout.process');
     // Paypal
-    Route::get('/checkout-success/{name}/{email}/{phone}/{address}', [\App\Http\Controllers\CheckoutController::class, 'successPayment'])->name('checkout.success');
+    Route::get('/checkout-success/{name}/{email}/{phone}/{address}/{ware_house}', [\App\Http\Controllers\CheckoutController::class, 'successPayment'])->name('checkout.success');
     Route::post('/checkout-paypal', [\App\Http\Controllers\CheckoutController::class, 'createPayment'])->name('checkout.create');
     Route::get('/cancel-checkout', [\App\Http\Controllers\CheckoutController::class, 'cancelPayment'])->name('checkout.cancel');
+    // warehouse
+    Route::get('/warehouse', [\App\Http\Controllers\WarehouseController::class, 'index'])->name('warehouse.index');
+    Route::get('/create-warehouse', [\App\Http\Controllers\WarehouseController::class, 'processCreate'])->name('warehouse.processCreate');
+    Route::post('/warehouse', [\App\Http\Controllers\WarehouseController::class, 'create'])->name('warehouse.create');
+    Route::get('/warehouse/{id}', [\App\Http\Controllers\WarehouseController::class, 'detail'])->name('warehouse.detail');
+    Route::post('/warehouse/{id}', [\App\Http\Controllers\WarehouseController::class, 'update'])->name('warehouse.update');
+    // order
+    Route::get('/order-manager', [\App\Http\Controllers\OrderController::class, 'index'])->name('order.manager.index');
+    Route::get('/order-review/{id}', [\App\Http\Controllers\OrderController::class, 'review'])->name('order.manager.review');
 });
 
 

@@ -1,3 +1,4 @@
+@php use App\Models\User;use Illuminate\Support\Facades\Auth; @endphp
 <div class="sidebar" data-image="{{asset('/assets/img/sidebar-5.jpg')}}">
     <div class="sidebar-wrapper">
         <div class="logo">
@@ -19,7 +20,7 @@
                 </a>
             </li>
             <li>
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{{route('order.manager.index')}}">
                     <i class="nc-icon nc-circle-09"></i>
                     <p>Quản lý Đơn hàng</p>
                 </a>
@@ -36,7 +37,28 @@
                     <p>Cấu hình tài khoản</p>
                 </a>
             </li>
-
+            @php
+                $user = User::find(Auth::user()->id);
+                $roles = $user->roles;
+                $isAdmin = false;
+                for ($i = 0; $i<count($roles);$i++){
+                    if($roles[$i]->name == \App\Enums\Role::ADMIN){
+                        $isAdmin = true;
+                    }
+                }
+            @endphp
+            @if($isAdmin)
+                <li>
+                    <div class="nav-link dropdown">
+                        <i class="nc-icon nc-paper-2"></i>
+                        <a class="dropdown-toggle" data-toggle="dropdown">Quản lý kho hàng</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{route('warehouse.index')}}">Danh sách kho hàng đã tạo</a>
+                            <a class="dropdown-item" href="{{route('warehouse.processCreate')}}">Thêm mới kho hàng</a>
+                        </div>
+                    </div>
+                </li>
+            @endif
         </ul>
     </div>
 </div>

@@ -1,8 +1,10 @@
-<!-- Navbar -->
+@php use App\Models\User;use Illuminate\Support\Facades\Auth; @endphp
+    <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class="container-fluid">
         <a class="navbar-brand" href="#pablo"> Dashboard </a>
-        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
             <span class="navbar-toggler-bar burger-lines"></span>
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -37,28 +39,28 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#pablo">
-                        <span class="no-icon">Account</span>
-                    </a>
-                </li>
+                @php
+                    $user = User::find(Auth::user()->id);
+                @endphp
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="no-icon">Dropdown</span>
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="no-icon">{{$user->name}}</span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="{{route('cart.index')}}">Cart</a>
                         <a class="dropdown-item" href="#">Something</a>
                         <a class="dropdown-item" href="#">Something else here</a>
                         <div class="divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
+                        <div class=""></div>
+                        <a onclick="logout();" id="btn-logout" class="dropdown-item" href="#">Logout</a>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" hidden>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="nav-link">
+                        <button id="btn-logout-hidden" type="submit" class="nav-link">
                             <span class="no-icon">Log out</span>
                         </button>
                     </form>
@@ -67,4 +69,9 @@
         </div>
     </div>
 </nav>
+<script>
+    function logout() {
+        document.getElementById('btn-logout-hidden').click();
+    }
+</script>
 <!-- End Navbar -->

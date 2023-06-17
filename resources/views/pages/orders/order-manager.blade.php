@@ -1,7 +1,16 @@
 @php
-    use App\Models\User;
+    use App\Enums\Role;use App\Models\User;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Str;
+
+    $user = User::find(Auth::user()->id);
+    $roles = $user->roles;
+    $isAdmin = false;
+    for ($i = 0; $i<count($roles);$i++){
+        if($roles[$i]->name == Role::ADMIN){
+            $isAdmin = true;
+        }
+    }
 @endphp
 @extends('master')
 
@@ -14,18 +23,61 @@
                 Quản lý Đơn hàng
             </h5>
         </div>
+        @if($isAdmin)
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Search</h5>
+                    <form class="row g-3" method="post" action="{{route('order.manager.search')}}">
+                        @csrf
+                        <div class="col-md-4">
+                            <label for="validationDefault01" class="form-label">Customer Name: </label>
+                            <input name="customer_name" type="text" class="form-control" id="validationDefault01"
+                                   placeholder="Johny Corn">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationDefault02" class="form-label">Customer Phone: </label>
+                            <input name="customer_phone" type="text" class="form-control" id="validationDefault02"
+                                   placeholder="+88 8-88-88">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationDefaultUsername" class="form-label">Customer Email: </label>
+                            <input name="customer_email" type="email" class="form-control"
+                                   placeholder="customer@gmail.com" id="validationDefaultUsername">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="validationDefault05" class="form-label">Customer Address: </label>
+                            <input name="customer_address" type="text" class="form-control" id="validationDefault05"
+                                   placeholder="1st Korea">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault04" class="form-label">WareHouse: </label>
+                            <select name="warehouse_id" class="form-control" id="validationDefault04">
+                                <option selected="selected" value="">Select WareHouse</option>
+                                @foreach($warehouses as $warehouse)
+                                    <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault04" class="form-label">Status: </label>
+                            <select name="status" class="form-control" id="validationDefault04">
+                                <option selected="selected" value="">Select Status</option>
+                                @foreach($statusList as $status)
+                                    <option>{{$status}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                            <button class="btn btn-danger" style="margin: 8px 16px "><a
+                                    href="{{route('order.manager.index')}}">Reset</a></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endif
         <table class="table table-bordered table-hover">
             <thead>
-            @php
-                $user = User::find(Auth::user()->id);
-                $roles = $user->roles;
-                $isAdmin = false;
-                for ($i = 0; $i<count($roles);$i++){
-                    if($roles[$i]->name == \App\Enums\Role::ADMIN){
-                        $isAdmin = true;
-                    }
-                }
-            @endphp
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Product Name</th>
@@ -87,7 +139,16 @@
                                 <a class="btn btn-primary" href="{{route('order.manager.review', $item->id)}}">
                                     Chi tiết
                                 </a>
-                                <button onclick="checkService({{$item->id}})" id="btn-check-service-{{$item->id}}" class="btn btn-success">Tạo đơn hàng</button>
+                                @if($item->status == \App\Enums\OrderItemStatus::UN_CREATED_ORDER)
+                                    <button onclick="checkService({{$item->id}})" id="btn-check-service-{{$item->id}}"
+                                            class="btn btn-success">Tạo đơn hàng
+                                    </button>
+                                @else
+                                    <button onclick="checkService({{$item->id}})" id="btn-check-service-{{$item->id}}"
+                                            class="btn btn-success text-danger">Xem đơn hàng
+                                    </button>
+                                @endif
+
                             </div>
 
                         </td>
@@ -100,7 +161,7 @@
     <script>
         function checkService(id) {
             let input = document.getElementById('input-service-' + id);
-            alert('Service: '+input.value)
+            alert('Service: ' + input.value)
         }
 
     </script>

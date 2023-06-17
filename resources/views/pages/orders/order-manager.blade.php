@@ -2,6 +2,15 @@
     use App\Models\User;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Str;
+
+    $user = User::find(Auth::user()->id);
+    $roles = $user->roles;
+    $isAdmin = false;
+    for ($i = 0; $i<count($roles);$i++){
+        if($roles[$i]->name == \App\Enums\Role::ADMIN){
+            $isAdmin = true;
+        }
+    }
 @endphp
 @extends('master')
 
@@ -14,18 +23,61 @@
                 Quản lý Đơn hàng
             </h5>
         </div>
+        @if($isAdmin)
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Search</h5>
+                    <form class="row g-3" method="post" action="{{route('order.manager.search')}}">
+                        @csrf
+                        <div class="col-md-2">
+                            <label for="validationDefault01" class="form-label">ID: </label>
+                            <input name="id" type="text" class="form-control" id="validationDefault01"
+                                   placeholder="12">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="validationDefault02" class="form-label">Product name: </label>
+                            <input name="product_name" type="text" class="form-control" id="validationDefault02"
+                                   placeholder="Macbook">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="validationDefaultUsername" class="form-label">Quantity: </label>
+                            <input name="quantity" type="number" min="1" class="form-control" id="validationDefaultUsername">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault05" class="form-label">Price: </label>
+                            <input name="price" type="text" class="form-control" id="validationDefault05"
+                                   placeholder="99.99">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault03" class="form-label">Total Price: </label>
+                            <input name="total_price" type="text" class="form-control" id="validationDefault03"
+                                   placeholder="99.99">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault04" class="form-label">OrderID: </label>
+                            <input name="order_id" type="number" min="1" class="form-control" id="validationDefault04">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault04" class="form-label">Status: </label>
+                            <select name="status" class="form-control" id="validationDefault04">
+                                <option selected="selected" value="">Select Status</option>
+                                @foreach($statusList as $status)
+                                    <option>{{$status}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                            <button class="btn btn-danger" style="margin: 8px 16px "><a
+                                    href="{{route('order.manager.index')}}">Reset</a></button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        @endif
         <table class="table table-bordered table-hover">
             <thead>
-            @php
-                $user = User::find(Auth::user()->id);
-                $roles = $user->roles;
-                $isAdmin = false;
-                for ($i = 0; $i<count($roles);$i++){
-                    if($roles[$i]->name == \App\Enums\Role::ADMIN){
-                        $isAdmin = true;
-                    }
-                }
-            @endphp
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Product Name</th>

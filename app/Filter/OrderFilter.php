@@ -2,10 +2,14 @@
 
 namespace App\Filter;
 
-class OrderItemFilter extends QueryFilter
+class OrderFilter extends QueryFilter
 {
     protected $filterable = [
-        'status',
+        'customer_name',
+        'customer_address',
+        'customer_phone',
+        'customer_email',
+        'warehouse_id',
     ];
 
     public function filterName($name)

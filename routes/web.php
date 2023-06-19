@@ -4,9 +4,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepositController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\WarehouseController;
+use App\Models\Deposit;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,4 +61,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/order-review/{id}', [OrderController::class, 'review'])->name('order.manager.review');
 });
 
-
+Route::group(['middleware' => 'role.admin'], function () {
+    Route::get('/deposit/list', [DepositController::class, 'index'])->name('deposit.index');
+    Route::get('/deposit/detail/{id}', [DepositController::class, 'detail'])->name('deposit.detail');
+    Route::post('/deposit/{id}', [DepositController::class, 'update'])->name('deposit.update');
+    Route::get('/create-deposit', [DepositController::class, 'create'])->name('deposit.processCreate');
+    Route::post('/deposit', [DepositController::class, 'store'])->name('deposit.create');
+    Route::post('/deposit/delete/{id}', [DepositController::class, 'destroy'])->name('deposit.delete');
+});

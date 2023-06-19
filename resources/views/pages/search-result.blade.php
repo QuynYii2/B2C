@@ -63,7 +63,6 @@
 @section('content')
     <div class="container-fluid">
         <h2>Kết quả tìm kiếm sản phẩm: {{$nameProduct}}</h2>
-        @dd('test')
     @if(isset($data['items']) && count($data['items']['item']) > 0)
             <div class="row">
                 @foreach($data['items']['item'] as $item)

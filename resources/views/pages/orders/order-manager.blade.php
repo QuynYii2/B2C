@@ -91,70 +91,75 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($listOrderItems as $item)
-                <tr>
-                    <th scope="row">{{$loop->index + 1}}</th>
-                    <td>{{$item->product_name}}</td>
-                    <td>{{$item->quantity}}</td>
-                    <td>{{$item->price}}</td>
-                    <td>{{$item->total_price}}</td>
-                    <td>
-                        @php
-                            $attributeData = json_decode($item->attribute, true);
-                            $probs = array_keys($attributeData);
-                        @endphp
-                        @foreach($probs as $prob)
-                            @if($prob == 'size' && $attributeData['size'] !== null)
-                                <p>Size: {{ $attributeData['size'] }}</p>
-                            @elseif($prob == 'color' && $attributeData['color'] !== null)
-                                <p>Color: {{ $attributeData['color'] }}</p>
-                            @elseif($prob == 'model' && $attributeData['model'] !== null)
-                                <p>Model: {{ $attributeData['model'] }}</p>
-                            @elseif($prob == 'other' && $attributeData['other'] !== null)
-                                <p>{{ array_keys($attributeData[$prob])[0] }}
-                                    : {{ array_values($attributeData[$prob])[0] }}</p>
-                            @endif
-                        @endforeach
-                    </td>
-                    @if($isAdmin)
+            @if($listOrderItems == null)
+                No order
+            @else
+                @foreach($listOrderItems as $item)
+                    <tr>
+                        <th scope="row">{{$loop->index + 1}}</th>
+                        <td>{{$item->product_name}}</td>
+                        <td>{{$item->quantity}}</td>
+                        <td>{{$item->price}}</td>
+                        <td>{{$item->total_price}}</td>
                         <td>
                             @php
-                                $isTaobao = false;
-                                $is1688 = false;
-                                $isAlibaba = false;
-                                $service = null;
-                                 if (Str::contains($item->product_url, 'taobao')){
-                                     $service = 'taobao';
-                                     $isTaobao = true;
-                                 } elseif (Str::contains($item->product_url, '1688')){
-                                     $service = '1688';
-                                     $is1688 = true;
-                                 } else {
-                                      $service = 'alibaba';
-                                     $isAlibaba = true;
-                                 }
+                                $attributeData = json_decode($item->attribute, true);
+                                $probs = array_keys($attributeData);
                             @endphp
-                            <input id="input-service-{{$item->id}}" name="service" value="{{$service}}" hidden>
-                            <div class="d-flex">
-                                <a class="btn btn-primary" href="{{route('order.manager.review', $item->id)}}">
-                                    Chi tiết
-                                </a>
-                                @if($item->status == \App\Enums\OrderItemStatus::UN_CREATED_ORDER)
-                                    <button onclick="checkService({{$item->id}})" id="btn-check-service-{{$item->id}}"
-                                            class="btn btn-success">Tạo đơn hàng
-                                    </button>
-                                @else
-                                    <button onclick="checkService({{$item->id}})" id="btn-check-service-{{$item->id}}"
-                                            class="btn btn-success text-danger">Xem đơn hàng
-                                    </button>
+                            @foreach($probs as $prob)
+                                @if($prob == 'size' && $attributeData['size'] !== null)
+                                    <p>Size: {{ $attributeData['size'] }}</p>
+                                @elseif($prob == 'color' && $attributeData['color'] !== null)
+                                    <p>Color: {{ $attributeData['color'] }}</p>
+                                @elseif($prob == 'model' && $attributeData['model'] !== null)
+                                    <p>Model: {{ $attributeData['model'] }}</p>
+                                @elseif($prob == 'other' && $attributeData['other'] !== null)
+                                    <p>{{ array_keys($attributeData[$prob])[0] }}
+                                        : {{ array_values($attributeData[$prob])[0] }}</p>
                                 @endif
-
-                            </div>
-
+                            @endforeach
                         </td>
-                    @endif
-                </tr>
-            @endforeach
+                        @if($isAdmin)
+                            <td>
+                                @php
+                                    $isTaobao = false;
+                                    $is1688 = false;
+                                    $isAlibaba = false;
+                                    $service = null;
+                                     if (Str::contains($item->product_url, 'taobao')){
+                                         $service = 'taobao';
+                                         $isTaobao = true;
+                                     } elseif (Str::contains($item->product_url, '1688')){
+                                         $service = '1688';
+                                         $is1688 = true;
+                                     } else {
+                                          $service = 'alibaba';
+                                         $isAlibaba = true;
+                                     }
+                                @endphp
+                                <input id="input-service-{{$item->id}}" name="service" value="{{$service}}" hidden>
+                                <div class="d-flex">
+                                    <a class="btn btn-primary" href="{{route('order.manager.review', $item->id)}}">
+                                        Chi tiết
+                                    </a>
+                                    @if($item->status == \App\Enums\OrderItemStatus::UN_CREATED_ORDER)
+                                        <button onclick="checkService({{$item->id}})" id="btn-check-service-{{$item->id}}"
+                                                class="btn btn-success">Tạo đơn hàng
+                                        </button>
+                                    @else
+                                        <button onclick="checkService({{$item->id}})" id="btn-check-service-{{$item->id}}"
+                                                class="btn btn-success text-danger">Xem đơn hàng
+                                        </button>
+                                    @endif
+
+                                </div>
+
+                            </td>
+                        @endif
+                    </tr>
+                @endforeach
+            @endif
+
             </tbody>
         </table>
     </div>

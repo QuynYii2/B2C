@@ -20,32 +20,25 @@ class OrderController extends Controller
             $listOrderItems = null;
             if ($isAdmin) {
                 $orders = Order::filter($orderFilter)->get();
-                $status = $request->input('status');
-                if ($status != null) {
-                    foreach ($orders as $order) {
-                        $orderItems = OrderItem::where('order_id', $order->id)->get();
-                        foreach ($orderItems as $orderItem) {
-                            if ($orderItem->status = $status) {
-                                $listOrderItems[] = $orderItem;
-                            }
-                        }
-                    }
-                } else {
-                    foreach ($orders as $order) {
-                        $orderItems = OrderItem::where('order_id', $order->id)->get();
-                        foreach ($orderItems as $orderItem) {
-                            $listOrderItems[] = $orderItem;
-                        }
-                    }
-                }
             } else {
                 $orders = Order::where([['user_id', Auth::user()->id], ['status', 'payment_success']])->get();
-                foreach ($orders as $order) {
-                    $orderItems = OrderItem::where('order_id', $order->id)->get();
-                    foreach ($orderItems as $orderItem) {
-                        $listOrderItems[] = $orderItem;
+            }
+            foreach ($orders as $order) {
+                $orderItems = OrderItem::where('order_id', $order->id)->get();
+                foreach ($orderItems as $orderItem) {
+                    $listOrderItems[] = $orderItem;
+                }
+            }
+
+            $status = $request->input('status');
+            $listOrderItemStatus = null;
+            if ($status != null) {
+                foreach ($listOrderItems as $item) {
+                    if ($item->status == $status) {
+                        $listOrderItemStatus[] = $item;
                     }
                 }
+                $listOrderItems = $listOrderItemStatus;
             }
 
             $warehouses = Warehouse::where('status', WarehouseStatus::ACTIVE)->get();

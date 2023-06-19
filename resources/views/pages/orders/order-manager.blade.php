@@ -93,6 +93,8 @@
             <tbody>
             @if($listOrderItems == null)
                 No order
+            @elseif(count($listOrderItems) == 0)
+                No order
             @else
                 @foreach($listOrderItems as $item)
                     <tr>

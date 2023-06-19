@@ -32,7 +32,7 @@ class OrderController extends Controller
 
             $status = $request->input('status');
             $listOrderItemStatus = null;
-            if ($status != null) {
+            if ($status != null && $listOrderItems != null) {
                 foreach ($listOrderItems as $item) {
                     if ($item->status == $status) {
                         $listOrderItemStatus[] = $item;

@@ -31,6 +31,33 @@
                            value="{{$warehouse->address}}" required>
                 </div>
                 <div class="form-group">
+                    <label for="country">ADDRESS TO</label>
+                    <select id="country" name="country" class="form-control">
+                        @if($warehouse->country == 'vi')
+                            <option value="vi">Viet Nam</option>
+                            <option value="kr">Korea</option>
+                            <option value="cn">China</option>
+                            <option value="jp">Japan</option>
+                        @elseif($warehouse->country == 'kr')
+                            <option value="kr">Korea</option>
+                            <option value="vi">Viet Nam</option>
+                            <option value="cn">China</option>
+                            <option value="jp">Japan</option>
+                        @elseif($warehouse->country == 'cn')
+                            <option value="cn">China</option>
+                            <option value="vi">Viet Nam</option>
+                            <option value="kr">Korea</option>
+                            <option value="jp">Japan</option>
+                        @else
+                            <option value="jp">Japan</option>
+                            <option value="vi">Viet Nam</option>
+                            <option value="kr">Korea</option>
+                            <option value="cn">China</option>
+                        @endif
+
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="status">Status</label>
                     <select id="status" name="status" class="form-control">
                         @if($warehouse->status == WarehouseStatus::ACTIVE)

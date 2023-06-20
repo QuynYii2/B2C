@@ -1,3 +1,4 @@
+@php use App\Enums\DepositStatus;use App\Models\Deposit; @endphp
 @extends('master')
 
 @section('title', 'Tìm kiếm sản phẩm')
@@ -49,8 +50,38 @@
                     </table>
                 </div>
                 <div class="total">
-                    <div class="col text-right" id="price_total">TOTAL PRICE: <b
-                            id="total-price-value">{{ $cartItems->sum('total_price') }}</b></div>
+                    <div class="col text-right" id="shipping_fee">
+                        SHIPPING PRICE:
+                        <b id="shipping_fee-value">1</b>
+                    </div>
+                    <div class="col text-right" id="tax_percent">
+                        TAX PRICE:
+                        {{--                        (--}}
+                        {{--                        <b class="tax_percent">10</b>--}}
+                        {{--                        %):--}}
+                        <b class="tax_percent" id="tax_percent-value">1</b>
+                    </div>
+                    <div class="col text-right" id="product_total">
+                        PRODUCT PRICE:
+                        <b id="product-price-value">
+                            {{ $cartItems->sum('total_price') }}
+                        </b>
+                    </div>
+                    <div class="col text-right" id="price_total">
+                        TOTAL PRICE:
+                        <b id="total-price-value">
+                            1
+                        </b>
+                    </div>
+                    <div class="col text-right" id="price_percent">
+                        PERCENT PRICE
+                        {{--                        (--}}
+                        {{--                        <b>10</b>--}}
+                        {{--                        %):--}}
+                        <b id="price_percent-value">
+                            {{ $cartItems->sum('total_price') }}
+                        </b>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -87,9 +118,10 @@
 
                     <div class="form-group">
                         <label for="ware_house">Chọn kho hàng muốn giao đến:</label>
-                        <select name="ware_house" id="ware_house" class="form-control">
+                        <select name="ware_house" onchange="getWareHouse();" id="ware_house" class="form-control">
                             @foreach($allWareHouse as $wareHouse)
-                                <option value="{{$wareHouse->id}}">{{$wareHouse->name}}</option>
+                                <option title="{{$wareHouse->country}}"
+                                        value="{{$wareHouse->id}}">{{$wareHouse->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -143,18 +175,69 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{asset('/assets/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
     <script>
-        function getAllTotal() {
-            let totalPrice = document.getElementById('total-price-value').innerText;
-            let totalCheckout = document.getElementById('total-checkout');
-            totalCheckout.value = parseFloat(totalPrice);
+        function getWareHouse() {
+            var ware_house = document.getElementById("ware_house");
+            var value = ware_house.value;
+            var title = ware_house.options[ware_house.selectedIndex].title;
+            var text = ware_house.options[ware_house.selectedIndex].text;
+            console.log(value, text, title)
+
+            // function getAllTotal() {
+            //     let totalPrice = document.getElementById('total-price-value').innerText;
+            //     let totalCheckout = document.getElementById('total-checkout');
+            //     totalCheckout.value = parseFloat(totalPrice);
+            //     console.log(totalPrice)
+            // }
+
+            function updatePrice() {
+                console.log('aa')
+                $.ajax({
+                    url: '/api/deposit/list',
+                    method: 'GET',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        for (i = 0; i < response.length; i++) {
+                            if (title == response[i]['address_to'] && response[i]['address_from'] == 'cn') {
+                                let pricePercent = response[i]['price_percent'];
+                                let shippingFee = response[i]['shipping_fee'];
+                                let taxPercent = response[i]['tax_percent'];
+
+                                let productPrice = document.getElementById('product-price-value').innerText;
+                                productPrice = parseFloat(productPrice);
+
+                                let shippingPrice = document.getElementById('shipping_fee-value');
+                                shippingPrice.innerText = shippingFee;
+
+                                let taxPrice = document.getElementById('tax_percent-value');
+                                taxPrice.innerText = ((taxPercent * productPrice) / 100).toFixed(2);
+
+                                let totalPrice = document.getElementById('total-price-value');
+                                totalPrice.innerText = (parseFloat(productPrice) + parseFloat(taxPrice.innerText) + parseFloat(shippingPrice.innerText)).toFixed(2);
+
+                                let price_percent = document.getElementById('price_percent-value');
+                                price_percent.innerText = ((parseFloat(totalPrice.innerText) * pricePercent) / 100).toFixed(2);
+
+                                let totalCheckout = document.getElementById('total-checkout');
+                                totalCheckout.value = parseFloat(price_percent.innerText);
+                            }
+                        }
+                    },
+                    error: function (xhr) {
+                    }
+                });
+            }
+
+            updatePrice();
+
+            // getAllTotal();
         }
 
-        getAllTotal();
 
-        // $(document).ready(function () {
-        //         $('#checkoutForm').attr('action', 'http://127.0.0.1:8000/checkout-paypal');
-        //     }
-        // )
+        getWareHouse();
     </script>
 @endsection

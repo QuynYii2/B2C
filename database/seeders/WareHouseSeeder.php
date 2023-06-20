@@ -20,6 +20,7 @@ class WareHouseSeeder extends Seeder
             'email' => 'vietnam@nn21.com',
             'phone' => '+8493-627-7000',
             'address' => 'V7-B07, Land lot TTDV 01, Terra An Hung New Urban Area, La Khe Ward, Ha Dong District, Hanoi City, Viet Nam',
+            'country' => 'vi',
             'status' => WarehouseStatus::ACTIVE
         ]);
 
@@ -28,6 +29,7 @@ class WareHouseSeeder extends Seeder
             'email' => 'korea@nn21.com',
             'phone' => '+8232-772-8481',
             'address' => 'IL Building 3rd Floor, 144-72 Injung-Ro, Jung-Gu, Incheon, South Korea',
+            'country' => 'kr',
             'status' => WarehouseStatus::ACTIVE
         ]);
 
@@ -36,6 +38,7 @@ class WareHouseSeeder extends Seeder
             'email' => 'korea@nn21.com',
             'phone' => '+8231-681-8482',
             'address' => '9 Posengeub Pyeongtaekhang-Ro 3rd Floor, Pyengtaek City, gyeonggi-Do, South Korea',
+            'country' => 'kr',
             'status' => WarehouseStatus::ACTIVE
         ]);
 
@@ -44,6 +47,7 @@ class WareHouseSeeder extends Seeder
             'email' => 'ilgz@nn21.com',
             'phone' => '+86138-2621-4498',
             'address' => '101-103, Building E1, Hongsen International Logistics Area, Jiahe Street, Baiyun District, Guangzhou, Guangdong City',
+            'country' => 'cn',
             'status' => WarehouseStatus::ACTIVE
         ]);
 
@@ -52,6 +56,7 @@ class WareHouseSeeder extends Seeder
             'email' => 'ilgz@nn21.com',
             'phone' => '+86136-5650-8768',
             'address' => '8 Sixing Road, Liuxiang Road, Jiading District, Shanghai',
+            'country' => 'cn',
             'status' => WarehouseStatus::ACTIVE
         ]);
 
@@ -60,6 +65,7 @@ class WareHouseSeeder extends Seeder
             'email' => 'ilgz@nn21.com',
             'phone' => '+86150-2008-8370',
             'address' => 'Room 208, Building 1, Shanhang Logistics Park, Liangjiang Road, Chengyang District, Qingdao, Shandong, China',
+            'country' => 'cn',
             'status' => WarehouseStatus::ACTIVE
         ]);
     }

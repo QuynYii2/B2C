@@ -58,6 +58,16 @@
                         </div>
                     </div>
                 </li>
+                <li>
+                    <div class="nav-link dropdown">
+                        <i class="nc-icon nc-paper-2"></i>
+                        <a class="dropdown-toggle" data-toggle="dropdown">Quản lý vận chuyển</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{route('deposit.index')}}">Danh sách  vận chuyển đã tạo</a>
+                            <a class="dropdown-item" href="{{route('deposit.processCreate')}}">Thêm mới  vận chuyển</a>
+                        </div>
+                    </div>
+                </li>
             @endif
         </ul>
     </div>

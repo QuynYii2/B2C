@@ -22,7 +22,7 @@ class PayPalController extends Controller
             "purchase_units" => [
                 0 => [
                     "amount" => [
-                        "currency_code" => "JPY",
+                        "currency_code" => "USD",
                         "value" => (integer) ($total+1),
                     ]
                 ]

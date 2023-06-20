@@ -14,6 +14,11 @@ class DepositController extends Controller
         return view('pages/deposit/list', compact('deposits'));
     }
 
+    public function indexApi()
+    {
+        return Deposit::where('status', '!=', DepositStatus::DELETED)->get();
+    }
+
     public function create()
     {
         return view('pages/deposit/create');

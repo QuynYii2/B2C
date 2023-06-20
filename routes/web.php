@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'role.admin'], function () {
     Route::get('/deposit/list', [DepositController::class, 'index'])->name('deposit.index');
+    Route::get('/api/deposit/list', [DepositController::class, 'indexApi']);
     Route::get('/deposit/detail/{id}', [DepositController::class, 'detail'])->name('deposit.detail');
     Route::post('/deposit/{id}', [DepositController::class, 'update'])->name('deposit.update');
     Route::get('/create-deposit', [DepositController::class, 'create'])->name('deposit.processCreate');

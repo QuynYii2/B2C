@@ -58,12 +58,14 @@ class WarehouseController extends Controller
         $email = $request->input('email');
         $phone = $request->input('phone');
         $address = $request->input('address');
+        $country = $request->input('country');
         $status = $request->input('status');
 
         $warehouse->name = $name;
         $warehouse->email = $email;
         $warehouse->phone = $phone;
         $warehouse->address = $address;
+        $warehouse->country = $country;
         $warehouse->status = $status;
 
         $warehouse->save();
@@ -89,6 +91,7 @@ class WarehouseController extends Controller
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
+            'country' => $request->input('country'),
             'status' => $request->input('status'),
         ]);
 

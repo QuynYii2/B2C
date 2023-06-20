@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="card">
-        <div class="row">
             <div class="">
                 <h5 class="text-center">Danh sách kho hàng</h5>
             </div>
@@ -16,6 +15,7 @@
                     <th scope="col">Phone</th>
                     <th scope="col">Email</th>
                     <th scope="col">Address</th>
+                    <th scope="col">Country</th>
                     <th scope="col">Status</th>
                 </tr>
                 </thead>
@@ -31,12 +31,22 @@
                         <td>{{$warehouse->phone}}</td>
                         <td>{{$warehouse->email}}</td>
                         <td>{{$warehouse->address}}</td>
+                        <td>
+                            @if($warehouse->country == 'vi')
+                                Viet Nam
+                            @elseif($warehouse->country == 'kr')
+                                Korea
+                            @elseif($warehouse->country == 'cn')
+                                China
+                            @else
+                                Japan
+                            @endif
+                        </td>
                         <td>{{$warehouse->status}}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-        </div>
     </div>
 @endsection
 

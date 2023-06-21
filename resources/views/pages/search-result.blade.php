@@ -73,7 +73,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title" >{{ $item['title'] }}</h5>
                                     <div>
-                                    <p class="card-text">Giá: {{ number_format(convertCurrency('CNY', 'VND', $item['price']), 0, ',', '.') }} VND - {{ $item['price'] }} ¥</p>
+                                    <p class="card-text">Giá: {{ number_format(convertCurrency('CNY', $currency, $item['price']), 0, ',', '.') }} {{$currency}}</p>
                                     <p class="card-text">Số lượng bán: {{ $item['sales'] }}</p>
                                     </div>
                                 </div>

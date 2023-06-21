@@ -17,6 +17,7 @@ class SearchController extends Controller
         $this->apiService = $apiService;
     }
     public function searchProduct(Request $request) {
+        $currency = (new BaseController())->getLocation($request);
         $dropdownValue = $request->input('site');
         $text = $request->input('text');
 
@@ -31,7 +32,8 @@ class SearchController extends Controller
         return view('pages/search-result', [
             'data' => $this->dataProduct,
             'nameProduct' => $text,
-            'services' => $dropdownValue
+            'services' => $dropdownValue,
+            'currency' => $currency
         ]);
 
     }
@@ -39,6 +41,7 @@ class SearchController extends Controller
     public function getDetailProduct(Request $request, $service, $id)
     {
         $client = new Client();
+        $currency = (new BaseController())->getLocation($request);
 
         $key = "b7211c2138msha0af71d7f60d97dp15b9b8jsn944d7ed17867";
 
@@ -63,18 +66,22 @@ class SearchController extends Controller
         if ($service == 'taobao') {
             return view('pages/product_pages/detail-product-taobao', [
                 'data' => $data,
+                'currency' => $currency
             ]);
         } elseif ($service == '1688') {
             return view('pages/product_pages/detail-product-1688', [
                 'data' => $data,
+                'currency' => $currency
             ]);
         } elseif ($service == 'alibaba') {
             return view('pages/product_pages/detail-product-alibaba', [
                 'data' => $data,
+                'currency' => $currency
             ]);
         } else {
             return view('pages/detail-product', [
                 'data' => $data,
+                'currency' => $currency
             ]);
         }
     }

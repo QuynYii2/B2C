@@ -6,15 +6,15 @@ if (!function_exists('convertCurrency')) {
     function convertCurrency($from, $to, $amount)
     {
         $client = new Client();
-        $response = $client->request('GET', 'https://api.apilayer.com/exchangerates_data/convert', [
+        $response = $client->request('GET', 'https://currency-conversion-and-exchange-rates.p.rapidapi.com/convert', [
             'query' => [
                 'to' => $to,
                 'from' => $from,
                 'amount' => $amount,
             ],
             'headers' => [
-                'Content-Type' => 'text/plain',
-                'apikey' => 'yDG3tSlwJIF3LJj2Ys4ClkF6Hj3zYIik',
+                'X-RapidAPI-Key' => 'e5fec28adcmsh01ac8839654caf8p1731bbjsn4ee3310b5513',
+                'X-RapidAPI-Host' => 'currency-conversion-and-exchange-rates.p.rapidapi.com',
             ],
         ]);
 

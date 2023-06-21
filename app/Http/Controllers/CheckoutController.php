@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\WarehouseStatus;
+use App\Libraries\GeoIP;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PragmaRX\Countries\Package\Countries;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class CheckoutController extends Controller
@@ -17,6 +19,17 @@ class CheckoutController extends Controller
 
     public function show(Request $request)
     {
+        $geoIp = new GeoIP();
+//        dd($request->ip());
+        $locale = $geoIp->getCode($request->ip());
+        $countries = new Countries();
+        $country = $countries->all()->pluck('name.common')->toArray();
+        $currencies = $countries->all()->pluck('currencies')->toArray();
+        $all = $countries->where('name.common', $locale)->first()->hydrate('currencies')->currencies;
+        foreach ($all as $items) {
+            $currency = $items->iso->code;
+        }
+
         $carts = Cart::where('user_id', Auth::id())->get();
         $infoUser = User::find(Auth::id());
         $allWareHouse = Warehouse::where('status', WarehouseStatus::ACTIVE)->get();
@@ -24,7 +37,8 @@ class CheckoutController extends Controller
         return view('pages/checkout', [
             'cartItems' => $carts,
             'user' => $infoUser,
-            'allWareHouse' => $allWareHouse
+            'allWareHouse' => $allWareHouse,
+            'currency' => $currency
         ]);
     }
 

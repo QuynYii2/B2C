@@ -16,7 +16,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "moneyphp/money": "*",
+        "moneyphp/money": "^4.1",
+        "pragmarx/countries": "^0.8.2",
         "srmklive/paypal": "^3.0",
         "torann/geoip": "^3.0"
     },

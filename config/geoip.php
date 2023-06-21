@@ -16,7 +16,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Include Currency in Results
+    | Include Currencys in Results
     |--------------------------------------------------------------------------
     |
     | When enabled the system will do it's best in deciding the user's currency

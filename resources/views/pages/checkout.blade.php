@@ -1,4 +1,8 @@
-@php use App\Enums\DepositStatus;use App\Models\Deposit; @endphp
+@php
+    use App\Enums\DepositStatus;
+    use App\Libraries\Currencys;
+    use App\Libraries\GeoIP;
+@endphp
 @extends('master')
 
 @section('title', 'Tìm kiếm sản phẩm')
@@ -43,7 +47,13 @@
                                     </div>
                                 </td>
                                 <td>{{ $cartItem->quantity }}</td>
-                                <td>{{ $cartItem->total_price }}</td>
+                                <td>
+                                    @php
+                                        $float = (float)$cartItem->total_price;
+                                        //  @dd($currency)
+                                    @endphp
+                                    {{ number_format(convertCurrency('CNY', $currency, $float), 0, ',', '.') }}
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -64,7 +74,7 @@
                     <div class="col text-right" id="product_total">
                         PRODUCT PRICE:
                         <b id="product-price-value">
-                            {{ $cartItems->sum('total_price') }}
+                            {{ number_format(convertCurrency('CNY', $currency, $cartItems->sum('total_price')), 0, ',', '.') }}
                         </b>
                     </div>
                     <div class="col text-right" id="price_total">
@@ -79,7 +89,7 @@
                         {{--                        <b>10</b>--}}
                         {{--                        %):--}}
                         <b id="price_percent-value">
-                            {{ $cartItems->sum('total_price') }}
+                            1
                         </b>
                     </div>
                 </div>

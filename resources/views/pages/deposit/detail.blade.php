@@ -67,23 +67,23 @@
             </div>
             <div class="form-group">
                 <label for="distance">DISTANCE</label>
-                <input type="number" class="form-control" id="distance" name="distance" placeholder="Enter number"
+                <input min="1" type="number" class="form-control" id="distance" name="distance" placeholder="Enter number"
                        value="{{$deposit->distance}}" required>
             </div>
             <div class="form-group">
                 <label for="price_percent">PRICE PERCENT</label>
-                <input type="number" class="form-control" id="price_percent" name="price_percent"
+                <input min="50" max="100"  type="number" class="form-control" id="price_percent" name="price_percent"
                        placeholder="Enter number"
                        value="{{$deposit->price_percent}}" required>
             </div>
             <div class="form-group">
                 <label for="shipping_fee">SHIPPING FEE</label>
-                <input type="text" class="form-control" id="shipping_fee" name="shipping_fee" placeholder="Enter number"
+                <input min="10"  type="text" class="form-control" id="shipping_fee" name="shipping_fee" placeholder="Enter number"
                        value="{{$deposit->shipping_fee}}" required>
             </div>
             <div class="form-group">
                 <label for="tax_percent">TAX PERCENT</label>
-                <input type="number" class="form-control" id="tax_percent" name="tax_percent" placeholder="Enter phone"
+                <input min="5" max="35"  type="number" class="form-control" id="tax_percent" name="tax_percent" placeholder="Enter phone"
                        value="{{$deposit->tax_percent}}" required>
             </div>
             <div class="form-group">

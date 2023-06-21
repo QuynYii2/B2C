@@ -33,22 +33,22 @@
             </div>
             <div class="form-group">
                 <label for="distance">DISTANCE</label>
-                <input type="text" class="form-control" id="distance" name="distance" placeholder="Enter distance"
+                <input min="1" type="text" class="form-control" id="distance" name="distance" placeholder="Enter distance"
                        required>
             </div>
             <div class="form-group">
                 <label for="price_percent">PRICE PERCENT</label>
-                <input type="number" class="form-control" id="price_percent" name="price_percent"
+                <input min="50" max="100" type="number" class="form-control" id="price_percent" name="price_percent"
                        placeholder="Enter price percent" required>
             </div>
             <div class="form-group">
                 <label for="shipping_fee">SHIPPING FEE</label>
-                <input type="text" class="form-control" id="shipping_fee" name="shipping_fee" placeholder="Enter shipping fee"
+                <input min="10" type="text" class="form-control" id="shipping_fee" name="shipping_fee" placeholder="Enter shipping fee"
                        required>
             </div>
             <div class="form-group">
                 <label for="tax_percent">TAX PERCENT</label>
-                <input type="number" class="form-control" id="tax_percent" name="tax_percent" placeholder="Enter tax percent"
+                <input min="5" max="35" type="number" class="form-control" id="tax_percent" name="tax_percent" placeholder="Enter tax percent"
                        required>
             </div>
             <div class="form-group">

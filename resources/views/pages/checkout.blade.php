@@ -75,7 +75,7 @@
                     <div class="col text-right" id="product_total">
                         PRODUCT PRICE:
                         <b id="product-price-value">
-                            {{ number_format(convertCurrency('CNY', $currency, $cartItems->sum('total_price')), 0, ',', '.') }}
+                            {{ number_format(convertCurrency('CNY', $currency, $cartItems->sum('total_price')), 3, ',', '.') }}
                         </b>
                     </div>
                     <div class="col text-right" id="price_total">

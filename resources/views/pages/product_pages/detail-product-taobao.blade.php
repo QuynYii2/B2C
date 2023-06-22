@@ -92,7 +92,12 @@
                                 href="{{ $data['item']['seller_info']['zhuy'] }}"> {{ $data['item']['seller_info']['shop_name'] }}</a>
                         </p>
                         <p>Sales: {{ $data['item']['sales'] }}</p>
-                        <p class="price">Price: <b> {{ number_format(convertCurrency('CNY', $currency, $data['item']['price']), 0, ',', '.') }}  </b>{{$currency}}</p>
+                        <p>Price:
+                            <b>
+                                {{ number_format(convertCurrency('CNY', $currency, $data['item']['price']), 0, ',', '.') }}
+                            </b>{{$currency}}
+                        </p>
+                        <p hidden class="price">Price: <b> {{ $data['item']['price'] }} </b>{{$currency}}</p>
                     </div>
                     <div class="row">
                         {{--                        @dd(array_keys($props), $props, array_values($props))--}}
@@ -251,6 +256,7 @@
             var inputProps = document.getElementsByClassName('input-hidden');
             for (i = 0; i < inputProps.length; i++) {
                 var value = inputProps[i].value;
+
                 function myFun(id) {
                     var labelText = document.getElementById('id-label-other-' + id);
                     labelText.innerText = document.getElementById('input-hidden-name-' + id).value;

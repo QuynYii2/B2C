@@ -71,6 +71,7 @@
                         {{--                        %):--}}
                         <b class="tax_percent" id="tax_percent-value">1</b>
                     </div>
+{{--                    @dd(number_format(convertCurrency('CNY', $currency, $cartItems->sum('total_price')), 0, ',', '.'))--}}
                     <div class="col text-right" id="product_total">
                         PRODUCT PRICE:
                         <b id="product-price-value">
@@ -224,16 +225,18 @@
                                 shippingPrice.innerText = shippingFee;
 
                                 let taxPrice = document.getElementById('tax_percent-value');
-                                taxPrice.innerText = ((taxPercent * productPrice) / 100).toFixed(2);
+                                taxPrice.innerText = ((taxPercent * productPrice) / 100).toFixed(3);
 
                                 let totalPrice = document.getElementById('total-price-value');
-                                totalPrice.innerText = (parseFloat(productPrice) + parseFloat(taxPrice.innerText) + parseFloat(shippingPrice.innerText)).toFixed(2);
+                                totalPrice.innerText = (parseFloat(productPrice) + parseFloat(taxPrice.innerText) + parseFloat(shippingPrice.innerText)).toFixed(3);
 
                                 let price_percent = document.getElementById('price_percent-value');
-                                price_percent.innerText = ((parseFloat(totalPrice.innerText) * pricePercent) / 100).toFixed(2);
+                                price_percent.innerText = ((parseFloat(totalPrice.innerText) * pricePercent) / 100).toFixed(3);
 
                                 let totalCheckout = document.getElementById('total-checkout');
                                 totalCheckout.value = parseFloat(price_percent.innerText);
+
+                                console.log(productPrice,shippingPrice.innerText,  totalPrice.innerText, price_percent.innerText, totalCheckout.value)
                             }
                         }
                     },

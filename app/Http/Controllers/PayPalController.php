@@ -13,6 +13,12 @@ class PayPalController extends Controller
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
 
+        $currency = (new BaseController())->getLocation($request);
+        if ($currency == "VND") {
+            $total = $total * 1000;
+        }
+        $total = convertCurrency($currency, 'USD', $total);
+
         $response = $provider->createOrder([
             "intent" => "CAPTURE",
             "application_context" => [

@@ -186,7 +186,7 @@
                                         <img class="img-fluid" src="{{ $cart->image}}">
                                     </td>
                                     <td>
-                                        <div class="row align-content-center text-nowrap">{{ $cart->product_name}}</div>
+                                        <div class="row align-content-center">{{ $cart->product_name}}</div>
                                     </td>
                                     <td class="text-nowrap">
                                         @if(is_string($cart->attribute))
@@ -234,7 +234,12 @@
                                             <a href="#" class="increase-number" data-item-id="{{ $cart->id }}">+</a>
                                         </div>
                                     </td>
-                                    <td data-item-id="{{ $cart->id }}" class="text-nowrap">$ <span
+                                    <td data-item-id="{{ $cart->id }}" class="text-nowrap">
+                                        <span id="totalPrice{{ $cart->id }}">
+                                            {{ number_format(convertCurrency('CNY', $currency, $cart->total_price), 0, ',', '.') }}
+                                        </span>
+                                    </td>
+                                    <td hidden data-item-id="{{ $cart->id }}" class="text-nowrap">$ <span
                                             id="totalPrice{{ $cart->id }}">{{ $cart->total_price }}</span></td>
                                     <td>
                                         <a href="#" data-item-id="{{ $cart->id }}"
@@ -253,7 +258,9 @@
                             </a>
                         </div>
                         <div class="col-sm-6 col-6 total float-right">
-                            <div id="price_total">TOTAL PRICE: {{ $listCart->sum('total_price') }}</div>
+                            <div class="">
+                                TOTAL PRICE: <span id="price_total">{{ number_format(convertCurrency('CNY', $currency, $listCart->sum('total_price'), 0, ',', '.')) }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="row pb-3"><a href="{{ route('checkout.show') }}">

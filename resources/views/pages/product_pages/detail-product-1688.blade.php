@@ -97,8 +97,12 @@
                                 href="{{ $data['item']['seller_info']['zhuy'] }}"> {{ $data['item']['seller_info']['shop_name'] }}</a>
                         </p>
                         <p>Sales: {{ $data['item']['sales'] }}</p>
-                        <p class="price">Price: <b> {{ number_format(convertCurrency('CNY', $currency, $data['item']['price']), 0, ',', '.') }}  </b>{{$currency}}</p>
-                    </div>
+                        <p>Price:
+                            <b>
+                                {{ number_format(convertCurrency('CNY', $currency, $data['item']['price']), 0, ',', '.') }}
+                            </b>{{$currency}}
+                        </p>
+                        <p hidden class="price">Price: <b> {{ $data['item']['price'] }} </b>{{$currency}}</p>                    </div>
                     <div class="row">
                         {{--                        @dd($props)--}}
                         @foreach($props as $prop)

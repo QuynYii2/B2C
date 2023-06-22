@@ -1,4 +1,15 @@
-@php use App\Models\User;use Illuminate\Support\Facades\Auth; @endphp
+@php
+    use App\Models\User;
+    use Illuminate\Support\Facades\Auth;
+    $user = User::find(Auth::user()->id);
+    $roles = $user->roles;
+    $isAdmin = false;
+    for ($i = 0; $i<count($roles);$i++){
+        if($roles[$i]->name == \App\Enums\Role::ADMIN){
+            $isAdmin = true;
+        }
+    }
+@endphp
 <div class="sidebar" data-image="{{asset('/assets/img/sidebar-5.jpg')}}">
     <div class="sidebar-wrapper">
         <div class="logo">
@@ -20,11 +31,19 @@
                 </a>
             </li>
             <li>
-                <a class="nav-link" href="{{route('order.manager.index')}}">
+                <a class="nav-link" href="{{route('order.list')}}">
                     <i class="nc-icon nc-circle-09"></i>
-                    <p>Quản lý Đơn hàng</p>
+                    <p>Quản lý Đơn đặt hàng</p>
                 </a>
             </li>
+            @if($isAdmin)
+                <li>
+                    <a class="nav-link" href="{{route('order.manager.index')}}">
+                        <i class="nc-icon nc-circle-09"></i>
+                        <p>Quản lý Đơn hàng chi tiết</p>
+                    </a>
+                </li>
+            @endif
             <li>
                 <a class="nav-link" href="">
                     <i class="nc-icon nc-paper-2"></i>
@@ -37,16 +56,7 @@
                     <p>Cấu hình tài khoản</p>
                 </a>
             </li>
-            @php
-                $user = User::find(Auth::user()->id);
-                $roles = $user->roles;
-                $isAdmin = false;
-                for ($i = 0; $i<count($roles);$i++){
-                    if($roles[$i]->name == \App\Enums\Role::ADMIN){
-                        $isAdmin = true;
-                    }
-                }
-            @endphp
+
             @if($isAdmin)
                 <li>
                     <div class="nav-link dropdown">

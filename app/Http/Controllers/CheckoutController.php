@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\DepositStatus;
+use App\Enums\OrderStatus;
 use App\Enums\WarehouseStatus;
 use App\Models\Cart;
 use App\Models\Deposit;
@@ -100,7 +101,7 @@ class CheckoutController extends Controller
             'customer_phone' => $phone,
             'customer_email' => $address,
             'warehouse_id' => $ware_house,
-            'status' => 'payment_success',
+            'status' => OrderStatus::PAYMENT_SUCCESS,
         ]);
 
         $cartItems = Cart::where('user_id', Auth::id())->get();

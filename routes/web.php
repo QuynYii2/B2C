@@ -55,17 +55,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/warehouse/{id}', [WarehouseController::class, 'detail'])->name('warehouse.detail');
     Route::post('/warehouse/{id}', [WarehouseController::class, 'update'])->name('warehouse.update');
     // order
-    Route::get('/order-manager', [OrderController::class, 'index'])->name('order.manager.index');
+    Route::get('/order-list', [OrderController::class, 'list'])->name('order.list');
+    Route::get('/order-detail/{id}', [OrderController::class, 'detail'])->name('order.detail');
     Route::post('/order-manager', [OrderController::class, 'index'])->name('order.manager.search');
-    Route::get('/order-review/{id}', [OrderController::class, 'review'])->name('order.manager.review');
+    Route::get('/api/deposit/list', [DepositController::class, 'indexApi']);
+
 });
 
 Route::group(['middleware' => 'role.admin'], function () {
     Route::get('/deposit/list', [DepositController::class, 'index'])->name('deposit.index');
-    Route::get('/api/deposit/list', [DepositController::class, 'indexApi']);
     Route::get('/deposit/detail/{id}', [DepositController::class, 'detail'])->name('deposit.detail');
     Route::post('/deposit/{id}', [DepositController::class, 'update'])->name('deposit.update');
     Route::get('/create-deposit', [DepositController::class, 'create'])->name('deposit.processCreate');
     Route::post('/deposit', [DepositController::class, 'store'])->name('deposit.create');
     Route::post('/deposit/delete/{id}', [DepositController::class, 'destroy'])->name('deposit.delete');
+    // order
+    Route::get('/order-manager', [OrderController::class, 'index'])->name('order.manager.index');
+    Route::post('/order-manager', [OrderController::class, 'index'])->name('order.manager.search');
+    Route::get('/order-review/{id}', [OrderController::class, 'review'])->name('order.manager.review');
+    Route::post('/order/{id}', [OrderController::class, 'updateOrder'])->name('order.update');
 });

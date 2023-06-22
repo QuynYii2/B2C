@@ -5,13 +5,13 @@
 @endphp
 @extends('master')
 
-@section('title', 'Chi tiết Đơn hàng')
+@section('title', 'Chi tiết Đơn hàng con')
 
 @section('content')
     <div class="card">
         <div class="">
             <h5 class="text-center">
-                Chi tiết Đơn hàng
+                Chi tiết Đơn hàng con
             </h5>
         </div>
         <form>

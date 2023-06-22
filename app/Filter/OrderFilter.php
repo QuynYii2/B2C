@@ -10,6 +10,7 @@ class OrderFilter extends QueryFilter
         'customer_phone',
         'customer_email',
         'warehouse_id',
+        'status',
     ];
 
     public function filterName($name)

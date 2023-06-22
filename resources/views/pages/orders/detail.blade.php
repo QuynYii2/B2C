@@ -14,67 +14,19 @@
 @endphp
 @extends('master')
 
-@section('title', 'Quản lý Đơn hàng chi tiết')
+@section('title', 'Chi tiết Đơn hàng')
 
 @section('content')
     <div class="card">
         <div class="">
             <h5 class="text-center">
-                Quản lý Đơn hàng chi tiết
+                Chi tiết Đơn hàng
             </h5>
         </div>
-        @if($isAdmin)
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Search</h5>
-                    <form class="row g-3" method="post" action="{{route('order.manager.search')}}">
-                        @csrf
-                        <div class="col-md-4">
-                            <label for="validationDefault01" class="form-label">Customer Name: </label>
-                            <input name="customer_name" type="text" class="form-control" id="validationDefault01"
-                                   placeholder="Johny Corn">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="validationDefault02" class="form-label">Customer Phone: </label>
-                            <input name="customer_phone" type="text" class="form-control" id="validationDefault02"
-                                   placeholder="+88 8-88-88">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="validationDefaultUsername" class="form-label">Customer Email: </label>
-                            <input name="customer_email" type="email" class="form-control"
-                                   placeholder="customer@gmail.com" id="validationDefaultUsername">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationDefault05" class="form-label">Customer Address: </label>
-                            <input name="customer_address" type="text" class="form-control" id="validationDefault05"
-                                   placeholder="1st Korea">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="validationDefault04" class="form-label">WareHouse: </label>
-                            <select name="warehouse_id" class="form-control" id="validationDefault04">
-                                <option selected="selected" value="">Select WareHouse</option>
-                                @foreach($warehouses as $warehouse)
-                                    <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="validationDefault04" class="form-label">Status: </label>
-                            <select name="statusList" class="form-control" id="validationDefault04">
-                                <option selected="selected" value="">Select Status</option>
-                                @foreach($statusList as $status)
-                                    <option>{{$status}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                            <button class="btn btn-danger" style="margin: 8px 16px "><a
-                                    href="{{route('order.manager.index')}}">Reset</a></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        @if (session('success'))
+            <h5 class="text-center text-success">
+                {{ session('success') }}
+            </h5>
         @endif
         <table class="table table-bordered table-hover">
             <thead>
@@ -91,12 +43,10 @@
             </tr>
             </thead>
             <tbody>
-            @if($listOrderItems == null)
-                No order
-            @elseif(count($listOrderItems) == 0)
+            @if($orderItems == null || $orderItems->isEmpty())
                 No order
             @else
-                @foreach($listOrderItems as $item)
+                @foreach($orderItems as $item)
                     <tr>
                         <th scope="row">{{$loop->index + 1}}</th>
                         <td>{{$item->product_name}}</td>
@@ -161,7 +111,6 @@
                     </tr>
                 @endforeach
             @endif
-
             </tbody>
         </table>
     </div>
@@ -170,6 +119,5 @@
             let input = document.getElementById('input-service-' + id);
             alert('Service: ' + input.value)
         }
-
     </script>
 @endsection

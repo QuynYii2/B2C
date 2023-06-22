@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -21,9 +22,9 @@ class OrderController extends Controller
             $isAdmin = (new WarehouseController())->checkAdmin();
             $listOrderItems = null;
             if ($isAdmin) {
-                $orders = Order::filter($orderFilter)->get();
+                $orders = Order::filter($orderFilter)->orderBy('id', 'DESC')->get();
             } else {
-                $orders = Order::where([['user_id', Auth::user()->id], ['status', OrderStatus::PAYMENT_SUCCESS]])->get();
+                $orders = Order::where([['user_id', Auth::user()->id], ['status', OrderStatus::PAYMENT_SUCCESS]])->orderBy('id', 'DESC')->get();
             }
             foreach ($orders as $order) {
                 $orderItems = OrderItem::where('order_id', $order->id)->get();
@@ -66,18 +67,19 @@ class OrderController extends Controller
         }
     }
 
-    public function createOrderItems($id)
+    public function updateOrderItems(Request $request, $id)
     {
         try {
             $isAdmin = (new WarehouseController())->checkAdmin();
             $orderItem = OrderItem::where('id', $id)->first();
             if ($isAdmin) {
-                $orderItem->status = OrderItemStatus::CREATED_ORDER;
+                $status = $request->input('status');
+                $orderItem->status = $status;
                 $orderItem->save();
-                return redirect(route('order.manager.index'));
+                return redirect(route('order.detail', $orderItem->order_id))->with('success', 'Change status order item success');
             }
         } catch (\Exception $exception) {
-            return redirect(route('order.manager.index'));
+            return redirect(route('order.list'));
         }
     }
 
@@ -86,9 +88,22 @@ class OrderController extends Controller
         try {
             $isAdmin = (new WarehouseController())->checkAdmin();
             if ($isAdmin) {
-                $orders = Order::where('status', '!=', OrderStatus::DELETED)->get();
+                $orders = Order::where('status', '!=', OrderStatus::DELETED)->orderBy('id', 'DESC')->get();
+                foreach ($orders as $order) {
+                    $orderItems = OrderItem::where('order_id', $order->id)->get();
+                    $isValid = true;
+                    foreach ($orderItems as $item){
+                        if ($item->status != OrderItemStatus::ARRIVED_WAREHOUSE) {
+                            $isValid = false;
+                        }
+                    }
+                    if ($isValid){
+                        $order->status = OrderStatus::ARRIVED_WAREHOUSE;
+                        $order->save();
+                    }
+                }
             } else {
-                $orders = Order::where([['user_id', Auth::user()->id], ['status', '!=', OrderStatus::DELETED]])->get();
+                $orders = Order::where([['user_id', Auth::user()->id], ['status', '!=', OrderStatus::DELETED]])->orderBy('id', 'DESC')->get();
             }
             return view('pages/orders/list', compact('orders'));
         } catch (\Exception $exception) {
@@ -108,7 +123,7 @@ class OrderController extends Controller
         }
     }
 
-    public function updateOrder(Request  $request, $id)
+    public function updateOrder(Request $request, $id)
     {
         try {
             $isAdmin = (new WarehouseController())->checkAdmin();
@@ -121,21 +136,36 @@ class OrderController extends Controller
                 $email = Auth::user()->email;
 
                 $content = null;
-                switch ($status){
+                switch ($status) {
                     case OrderStatus::ARRIVED_WAREHOUSE:
                         $content = 'Your order has been successfully to the warehouse';
+                        DB::table('order_items')
+                            ->where('order_id', '=', $id)
+                            ->update(array('status' => OrderItemStatus::ARRIVED_WAREHOUSE));
                         break;
                     case $status == OrderStatus::SHIPPING:
                         $content = 'Your order is being shipped';
+                        DB::table('order_items')
+                            ->where('order_id', '=', $id)
+                            ->update(array('status' => OrderItemStatus::SUCCESS));
                         break;
                     case OrderStatus::DELIVERED:
                         $content = 'Your order has been successfully delivered';
+                        DB::table('order_items')
+                            ->where('order_id', '=', $id)
+                            ->update(array('status' => OrderItemStatus::SUCCESS));
                         break;
                     case $status == OrderStatus::CANCELED:
                         $content = 'Your order has been cancelled';
+                        DB::table('order_items')
+                            ->where('order_id', '=', $id)
+                            ->update(array('status' => OrderItemStatus::FAIL));
                         break;
                     default:
                         $content = 'Your order has been successfully';
+                        DB::table('order_items')
+                            ->where('order_id', '=', $id)
+                            ->update(array('status' => OrderItemStatus::FAIL));
                         break;
                 }
 

@@ -20,9 +20,14 @@
     <div class="card">
         <div class="">
             <h5 class="text-center">
-                Quản lý Đơn hàng
+                Chi tiết Đơn hàng
             </h5>
         </div>
+        @if (session('success'))
+            <h5 class="text-center text-success">
+                {{ session('success') }}
+            </h5>
+        @endif
         <table class="table table-bordered table-hover">
             <thead>
             <tr>

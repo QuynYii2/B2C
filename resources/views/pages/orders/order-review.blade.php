@@ -1,5 +1,5 @@
 @php
-    use App\Models\Order;use App\Models\User;
+    use App\Enums\OrderItemStatus;use App\Enums\OrderStatus;use App\Models\Order;use App\Models\User;
     use App\Models\Warehouse;use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Str;
 @endphp
@@ -14,7 +14,8 @@
                 Chi tiết Đơn hàng con
             </h5>
         </div>
-        <form>
+        <form action="{{route('order.item.update', $orderItem->id)}}" method="post">
+            @csrf
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="product_name">Product Name</label>
@@ -97,6 +98,25 @@
                     <input type="text" class="form-control" id="warehouse" placeholder="warehouse"
                            value="{{$warehouse->name}}" disabled>
                 </div>
+                @if($order->status != OrderStatus::PAYMENT_SUCCESS || $orderItem->status == OrderItemStatus::ARRIVED_WAREHOUSE)
+                    <div class="form-group col-md-3">
+                        <label for="status">Status:</label>
+                        <select name="status" id="status" class="form-control" disabled>
+                            <option>{{$orderItem->status}}</option>
+                        </select>
+                    </div>
+                @else
+                    <div class="form-group col-md-3">
+                        <label for="status">Status:</label>
+                        <select name="status" id="status" class="form-control">
+                            <option class="text-secondary">Choose status</option>
+                            <option value="{{OrderItemStatus::ARRIVED_WAREHOUSE}}">
+                                {{OrderItemStatus::ARRIVED_WAREHOUSE}}
+                            </option>
+                        </select>
+                    </div>
+                @endif
+
             </div>
             <div class="form-group">
                 <a href="{{route('order.manager.index')}}" class="btn btn-primary">Back</a>

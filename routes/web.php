@@ -74,4 +74,5 @@ Route::group(['middleware' => 'role.admin'], function () {
     Route::post('/order-manager', [OrderController::class, 'index'])->name('order.manager.search');
     Route::get('/order-review/{id}', [OrderController::class, 'review'])->name('order.manager.review');
     Route::post('/order/{id}', [OrderController::class, 'updateOrder'])->name('order.update');
+    Route::post('/order-item/{id}', [OrderController::class, 'updateOrderItems'])->name('order.item.update');
 });

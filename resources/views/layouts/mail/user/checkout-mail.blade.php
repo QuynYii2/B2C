@@ -47,11 +47,12 @@
                             <tr>
                                 <td>
                                     <div class="content" style="color: #2e3454;">
+                                        <p>
                                         Welcome {{$email}}!
                                         <br><br>
                                         Thank you for your order!
                                         <br><br>
-                                        Your order has been successfully created!
+                                            <a href="{{route('order.manager.index')}}">Your order has been successfully created!</a>
                                         <br><br>
                                         </p>
                                         <div class="row border">
@@ -66,7 +67,7 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
+{{--                                                    <th scope="col">#</th>--}}
                                                     <th scope="col">Product Name</th>
                                                     <th scope="col">Quantity</th>
                                                     <th scope="col">Price</th>
@@ -77,7 +78,7 @@
                                                 <tbody>
                                                 @foreach($orderList as $item)
                                                     <tr>
-                                                        <th scope="row">{{$loop->index + 1}}</th>
+{{--                                                        <th scope="row">{{$loop->index + 1}}</th>--}}
                                                         <td>{{$item->product_name}}</td>
                                                         <td>{{$item->quantity}}</td>
                                                         <td>{{$item->price}}</td>

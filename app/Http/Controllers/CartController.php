@@ -74,6 +74,15 @@ class CartController extends Controller
         $cart->save();
         $priceTotal =  Cart::where('user_id', Auth::id())->sum('total_price');
 
+        $currency = (new BaseController())->getLocation($request);
+        $newTotalPrice = convertCurrency('CNY', $currency, $newTotalPrice);
+        $priceTotal = convertCurrency('CNY', $currency, $priceTotal);
+
+        if ($currency == 'VND'){
+            $newTotalPrice = number_format($newTotalPrice, 0, ',', '.');
+            $priceTotal = number_format($priceTotal, 0, ',', '.');
+        }
+
         return response()->json([
             'success' => true,
             'totalPrice' => $newTotalPrice,

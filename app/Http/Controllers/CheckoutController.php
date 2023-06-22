@@ -161,6 +161,17 @@ class CheckoutController extends Controller
             $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
         });
 
+        $emailAdmin = env('MAIL_ADMIN', 'ngodaix5tp@gmail.com');
+        $data = array(
+            'email' => $emailAdmin,
+            'currency' => $currency
+        );
+        Mail::send('layouts/mail/admin/admin-checkout-mail', $data, function ($message) use ($emailAdmin) {
+            $message->to($emailAdmin, 'Notification mail!')->subject
+            ('Notification mail');
+            $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
+        });
+
         Cart::where('user_id', Auth::id())->delete();
 
         return $order;

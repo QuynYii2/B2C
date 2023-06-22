@@ -92,14 +92,29 @@ class OrderController extends Controller
                 foreach ($orders as $order) {
                     $orderItems = OrderItem::where('order_id', $order->id)->get();
                     $isValid = true;
-                    foreach ($orderItems as $item){
+                    foreach ($orderItems as $item) {
                         if ($item->status != OrderItemStatus::ARRIVED_WAREHOUSE) {
                             $isValid = false;
                         }
                     }
-                    if ($isValid){
+                    if ($isValid) {
                         $order->status = OrderStatus::ARRIVED_WAREHOUSE;
                         $order->save();
+
+                        $email = Auth::user()->email;
+
+                        $content = 'Your order has been successfully to the warehouse';
+                        
+                        $data = array(
+                            'email' => $email,
+                            'content' => $content
+                        );
+
+                        Mail::send('layouts/mail/user/update-order', $data, function ($message) use ($email) {
+                            $message->to($email, 'Notification mail!')->subject
+                            ('Notification mail');
+                            $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
+                        });
                     }
                 }
             } else {

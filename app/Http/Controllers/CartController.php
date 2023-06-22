@@ -49,11 +49,12 @@ class CartController extends Controller
     }
 
 
-    public function showCart(){
+    public function showCart(Request $request){
         $carts = Cart::where('user_id', Auth::id())->get();
-
+        $currency = (new BaseController())->getLocation($request);
         return view('pages/cart-index', [
-            'listCart' => $carts
+            'listCart' => $carts,
+            'currency' => $currency
         ]);
     }
 

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DepositStatus;
 use App\Enums\WarehouseStatus;
 use App\Models\Cart;
+use App\Models\Deposit;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class CheckoutController extends Controller
@@ -114,6 +117,49 @@ class CheckoutController extends Controller
                 'total_price' => $cartItem->total_price,
             ]);
         }
+
+        $email = Auth::user()->email;
+
+        $order = Order::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->first();
+        $warehouse = Warehouse::find($ware_house);
+        $deposit = Deposit::where([
+            ['address_from', 'cn'],
+            ['address_to', $warehouse->country],
+            ['status', DepositStatus::ACTIVE]
+        ])->first();
+
+        $orderList = OrderItem::where('order_id', $order->id)->get();
+
+//        $totalPrice = $cartItems->sum('total_price') +
+//            $deposit->shipping_fee +
+//            (($cartItems->sum('total_price') * $deposit->tax_percent) / 100);
+//        $pricePercent = ($totalPrice * $deposit->price_percent) / 100;
+
+        $currency = (new BaseController())->getLocation($request);
+        $productPrice = convertCurrency('CNY', $currency, $cartItems->sum('total_price'));
+        $totalPrice = $productPrice + ($productPrice * $deposit->tax_percent) / 100;
+        if ($currency == 'VND'){
+            $totalPrice = number_format($totalPrice, 0, ',', '.');
+        }
+        $pricePercent = ($totalPrice * $deposit->price_percent) / 100;
+        $priceMissing = number_format($totalPrice - $pricePercent, 3, ',', '.');
+        $pricePercent = number_format($pricePercent, 3, ',', '.');
+
+        $data = array(
+            'email' => $email,
+            'name' => $email,
+            'orderList' => $orderList,
+            'pricePercent' => $pricePercent,
+            'priceMissing' => $priceMissing,
+            'currency' => $currency
+        );
+
+
+        Mail::send('layouts/mail/user/checkout-mail', $data, function ($message) use ($email) {
+            $message->to($email, 'Notification mail!')->subject
+            ('Notification mail');
+            $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
+        });
 
         Cart::where('user_id', Auth::id())->delete();
 

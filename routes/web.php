@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/deposit/list', [DepositController::class, 'indexApi']);
     // charts
     Route::get('/statistic-order-search', [StatisticController::class, 'indexSearch'])->name('statistic.index.order.search');
+    Route::get('/statistic-access', [StatisticController::class, 'indexAccess'])->name('statistic.index.access');
 
 });
 

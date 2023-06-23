@@ -17,16 +17,20 @@ class GeoIP
     public function get_country_from_ip($ip)
     {
         $record = $this->reader->get($ip);
-        $countryCode = $record['country']['iso_code'];
-        switch ($countryCode) {
-            case 'KR':
-                return 'kr';
-            case 'JP':
-                return 'ja';
-            case 'CN':
-                return 'zh-CN';
-            default:
-                return 'vi';
+        if ($record != null){
+            $countryCode = $record['country']['iso_code'];
+            switch ($countryCode) {
+                case 'KR':
+                    return 'kr';
+                case 'JP':
+                    return 'ja';
+                case 'CN':
+                    return 'zh-CN';
+                default:
+                    return 'vi';
+            }
+        } else{
+            return 'vi';
         }
     }
 

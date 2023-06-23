@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatisticStatus;
+use App\Models\StatisticAccess;
 use App\Models\StatisticOrderSearch;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,12 @@ class StatisticController extends Controller
     public function indexSearch()
     {
         $statistics = StatisticOrderSearch::where('status', StatisticStatus::ACTIVE)->get();
+        return $statistics;
+    }
+
+    public function indexAccess()
+    {
+        $statistics = StatisticAccess::where('status', StatisticStatus::ACTIVE)->get();
         return $statistics;
     }
 

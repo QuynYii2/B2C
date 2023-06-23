@@ -83,44 +83,19 @@ class OrderController extends Controller
         }
     }
 
-    public function list()
+    public function list(OrderFilter $orderFilter)
     {
         try {
             $isAdmin = (new WarehouseController())->checkAdmin();
             if ($isAdmin) {
-                $orders = Order::where('status', '!=', OrderStatus::DELETED)->orderBy('id', 'DESC')->get();
-                foreach ($orders as $order) {
-                    $orderItems = OrderItem::where('order_id', $order->id)->get();
-                    $isValid = true;
-                    foreach ($orderItems as $item) {
-                        if ($item->status != OrderItemStatus::ARRIVED_WAREHOUSE) {
-                            $isValid = false;
-                        }
-                    }
-                    if ($isValid) {
-                        $order->status = OrderStatus::ARRIVED_WAREHOUSE;
-                        $order->save();
-
-                        $email = Auth::user()->email;
-
-                        $content = 'Your order has been successfully to the warehouse';
-                        
-                        $data = array(
-                            'email' => $email,
-                            'content' => $content
-                        );
-
-                        Mail::send('layouts/mail/user/update-order', $data, function ($message) use ($email) {
-                            $message->to($email, 'Notification mail!')->subject
-                            ('Notification mail');
-                            $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
-                        });
-                    }
-                }
+                $orders = Order::filter($orderFilter)->orderBy('id', 'DESC')->get();
             } else {
                 $orders = Order::where([['user_id', Auth::user()->id], ['status', '!=', OrderStatus::DELETED]])->orderBy('id', 'DESC')->get();
             }
-            return view('pages/orders/list', compact('orders'));
+            $warehouses = Warehouse::where('status', WarehouseStatus::ACTIVE)->get();
+            $reflector = new \ReflectionClass('App\Enums\OrderStatus');
+            $statusList = $reflector->getConstants();
+            return view('pages/orders/list', compact('orders', 'statusList', 'warehouses'));
         } catch (\Exception $exception) {
             return back();
         }
@@ -132,13 +107,40 @@ class OrderController extends Controller
             $isAdmin = (new WarehouseController())->checkAdmin();
             $order = Order::where('id', $id)->first();
             $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+            $isValid = true;
+            foreach ($orderItems as $item) {
+                if ($item->status != OrderItemStatus::ARRIVED_WAREHOUSE) {
+                    $isValid = false;
+                }
+            }
+            if ($isValid) {
+                $order->status = OrderStatus::ARRIVED_WAREHOUSE;
+                $order->save();
+
+                $email = Auth::user()->email;
+
+                $content = 'Your order has been successfully to the warehouse';
+
+                $data = array(
+                    'email' => $email,
+                    'content' => $content
+                );
+
+                Mail::send('layouts/mail/user/update-order', $data, function ($message) use ($email) {
+                    $message->to($email, 'Notification mail!')->subject
+                    ('Notification mail');
+                    $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
+                });
+            }
             return view('pages/orders/detail', compact('order', 'orderItems'));
         } catch (\Exception $exception) {
             return back();
         }
     }
 
-    public function updateOrder(Request $request, $id)
+    public
+    function updateOrder(Request $request, $id)
     {
         try {
             $isAdmin = (new WarehouseController())->checkAdmin();

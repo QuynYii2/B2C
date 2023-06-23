@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/warehouse/{id}', [WarehouseController::class, 'update'])->name('warehouse.update');
     // order
     Route::get('/order-list', [OrderController::class, 'list'])->name('order.list');
+    Route::post('/order-list', [OrderController::class, 'list'])->name('order.list.search');
     Route::get('/order-detail/{id}', [OrderController::class, 'detail'])->name('order.detail');
     Route::post('/order-manager', [OrderController::class, 'index'])->name('order.manager.search');
     Route::get('/api/deposit/list', [DepositController::class, 'indexApi']);

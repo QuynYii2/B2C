@@ -19,8 +19,6 @@ if (!function_exists('convertCurrency')) {
     function getExchangeRate($from, $to, $amount)
     {
 
-        Cache::flush();
-
         $client = new Client();
         $response = $client->request('GET', 'https://currency-conversion-and-exchange-rates.p.rapidapi.com/convert', [
             'query' => [
@@ -29,15 +27,16 @@ if (!function_exists('convertCurrency')) {
                 'amount' => $amount,
             ],
             'headers' => [
-                'X-RapidAPI-Key' => '79b4b17bc4msh2cb9dbaadc30462p1f029ajsn6d21b28fc4af',
+                'X-RapidAPI-Key' => '2808b41facmshec8c2d49afae353p16f12fjsn14f82ecebd6f',
                 'X-RapidAPI-Host' => 'currency-conversion-and-exchange-rates.p.rapidapi.com',
             ],
         ]);
         $responseBody = $response->getBody()->getContents();
         $data = json_decode($responseBody, true);
         $rate = $data['info']['rate'];
+        $time = 300; //5 minute
 
-        Cache::put('exchange_rate', $rate, 5);
+        Cache::put('exchange_rate', $rate, $time);
 
         return $rate;
     }

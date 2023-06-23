@@ -13,7 +13,7 @@ if (!function_exists('convertCurrency')) {
                 'amount' => $amount,
             ],
             'headers' => [
-                'X-RapidAPI-Key' => 'e5fec28adcmsh01ac8839654caf8p1731bbjsn4ee3310b5513',
+                'X-RapidAPI-Key' => '60b2ed8013msh5c0318853ce4f2ep178ad5jsn926b83d5fad1',
                 'X-RapidAPI-Host' => 'currency-conversion-and-exchange-rates.p.rapidapi.com',
             ],
         ]);

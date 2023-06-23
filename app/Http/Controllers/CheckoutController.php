@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Enums\DepositStatus;
 use App\Enums\OrderStatus;
+use App\Enums\StatisticStatus;
 use App\Enums\WarehouseStatus;
 use App\Models\Cart;
 use App\Models\Deposit;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\StatisticOrderSearch;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
@@ -117,7 +120,35 @@ class CheckoutController extends Controller
                 'price' => $cartItem->price,
                 'total_price' => $cartItem->total_price,
             ]);
+
+            if (Str::contains($cartItem->product_url, 'taobao')){
+                $service = 'taobao';
+            } elseif (Str::contains($cartItem->product_url, '1688')){
+                $service = '1688';
+            } else {
+                $service = 'alibaba';
+            }
+
+            $statisticSearch = StatisticOrderSearch::where([
+                ['user_id', Auth::user()->id],
+                ['status', StatisticStatus::ACTIVE],
+                ['service', $service]
+            ])->first();
+
+            if ($statisticSearch) {
+                $statisticSearch->statistic_order = $statisticSearch->statistic_order + 1;
+                $statisticSearch->save();
+            } else {
+                $item = [
+                    'user_id' => Auth::user()->id,
+                    'statistic_order' => 1,
+                    'statistic_search' => 0,
+                    'service' => $service,
+                ];
+                StatisticOrderSearch::create($item);
+            }
         }
+
 
         $email = Auth::user()->email;
 

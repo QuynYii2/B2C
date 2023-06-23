@@ -1,3 +1,17 @@
+@php
+    use App\Enums\Role;
+    use App\Models\User;
+    use Illuminate\Support\Facades\Auth;
+    $user = User::find(Auth::user()->id);
+    $roles = $user->roles;
+    $isAdmin = false;
+    for ($i = 0; $i<count($roles);$i++){
+        if($roles[$i]->name == Role::ADMIN){
+            $isAdmin = true;
+        }
+    }
+@endphp
+
 @extends('master')
 
 @section('title', 'Home page')
@@ -5,18 +19,50 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card ">
                     <div class="card-header ">
-                        <h4 class="card-title">Email Statistics</h4>
-                        <p class="card-category">Last Campaign Performance</p>
+                        @if($isAdmin)
+                            <h4 class="card-title">
+                                <a href="{{route('statistic.list.search')}}">Statistics Search Products</a>
+                            </h4>
+                        @else
+                            <h4 class="card-title">Statistics Search Products</h4>
+                        @endif
+                        <p class="card-category">Last Performance</p>
                     </div>
                     <div class="card-body ">
-                        <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
+                        <div id="chartPreferencesSearch" class="ct-chart ct-perfect-fourth"></div>
                         <div class="legend">
-                            <i class="fa fa-circle text-info"></i> Open
-                            <i class="fa fa-circle text-danger"></i> Bounce
-                            <i class="fa fa-circle text-warning"></i> Unsubscribe
+                            <i class="fa fa-circle text-info"></i> Taobao
+                            <i class="fa fa-circle text-danger"></i> 1688
+                            <i class="fa fa-circle text-warning"></i> Alibaba
+                        </div>
+                        <hr>
+                        <div class="stats">
+                            <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card ">
+                    <div class="card-header ">
+                        @if($isAdmin)
+                            <h4 class="card-title">
+                                <a href="{{route('statistic.list.order')}}">Statistics Order Products</a>
+                            </h4>
+                        @else
+                            <h4 class="card-title">Statistics Order Products</h4>
+                        @endif
+                        <p class="card-category">Last Performance</p>
+                    </div>
+                    <div class="card-body ">
+                        <div id="chartPreferencesOrder" class="ct-chart ct-perfect-fourth"></div>
+                        <div class="legend">
+                            <i class="fa fa-circle text-info"></i> Taobao
+                            <i class="fa fa-circle text-danger"></i> 1688
+                            <i class="fa fa-circle text-warning"></i> Alibaba
                         </div>
                         <hr>
                         <div class="stats">
@@ -91,10 +137,12 @@
                                     </td>
                                     <td>Sign contract for "What are conference organizers afraid of?"</td>
                                     <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Edit Task"
+                                                class="btn btn-info btn-simple btn-link">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Remove"
+                                                class="btn btn-danger btn-simple btn-link">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
@@ -110,10 +158,12 @@
                                     </td>
                                     <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
                                     <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Edit Task"
+                                                class="btn btn-info btn-simple btn-link">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Remove"
+                                                class="btn btn-danger btn-simple btn-link">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
@@ -127,13 +177,16 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                    <td>Flooded: One year later, assessing what was lost and what was found when a
+                                        ravaging rain swept through metro Detroit
                                     </td>
                                     <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Edit Task"
+                                                class="btn btn-info btn-simple btn-link">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Remove"
+                                                class="btn btn-danger btn-simple btn-link">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
@@ -149,10 +202,12 @@
                                     </td>
                                     <td>Create 4 Invisible User Experiences you Never Knew About</td>
                                     <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Edit Task"
+                                                class="btn btn-info btn-simple btn-link">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Remove"
+                                                class="btn btn-danger btn-simple btn-link">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
@@ -168,10 +223,12 @@
                                     </td>
                                     <td>Read "Following makes Medium better"</td>
                                     <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Edit Task"
+                                                class="btn btn-info btn-simple btn-link">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Remove"
+                                                class="btn btn-danger btn-simple btn-link">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
@@ -187,10 +244,12 @@
                                     </td>
                                     <td>Unfollow 5 enemies from twitter</td>
                                     <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Edit Task"
+                                                class="btn btn-info btn-simple btn-link">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-link">
+                                        <button type="button" rel="tooltip" title="Remove"
+                                                class="btn btn-danger btn-simple btn-link">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
@@ -209,5 +268,8 @@
             </div>
         </div>
     </div>
+    <script>
+
+    </script>
 @endsection
 

@@ -1,4 +1,4 @@
-$().ready(function() {
+$().ready(function () {
     $sidebar = $('.sidebar');
     $sidebar_img_container = $sidebar.find('.sidebar-background');
 
@@ -17,7 +17,7 @@ $().ready(function() {
 
     }
 
-    $('.fixed-plugin a').click(function(event) {
+    $('.fixed-plugin a').click(function (event) {
         // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
         if ($(this).hasClass('switch-trigger')) {
             if (event.stopPropagation) {
@@ -28,7 +28,7 @@ $().ready(function() {
         }
     });
 
-    $('.fixed-plugin .background-color span').click(function() {
+    $('.fixed-plugin .background-color span').click(function () {
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
 
@@ -47,7 +47,7 @@ $().ready(function() {
         }
     });
 
-    $('.fixed-plugin .img-holder').click(function() {
+    $('.fixed-plugin .img-holder').click(function () {
         $full_page_background = $('.full-page-background');
 
         $(this).parent('li').siblings().removeClass('active');
@@ -57,7 +57,7 @@ $().ready(function() {
         var new_image = $(this).find("img").attr('src');
 
         if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-            $sidebar_img_container.fadeOut('fast', function() {
+            $sidebar_img_container.fadeOut('fast', function () {
                 $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
                 $sidebar_img_container.fadeIn('fast');
             });
@@ -66,7 +66,7 @@ $().ready(function() {
         if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
             var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
 
-            $full_page_background.fadeOut('fast', function() {
+            $full_page_background.fadeOut('fast', function () {
                 $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
                 $full_page_background.fadeIn('fast');
             });
@@ -85,7 +85,7 @@ $().ready(function() {
         }
     });
 
-    $('.switch input').on("switchChange.bootstrapSwitch", function() {
+    $('.switch input').on("switchChange.bootstrapSwitch", function () {
 
         $full_page_background = $('.full-page-background');
 
@@ -122,8 +122,8 @@ $().ready(function() {
 type = ['primary', 'info', 'success', 'warning', 'danger'];
 
 demo = {
-    initPickColor: function() {
-        $('.pick-class-label').click(function() {
+    initPickColor: function () {
+        $('.pick-class-label').click(function () {
             var new_class = $(this).attr('new-class');
             var old_class = $('#display-buttons').attr('data-class');
             var display_div = $('#display-buttons');
@@ -136,7 +136,7 @@ demo = {
         });
     },
 
-    initDocumentationCharts: function() {
+    initDocumentationCharts: function () {
         /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
         dataDailySalesChart = {
@@ -165,7 +165,7 @@ demo = {
         // lbd.startAnimationForLineChart(dailySalesChart);
     },
 
-    initDashboardPageCharts: function() {
+    getChartStatisticSearch: function (a, b, c) {
 
         var dataPreferences = {
             series: [
@@ -184,12 +184,69 @@ demo = {
             }
         };
 
-        Chartist.Pie('#chartPreferences', dataPreferences, optionsPreferences);
+        Chartist.Pie('#chartPreferencesSearch', dataPreferences, optionsPreferences);
 
-        Chartist.Pie('#chartPreferences', {
-            labels: ['53%', '36%', '11%'],
-            series: [53, 36, 11]
+        Chartist.Pie('#chartPreferencesSearch', {
+            labels: [a + '%', b + '%', c + '%'],
+            series: [a, b, c]
         });
+
+    },
+
+    getChartStatisticOrder: function (a, b, c) {
+
+        var dataPreferences = {
+            series: [
+                [25, 30, 20, 25]
+            ]
+        };
+
+        var optionsPreferences = {
+            donut: true,
+            donutWidth: 40,
+            startAngle: 0,
+            total: 100,
+            showLabel: false,
+            axisX: {
+                showGrid: false
+            }
+        };
+
+        Chartist.Pie('#chartPreferencesOrder', dataPreferences, optionsPreferences);
+
+        Chartist.Pie('#chartPreferencesOrder', {
+            labels: [a + '%', b + '%', c + '%'],
+            series: [a, b, c]
+        });
+
+
+    },
+
+    initDashboardPageCharts: function () {
+
+        var dataPreferences = {
+            series: [
+                [25, 30, 20, 25]
+            ]
+        };
+
+        var optionsPreferences = {
+            donut: true,
+            donutWidth: 40,
+            startAngle: 0,
+            total: 100,
+            showLabel: false,
+            axisX: {
+                showGrid: false
+            }
+        };
+
+        // Chartist.Pie('#chartPreferences', dataPreferences, optionsPreferences);
+        //
+        // Chartist.Pie('#chartPreferences', {
+        //     labels: ['53%', '36%', '11%'],
+        //     series: [53, 36, 11]
+        // });
 
 
         var dataSales = {
@@ -201,26 +258,6 @@ demo = {
             ]
         };
 
-        // var optionsSales = {
-        //   lineSmooth: false,
-        //   low: 0,
-        //   high: 800,
-        //    chartPadding: 0,
-        //   showArea: true,
-        //   height: "245px",
-        //   axisX: {
-        //     showGrid: false,
-        //   },
-        //   axisY: {
-        //     showGrid: false,
-        //   },
-        //   lineSmooth: Chartist.Interpolation.simple({
-        //     divisor: 6
-        //   }),
-        //   showLine: false,
-        //   showPoint: true,
-        //   fullWidth: true
-        // };
         var optionsSales = {
             lineSmooth: false,
             low: 0,
@@ -241,7 +278,7 @@ demo = {
         var responsiveSales = [
             ['screen and (max-width: 640px)', {
                 axisX: {
-                    labelInterpolationFnc: function(value) {
+                    labelInterpolationFnc: function (value) {
                         return value[0];
                     }
                 }
@@ -272,7 +309,7 @@ demo = {
             ['screen and (max-width: 640px)', {
                 seriesBarDistance: 5,
                 axisX: {
-                    labelInterpolationFnc: function(value) {
+                    labelInterpolationFnc: function (value) {
                         return value[0];
                     }
                 }
@@ -280,92 +317,9 @@ demo = {
         ];
 
         var chartActivity = Chartist.Bar('#chartActivity', data, options, responsiveOptions);
-
-        // lbd.startAnimationForBarChart(chartActivity);
-
-        // /* ----------==========     Daily Sales Chart initialization    ==========---------- */
-        //
-        // dataDailySalesChart = {
-        //     labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-        //     series: [
-        //         [12, 17, 7, 17, 23, 18, 38]
-        //     ]
-        // };
-        //
-        // optionsDailySalesChart = {
-        //     lineSmooth: Chartist.Interpolation.cardinal({
-        //         tension: 0
-        //     }),
-        //     low: 0,
-        //     high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-        //     chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
-        // }
-        //
-        // var dailySalesChart = Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-        // lbd.startAnimationForLineChart(dailySalesChart);
-
-        //
-        //
-        // /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-        //
-        // dataCompletedTasksChart = {
-        //     labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
-        //     series: [
-        //         [230, 750, 450, 300, 280, 240, 200, 190]
-        //     ]
-        // };
-        //
-        // optionsCompletedTasksChart = {
-        //     lineSmooth: Chartist.Interpolation.cardinal({
-        //         tension: 0
-        //     }),
-        //     low: 0,
-        //     high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-        //     chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-        // }
-        //
-        // var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-        //
-        // // start animation for the Completed Tasks Chart - Line Chart
-        // lbd.startAnimationForLineChart(completedTasksChart);
-        //
-        //
-        // /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-        //
-        // var dataEmailsSubscriptionChart = {
-        //   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        //   series: [
-        //     [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-        //
-        //   ]
-        // };
-        // var optionsEmailsSubscriptionChart = {
-        //     axisX: {
-        //         showGrid: false
-        //     },
-        //     low: 0,
-        //     high: 1000,
-        //     chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-        // };
-        // var responsiveOptions = [
-        //   ['screen and (max-width: 640px)', {
-        //     seriesBarDistance: 5,
-        //     axisX: {
-        //       labelInterpolationFnc: function (value) {
-        //         return value[0];
-        //       }
-        //     }
-        //   }]
-        // ];
-        // var emailsSubscriptionChart = Chartist.Bar('#emailsSubscriptionChart', dataEmailsSubscriptionChart, optionsEmailsSubscriptionChart, responsiveOptions);
-        //
-        // //start animation for the Emails Subscription Chart
-        // lbd.startAnimationForBarChart(emailsSubscriptionChart);
-
     },
 
-    initGoogleMaps: function() {
+    initGoogleMaps: function () {
         var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
         var mapOptions = {
             zoom: 13,
@@ -500,7 +454,7 @@ demo = {
         marker.setMap(map);
     },
 
-    showNotification: function(from, align) {
+    showNotification: function (from, align) {
         color = Math.floor((Math.random() * 4) + 1);
 
         $.notify({
@@ -516,7 +470,4 @@ demo = {
             }
         });
     }
-
-
-
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\Deposit;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/order-detail/{id}', [OrderController::class, 'detail'])->name('order.detail');
     Route::post('/order-manager', [OrderController::class, 'index'])->name('order.manager.search');
     Route::get('/api/deposit/list', [DepositController::class, 'indexApi']);
+    // charts
+    Route::get('/statistic-order-search', [StatisticController::class, 'indexSearch'])->name('statistic.index.order.search');
 
 });
 
@@ -76,4 +79,9 @@ Route::group(['middleware' => 'role.admin'], function () {
     Route::get('/order-review/{id}', [OrderController::class, 'review'])->name('order.manager.review');
     Route::post('/order/{id}', [OrderController::class, 'updateOrder'])->name('order.update');
     Route::post('/order-item/{id}', [OrderController::class, 'updateOrderItems'])->name('order.item.update');
+    // charts
+    Route::get('/statistic-search', [StatisticController::class, 'statisticSearch'])->name('statistic.list.search');
+    Route::post('/statistic-search', [StatisticController::class, 'statisticSearch'])->name('statistic.search');
+    Route::get('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.list.order');
+    Route::post('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.order');
 });

@@ -6,13 +6,16 @@ use App\Enums\DepositStatus;
 use App\Enums\OrderStatus;
 use App\Enums\StatisticStatus;
 use App\Enums\WarehouseStatus;
+use App\Libraries\GeoIP;
 use App\Models\Cart;
 use App\Models\Deposit;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\StatisticOrderSearch;
+use App\Models\StatisticRevenue;
 use App\Models\User;
 use App\Models\Warehouse;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -53,6 +56,7 @@ class CheckoutController extends Controller
             'phone' => $phone,
             'address' => $address,
             'ware_house' => $ware_house,
+            'total_income' => $price,
         ]));
 
         if (isset($response['id']) && $response['id'] != null) {
@@ -73,7 +77,7 @@ class CheckoutController extends Controller
         }
     }
 
-    public function successPayment(Request $request, $name, $email, $phone, $address, $ware_house)
+    public function successPayment(Request $request, $name, $email, $phone, $address, $ware_house, $total_income)
     {
 
         $provider = new PayPalClient;
@@ -82,7 +86,7 @@ class CheckoutController extends Controller
         $response = $provider->capturePaymentOrder($request['token']);
 
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-            $payment = $this->processPayment($request, $name, $email, $phone, $address, $ware_house);
+            $payment = $this->processPayment($request, $name, $email, $phone, $address, $ware_house, $total_income);
             return redirect()
                 ->route('index')
                 ->with('success', 'Transaction complete.');
@@ -93,7 +97,7 @@ class CheckoutController extends Controller
         }
     }
 
-    private function processPayment(Request $request, $name, $email, $phone, $address, $ware_house)
+    private function processPayment(Request $request, $name, $email, $phone, $address, $ware_house, $total_income)
     {
 
         $order = Order::create([
@@ -121,9 +125,9 @@ class CheckoutController extends Controller
                 'total_price' => $cartItem->total_price,
             ]);
 
-            if (Str::contains($cartItem->product_url, 'taobao')){
+            if (Str::contains($cartItem->product_url, 'taobao')) {
                 $service = 'taobao';
-            } elseif (Str::contains($cartItem->product_url, '1688')){
+            } elseif (Str::contains($cartItem->product_url, '1688')) {
                 $service = '1688';
             } else {
                 $service = 'alibaba';
@@ -149,6 +153,30 @@ class CheckoutController extends Controller
             }
         }
 
+        $geoIp = new GeoIP();
+        $locale = $geoIp->get_country_from_ip($request->ip());
+
+        $statisticRevenue = StatisticRevenue::where([
+            ['user_id', Auth::user()->id],
+            ['datetime', '<', Carbon::now()->addHours(7)->copy()->endOfDay()],
+            ['datetime', '>', Carbon::now()->addHours(7)->copy()->startOfDay()],
+            ['status', StatisticStatus::ACTIVE],
+        ])->first();
+
+        $total_income = convertCurrency('CNY', 'USD', $total_income);
+
+        if ($statisticRevenue) {
+            $statisticRevenue->total_income = $statisticRevenue->total_income + $total_income;
+            $statisticRevenue->save();
+        } else {
+            $statisticRevenue = [
+                'user_id' => Auth::user()->id,
+                'country' => $locale,
+                'total_income' => $total_income,
+            ];
+
+            StatisticRevenue::create($statisticRevenue);
+        }
 
         $email = Auth::user()->email;
 
@@ -170,7 +198,7 @@ class CheckoutController extends Controller
         $currency = (new BaseController())->getLocation($request);
         $productPrice = convertCurrency('CNY', $currency, $cartItems->sum('total_price'));
         $totalPrice = $productPrice + ($productPrice * $deposit->tax_percent) / 100;
-        if ($currency == 'VND'){
+        if ($currency == 'VND') {
             $totalPrice = number_format($totalPrice, 0, ',', '.');
         }
         $pricePercent = ($totalPrice * $deposit->price_percent) / 100;

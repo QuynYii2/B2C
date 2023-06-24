@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Illuminate\Support\Facades\Cache;
 
 class PayPalController extends Controller
 {
@@ -17,6 +18,7 @@ class PayPalController extends Controller
         if ($currency == "VND") {
             $total = $total * 1000;
         }
+
         $total = convertCurrency($currency, 'USD', $total);
 
         $response = $provider->createOrder([
@@ -29,7 +31,7 @@ class PayPalController extends Controller
                 0 => [
                     "amount" => [
                         "currency_code" => "USD",
-                        "value" => (integer) ($total+1),
+                        "value" => (integer)($total + 1),
                     ]
                 ]
             ]

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('lang/{lang}','LangController@lang')->name('lang');
+Route::get('lang/{lang}', 'LangController@lang')->name('lang');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'saveLogin'])->name('login.save');
@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/search', [SearchController::class, 'searchProduct'])->name('search');
     Route::get('/detail-product/{service}/{id}', [SearchController::class, 'getDetailProduct'])->name('product.detail');
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart.index');
-    Route::post('/cart/add', [CartController::class,'addToCart'])->name('cart.add');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/update-cart-quantity', [CartController::class, 'updateQuantity'])->name('cart.update');
     Route::delete('/delete-cart-item/{itemId}', [CartController::class, 'deleteCartItem'])->name('cart.delete');
     Route::delete('/delete-all-cart-items', [CartController::class, 'deleteAllCartItems'])->name('cart/delete-all');
@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/checkout', [CheckoutController::class, 'processPayment'])->name('checkout.process');
     // Paypal
-    Route::get('/checkout-success/{name}/{email}/{phone}/{address}/{ware_house}', [CheckoutController::class, 'successPayment'])->name('checkout.success');
+    Route::get('/checkout-success/{name}/{email}/{phone}/{address}/{ware_house}/{total_income}', [CheckoutController::class, 'successPayment'])->name('checkout.success');
     Route::post('/checkout-paypal', [CheckoutController::class, 'createPayment'])->name('checkout.create');
     Route::get('/cancel-checkout', [CheckoutController::class, 'cancelPayment'])->name('checkout.cancel');
     // warehouse

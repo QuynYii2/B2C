@@ -37,6 +37,96 @@
                         <span class="d-lg-block">&nbsp;Search</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <select class="form-control mb-3" name="countries" id="countries"
+                            style="width: 100%; padding-right: 15px"
+                            onchange="location = this.value;">
+                        @if(session('locale') == 'vi' || session('locale') == null)
+                            <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                                    data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi">
+                                <a class="text-body mr-3">Việt Nam</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                                    data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr">
+                                <a class="text-body mr-3">Korea</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                                    data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                                    data-title="Japan">
+                                <a class="text-body mr-3">Japan</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                                    data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn">
+                                <a class="text-body mr-3">China</a>
+                            </option>
+                        @endif
+                        @if(session('locale') == 'kr')
+                            <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                                    data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr"
+                                    data-title="Korea">
+                                <a class="text-body mr-3">Korea</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                                    data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi"
+                                    data-title="VietNam">
+                                <a class="text-body mr-3">Việt Nam</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                                    data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                                    data-title="Japan">
+                                <a class="text-body mr-3">Japan</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                                    data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn"
+                                    data-title="China">
+                                <a class="text-body mr-3">China</a>
+                            </option>
+                        @endif
+                        @if(session('locale') == 'jp')
+                            <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                                    data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                                    data-title="Japan">
+                                <a class="text-body mr-3">Japan</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                                    data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr"
+                                    data-title="Korea">
+                                <a class="text-body mr-3">Korea</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                                    data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi"
+                                    data-title="VietNam">
+                                <a class="text-body mr-3">Việt Nam</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                                    data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn"
+                                    data-title="China">
+                                <a class="text-body mr-3">China</a>
+                            </option>
+                        @endif
+                        @if(session('locale') == 'cn')
+                            <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                                    data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn"
+                                    data-title="China">
+                                <a class="text-body mr-3">China</a>
+                            <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                                    data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr"
+                                    data-title="Korea">
+                                <a class="text-body mr-3">Korea</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                                    data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi"
+                                    data-title="VietNam">
+                                <a class="text-body mr-3">Việt Nam</a>
+                            </option>
+                            <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                                    data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                                    data-title="Japan">
+                                <a class="text-body mr-3">Japan</a>
+                            </option>
+                        @endif
+                    </select>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 @php

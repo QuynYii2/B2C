@@ -163,7 +163,11 @@ class CheckoutController extends Controller
             ['status', StatisticStatus::ACTIVE],
         ])->first();
 
-        $total_income = convertCurrency('CNY', 'USD', $total_income);
+        $currency = (new BaseController())->getLocation($request);
+        if ($currency == "VND") {
+            $total_income = $total_income * 1000;
+        }
+        $total_income = convertCurrency($currency, 'USD', $total_income);
 
         if ($statisticRevenue) {
             $statisticRevenue->total_income = $statisticRevenue->total_income + $total_income;
@@ -173,6 +177,7 @@ class CheckoutController extends Controller
                 'user_id' => Auth::user()->id,
                 'country' => $locale,
                 'total_income' => $total_income,
+                'datetime' => Carbon::now()->addHours(7),
             ];
 
             StatisticRevenue::create($statisticRevenue);

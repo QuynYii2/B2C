@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
     // charts
     Route::get('/statistic-order-search', [StatisticController::class, 'indexSearch'])->name('statistic.index.order.search');
     Route::get('/statistic-access', [StatisticController::class, 'indexAccess'])->name('statistic.index.access');
-
+    Route::post('/order-cancel/{id}', [OrderController::class, 'cancelOrder'])->name('order.cancel');
 });
 
 Route::group(['middleware' => 'role.admin'], function () {
@@ -85,4 +85,8 @@ Route::group(['middleware' => 'role.admin'], function () {
     Route::post('/statistic-search', [StatisticController::class, 'statisticSearch'])->name('statistic.search');
     Route::get('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.list.order');
     Route::post('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.order');
+    Route::get('/statistic-revenue', [StatisticController::class, 'statisticRevenue'])->name('statistic.list.revenue');
+    Route::post('/statistic-revenue', [StatisticController::class, 'statisticRevenue'])->name('statistic.revenue');
+    Route::get('/statistic-cancel', [StatisticController::class, 'statisticCancel'])->name('statistic.list.cancel');
+    Route::post('/statistic-cancel', [StatisticController::class, 'statisticCancel'])->name('statistic.cancel');
 });

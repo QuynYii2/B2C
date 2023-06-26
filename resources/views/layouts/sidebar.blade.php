@@ -85,8 +85,8 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{route('statistic.list.search')}}"> Thống kê lượt tìm kiếm sản phẩm</a>
                             <a class="dropdown-item" href="{{route('statistic.list.order')}}">Thống kê lượt mua sản phẩm</a>
-                            <a class="dropdown-item" href=""> Thống kê doanh số</a>
-                            <a class="dropdown-item" href="">Thống kê lượt huỷ sản phẩm</a>
+                            <a class="dropdown-item" href="{{route('statistic.list.revenue')}}"> Thống kê doanh số</a>
+                            <a class="dropdown-item" href="{{route('statistic.list.cancel')}}">Thống kê lượt huỷ sản phẩm</a>
                         </div>
                     </div>
                 </li>

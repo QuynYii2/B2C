@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderItemStatus;
 use App\Enums\OrderStatus;
+use App\Enums\StatisticStatus;
 use App\Enums\WarehouseStatus;
 use App\Filter\OrderFilter;
+use App\Libraries\GeoIP;
+use App\Models\StatisticCancelOrder;
+use App\Models\StatisticRevenue;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -76,6 +81,9 @@ class OrderController extends Controller
                 $status = $request->input('status');
                 $orderItem->status = $status;
                 $orderItem->save();
+                $order = Order::find($orderItem->order - id);
+                $order->status = OrderStatus::PROCESSING;
+                $order->save();
                 return redirect(route('order.detail', $orderItem->order_id))->with('success', 'Change status order item success');
             }
         } catch (\Exception $exception) {
@@ -108,20 +116,73 @@ class OrderController extends Controller
             $order = Order::where('id', $id)->first();
             $orderItems = OrderItem::where('order_id', $order->id)->get();
 
-            $isValid = true;
-            foreach ($orderItems as $item) {
-                if ($item->status != OrderItemStatus::ARRIVED_WAREHOUSE) {
-                    $isValid = false;
+            if ($order->status == OrderStatus::PAYMENT_SUCCESS || $order->status == OrderStatus::WAIT_PAYMENT) {
+                $isValid = true;
+                foreach ($orderItems as $item) {
+                    if ($item->status != OrderItemStatus::ARRIVED_WAREHOUSE) {
+                        $isValid = false;
+                    }
+                }
+                if ($isValid) {
+                    $order->status = OrderStatus::ARRIVED_WAREHOUSE;
+                    $order->save();
+
+                    $email = Auth::user()->email;
+
+                    $content = 'Your order has been successfully to the warehouse';
+
+                    $data = array(
+                        'email' => $email,
+                        'content' => $content
+                    );
+
+                    Mail::send('layouts/mail/user/update-order', $data, function ($message) use ($email) {
+                        $message->to($email, 'Notification mail!')->subject
+                        ('Notification mail');
+                        $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
+                    });
                 }
             }
-            if ($isValid) {
-                $order->status = OrderStatus::ARRIVED_WAREHOUSE;
+            return view('pages/orders/detail', compact('order', 'orderItems'));
+        } catch (\Exception $exception) {
+            return back();
+        }
+    }
+
+    public function cancelOrder(Request $request, $id)
+    {
+        try {
+            $order = Order::where('id', $id)->first();
+            if ($order->status == OrderStatus::PAYMENT_SUCCESS || $order->status == OrderStatus::WAIT_PAYMENT) {
+                $order->status = OrderStatus::CANCELED;
                 $order->save();
 
+                $geoIp = new GeoIP();
+                $locale = $geoIp->get_country_from_ip($request->ip());
+
+                $statisticCancel = StatisticCancelOrder::where([
+                    ['user_id', Auth::user()->id],
+                    ['datetime', '<', Carbon::now()->addHours(7)->copy()->endOfDay()],
+                    ['datetime', '>', Carbon::now()->addHours(7)->copy()->startOfDay()],
+                    ['status', StatisticStatus::ACTIVE],
+                ])->first();
+
+                if ($statisticCancel) {
+                    $statisticCancel->numbers = $statisticCancel->numbers + 1;
+                    $statisticCancel->save();
+                } else {
+                    $statisticRevenue = [
+                        'user_id' => Auth::user()->id,
+                        'country' => $locale,
+                        'numbers' => 1,
+                        'datetime' => Carbon::now()->addHours(7),
+                    ];
+
+                    StatisticCancelOrder::create($statisticRevenue);
+                }
+
+                $content = 'Your order has been cancelled';
                 $email = Auth::user()->email;
-
-                $content = 'Your order has been successfully to the warehouse';
-
                 $data = array(
                     'email' => $email,
                     'content' => $content
@@ -133,7 +194,7 @@ class OrderController extends Controller
                     $message->from('supprot.ilvietnam@gmail.com', 'Support IL');
                 });
             }
-            return view('pages/orders/detail', compact('order', 'orderItems'));
+            return redirect(route('order.list'));
         } catch (\Exception $exception) {
             return back();
         }

@@ -78,6 +78,18 @@
                         </div>
                     </div>
                 </li>
+                <li>
+                    <div class="nav-link dropdown">
+                        <i class="nc-icon nc-paper-2"></i>
+                        <a class="dropdown-toggle" data-toggle="dropdown">Thống kê</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{route('statistic.list.search')}}"> Thống kê lượt tìm kiếm sản phẩm</a>
+                            <a class="dropdown-item" href="{{route('statistic.list.order')}}">Thống kê lượt mua sản phẩm</a>
+                            <a class="dropdown-item" href=""> Thống kê doanh số</a>
+                            <a class="dropdown-item" href="">Thống kê lượt huỷ sản phẩm</a>
+                        </div>
+                    </div>
+                </li>
             @endif
         </ul>
     </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\Deposit;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('lang/{lang}','LangController@lang')->name('lang');
+Route::get('lang/{lang}', 'LangController@lang')->name('lang');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'saveLogin'])->name('login.save');
@@ -37,7 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/search', [SearchController::class, 'searchProduct'])->name('search');
     Route::get('/detail-product/{service}/{id}', [SearchController::class, 'getDetailProduct'])->name('product.detail');
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart.index');
-    Route::post('/cart/add', [CartController::class,'addToCart'])->name('cart.add');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/update-cart-quantity', [CartController::class, 'updateQuantity'])->name('cart.update');
     Route::delete('/delete-cart-item/{itemId}', [CartController::class, 'deleteCartItem'])->name('cart.delete');
     Route::delete('/delete-all-cart-items', [CartController::class, 'deleteAllCartItems'])->name('cart/delete-all');
@@ -45,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/checkout', [CheckoutController::class, 'processPayment'])->name('checkout.process');
     // Paypal
-    Route::get('/checkout-success/{name}/{email}/{phone}/{address}/{ware_house}', [CheckoutController::class, 'successPayment'])->name('checkout.success');
+    Route::get('/checkout-success/{name}/{email}/{phone}/{address}/{ware_house}/{total_income}', [CheckoutController::class, 'successPayment'])->name('checkout.success');
     Route::post('/checkout-paypal', [CheckoutController::class, 'createPayment'])->name('checkout.create');
     Route::get('/cancel-checkout', [CheckoutController::class, 'cancelPayment'])->name('checkout.cancel');
     // warehouse
@@ -56,9 +57,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/warehouse/{id}', [WarehouseController::class, 'update'])->name('warehouse.update');
     // order
     Route::get('/order-list', [OrderController::class, 'list'])->name('order.list');
+    Route::post('/order-list', [OrderController::class, 'list'])->name('order.list.search');
     Route::get('/order-detail/{id}', [OrderController::class, 'detail'])->name('order.detail');
     Route::post('/order-manager', [OrderController::class, 'index'])->name('order.manager.search');
     Route::get('/api/deposit/list', [DepositController::class, 'indexApi']);
+    // charts
+    Route::get('/statistic-order-search', [StatisticController::class, 'indexSearch'])->name('statistic.index.order.search');
+    Route::get('/statistic-access', [StatisticController::class, 'indexAccess'])->name('statistic.index.access');
 
 });
 
@@ -75,4 +80,9 @@ Route::group(['middleware' => 'role.admin'], function () {
     Route::get('/order-review/{id}', [OrderController::class, 'review'])->name('order.manager.review');
     Route::post('/order/{id}', [OrderController::class, 'updateOrder'])->name('order.update');
     Route::post('/order-item/{id}', [OrderController::class, 'updateOrderItems'])->name('order.item.update');
+    // charts
+    Route::get('/statistic-search', [StatisticController::class, 'statisticSearch'])->name('statistic.list.search');
+    Route::post('/statistic-search', [StatisticController::class, 'statisticSearch'])->name('statistic.search');
+    Route::get('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.list.order');
+    Route::post('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.order');
 });

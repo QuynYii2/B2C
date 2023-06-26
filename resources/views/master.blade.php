@@ -47,8 +47,61 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        demo.initDashboardPageCharts();
+        let percentSearchTaobao = 0;
+        let percentSearch1688 = 0;
+        let percentSearchAlibaba = 0;
 
+        let percentOrderTaobao = 0;
+        let percentOrder1688 = 0;
+        let percentOrderAlibaba = 0;
+
+        $.ajax({
+            url: '/statistic-order-search',
+            method: 'GET',
+            success: function (response) {
+                let totalSearch = 0;
+                let searchTaobao = 0;
+                let search1688 = 0;
+                let searchAlibaba = 0;
+
+                let totalOrder = 0;
+                let orderTaobao = 0;
+                let order1688 = 0;
+                let orderAlibaba = 0;
+                for (let i = 0; i < response.length; i++) {
+                    if (response[i]['service'] == 'taobao') {
+                        searchTaobao = searchTaobao + response[i]['statistic_search'];
+                        orderTaobao = orderTaobao + response[i]['statistic_order'];
+                    } else if (response[i]['service'] == '1688') {
+                        search1688 = search1688 + response[i]['statistic_search'];
+                        order1688 = order1688 + response[i]['statistic_order'];
+                    } else {
+                        searchAlibaba = searchAlibaba + response[i]['statistic_search'];
+                        orderAlibaba = orderAlibaba + response[i]['statistic_order'];
+                    }
+                }
+                totalSearch = totalSearch + searchTaobao + search1688 + searchAlibaba;
+                totalOrder = totalOrder + orderTaobao + order1688 + orderAlibaba;
+                // search percent
+                percentSearchTaobao = parseFloat(searchTaobao / totalSearch * 100).toFixed(2);
+                percentSearch1688 = parseFloat(search1688 / totalSearch * 100).toFixed(2);
+                percentSearchAlibaba = parseFloat(100 - percentSearchTaobao - percentSearch1688).toFixed(2);
+                // order percent
+                percentOrderTaobao = parseFloat(orderTaobao / totalOrder * 100).toFixed(2);
+                percentOrder1688 = parseFloat(order1688 / totalOrder * 100).toFixed(2);
+                percentOrderAlibaba = parseFloat(100 - percentOrderTaobao - percentOrder1688).toFixed(2);
+
+                demo.getChartStatisticSearch(parseFloat(percentSearchTaobao), parseFloat(percentSearch1688), parseFloat(percentSearchAlibaba));
+                demo.getChartStatisticOrder(parseFloat(percentOrderTaobao), parseFloat(percentOrder1688), parseFloat(percentOrderAlibaba));
+
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        });
+
+
+        demo.initDashboardPageCharts();
     });
 
 

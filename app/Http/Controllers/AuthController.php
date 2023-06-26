@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatisticStatus;
+use App\Libraries\GeoIP;
+use App\Models\StatisticAccess;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,14 +13,24 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function showLogin() {
+    public function showLogin()
+    {
         return view('login');
     }
 
-    public function saveLogin(Request $request){
+    public function saveLogin(Request $request)
+    {
         $credentials = $request->only('email', 'password');
+        $geoIp = new GeoIP();
+        $locale = $geoIp->get_country_from_ip($request->ip());
 
         if (Auth::attempt($credentials)) {
+            $statistic = [
+                'user_id' => Auth::user()->id,
+                'numbers' => 1,
+                'country' => $locale
+            ];
+            StatisticAccess::create($statistic);
             return redirect()->intended('/');
         } else {
             return redirect()->route('login')->with('error', 'Email hoặc mật khẩu không chính xác');
@@ -35,11 +48,13 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function showRegister() {
+    public function showRegister()
+    {
         return view('register');
     }
 
-    public function saveRegister(Request $request){
+    public function saveRegister(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',

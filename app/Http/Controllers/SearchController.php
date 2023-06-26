@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatisticStatus;
+use App\Models\StatisticOrderSearch;
 use App\Services\ApiServiceInterface;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 use function Composer\Autoload\includeFile;
 
 class SearchController extends Controller
@@ -16,7 +19,9 @@ class SearchController extends Controller
     {
         $this->apiService = $apiService;
     }
-    public function searchProduct(Request $request) {
+
+    public function searchProduct(Request $request)
+    {
         $currency = (new BaseController())->getLocation($request);
         $dropdownValue = $request->input('site');
         $text = $request->input('text');
@@ -27,6 +32,25 @@ class SearchController extends Controller
             $this->dataProduct = $this->apiService->get1688($text);
         } elseif ($dropdownValue = 'alibaba') {
             $this->dataProduct = $this->apiService->getAliBaBa($text);
+        }
+
+        $statisticSearch = StatisticOrderSearch::where([
+            ['user_id', Auth::user()->id],
+            ['status', StatisticStatus::ACTIVE],
+            ['service', $dropdownValue]
+        ])->first();
+
+        if ($statisticSearch) {
+            $statisticSearch->statistic_search = $statisticSearch->statistic_search + 1;
+            $statisticSearch->save();
+        } else {
+            $item = [
+                'user_id' => Auth::user()->id,
+                'statistic_order' => 0,
+                'statistic_search' => 1,
+                'service' => $dropdownValue,
+            ];
+            StatisticOrderSearch::create($item);
         }
 
         return view('pages/search-result', [

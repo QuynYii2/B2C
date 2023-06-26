@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Cache;
 if (!function_exists('convertCurrency')) {
     function convertCurrency($from, $to, $amount)
     {
-
-        if (Cache::has('exchange_rate')) {
+        $fromCache = Cache::get('from');
+        $toCache = Cache::get('to');
+        if (Cache::has('exchange_rate') && $fromCache == $from && $toCache == $to) {
             $rate = Cache::get('exchange_rate');
         } else {
             $rate = getExchangeRate($from, $to, $amount);
@@ -27,7 +28,7 @@ if (!function_exists('convertCurrency')) {
                 'amount' => $amount,
             ],
             'headers' => [
-                'X-RapidAPI-Key' => '2808b41facmshec8c2d49afae353p16f12fjsn14f82ecebd6f',
+                'X-RapidAPI-Key' => env('KEY_CONVERT_CURRENCY'),
                 'X-RapidAPI-Host' => 'currency-conversion-and-exchange-rates.p.rapidapi.com',
             ],
         ]);
@@ -35,7 +36,9 @@ if (!function_exists('convertCurrency')) {
         $data = json_decode($responseBody, true);
         $rate = $data['info']['rate'];
         $time = 300; //5 minute
-
+        Cache::flush();
+        Cache::put('from', $from, $time);
+        Cache::put('to', $to, $time);
         Cache::put('exchange_rate', $rate, $time);
 
         return $rate;

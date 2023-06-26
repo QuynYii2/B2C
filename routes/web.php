@@ -9,7 +9,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\WarehouseController;
-use App\Models\Deposit;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +22,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('lang/{lang}', 'LangController@lang')->name('lang');
+//Route::get('lang/{lang}', 'LangController@lang')->name('lang');
+Route::get('/lang/{locale}', function ($locale) {
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('language');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'saveLogin'])->name('login.save');

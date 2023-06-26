@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    public function showLogin(Request $request)
     {
+        (new DashboardController())->getLocale($request);
         return view('login');
     }
 

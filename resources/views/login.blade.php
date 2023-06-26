@@ -117,14 +117,105 @@
 </head>
 <body class="bg-login">
 <div class="login-form">
-    <h2 class="animate-charcter">{{ __('auth.sign_in') }}</h2>
+    <h2 class="animate-charcter">{{ __('home.sign in') }}</h2>
+    <div class="">
+        <div class="lan-selector">
+            <select class="form-control mb-3" name="countries" id="countries" style="width: 100%; padding-right: 15px"
+                    onchange="location = this.value;">
+                @if(session('locale') == 'vi' || session('locale') == null)
+                    <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                            data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi">
+                        <a class="text-body mr-3">Việt Nam</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                            data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr">
+                        <a class="text-body mr-3">Korea</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                            data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                            data-title="Japan">
+                        <a class="text-body mr-3">Japan</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                            data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn">
+                        <a class="text-body mr-3">China</a>
+                    </option>
+                @endif
+                @if(session('locale') == 'kr')
+                    <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                            data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr"
+                            data-title="Korea">
+                        <a class="text-body mr-3">Korea</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                            data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi"
+                            data-title="VietNam">
+                        <a class="text-body mr-3">Việt Nam</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                            data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                            data-title="Japan">
+                        <a class="text-body mr-3">Japan</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                            data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn"
+                            data-title="China">
+                        <a class="text-body mr-3">China</a>
+                    </option>
+                @endif
+                @if(session('locale') == 'jp')
+                    <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                            data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                            data-title="Japan">
+                        <a class="text-body mr-3">Japan</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                            data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr"
+                            data-title="Korea">
+                        <a class="text-body mr-3">Korea</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                            data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi"
+                            data-title="VietNam">
+                        <a class="text-body mr-3">Việt Nam</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                            data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn"
+                            data-title="China">
+                        <a class="text-body mr-3">China</a>
+                    </option>
+                @endif
+                @if(session('locale') == 'cn')
+                    <option class="img" value='{{ route('language', ['locale' => 'cn']) }}'
+                            data-image="{{ asset('images/china.webp') }}" data-imagecss="flag cn"
+                            data-title="China">
+                        <a class="text-body mr-3">China</a>
+                    <option class="img" value='{{ route('language', ['locale' => 'kr']) }}'
+                            data-image="{{ asset('images/korea.png') }}" data-imagecss="flag kr"
+                            data-title="Korea">
+                        <a class="text-body mr-3">Korea</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'vi']) }}'
+                            data-image="{{ asset('images/vietnam.webp') }}" data-imagecss="flag vi"
+                            data-title="VietNam">
+                        <a class="text-body mr-3">Việt Nam</a>
+                    </option>
+                    <option class="img" value='{{ route('language', ['locale' => 'jp']) }}'
+                            data-image="{{ asset('images/japan.webp') }}" data-imagecss="flag jp"
+                            data-title="Japan">
+                        <a class="text-body mr-3">Japan</a>
+                    </option>
+                @endif
+            </select>
+        </div>
+    </div>
     @if(session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
     <form action="{{ route('login.save') }}" method="POST">
         @csrf
         <div class="form-group">
-            <input type="email" name="email" class="form-control" placeholder="Email" required="required">
+            <input type="email" name="email" class="form-control" placeholder="{{ __('home.input username') }}" required="required">
             @error('email')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -132,7 +223,7 @@
             @enderror
         </div>
         <div class="form-group">
-            <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required="required">
+            <input type="password" name="password" class="form-control" placeholder="{{ __('home.input password') }}" required="required">
             @error('password')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -140,22 +231,22 @@
             @enderror
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+            <button type="submit" class="btn btn-primary btn-block">{{ __('home.sign in') }}</button>
         </div>
         <div class="form-group row">
             <div class="col-sm-6">
                 <div class="form-check">
                     <input type="checkbox" name="remember" class="form-check-input" id="remember">
-                    <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
+                    <label class="form-check-label" for="remember">{{ __('home.save login') }}</label>
                 </div>
             </div>
             <div class="col-sm-6">
-                <a href="" class="forgot-password">Quên mật khẩu?</a>
+                <a href="" class="forgot-password">{{ __('home.forgot password') }}</a>
             </div>
         </div>
     </form>
     <div class="register">
-        <p>Chưa có tài khoản? <a href="{{ route('register') }}">Đăng ký tài khoản</a></p>
+        <p>{{ __('home.miss account') }} <a href="{{ route('register') }}">{{ __('home.register account') }}</a></p>
     </div>
 </div>
 </body>

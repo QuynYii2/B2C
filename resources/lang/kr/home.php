@@ -25,6 +25,13 @@ return [
     'or use a social network' => '또는 소셜 네트워크를 사용하십시오',
     'business license' => '사업 등록증 업로드',
     'wait a review' => '검토 대기 중인 콘텐츠',
+    //
+    'forgot password' => '비밀번호를 잊으 셨나요?',
+    'miss account' => '계정이 없습니다',
+    'register account' => '계정에 가입',
+    //
+    'homepage' => '소식',
+    'order'=>'주문하다',
 
     //thông tin tài khoản, thông báo của tôi, quản lý đơn hàng, quản lý đổi trả, sổ địa chỉ, thông tin thanh toán, đánh giá sản phẩm, sản phẩm bạn đã xem, sản phẩm yêu thích, sản phẩm mua sau, nhận xét của tôi, chia sẻ có lời, hợp đồng bảo hiểm, mua trước trả sau, mã giảm giá, quản lý xu của tôi, bookcare của tôi
     'account information' => '계정 정보',
@@ -235,7 +242,6 @@ return [
     'log out' => '로그아웃',
     'profile' => '프로필',
     'Payment Methods' => '결제 방법',
-    'order' => '주문',
 
     'was new product' => '신제품이 추가됩니다',
     'view card' => '카트를 참조하십시오',

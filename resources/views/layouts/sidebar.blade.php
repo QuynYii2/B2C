@@ -21,19 +21,19 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">
                     <i class="nc-icon nc-chart-pie-35"></i>
-                    <p>Bảng tin</p>
+                    <p>{{ __('home.homepage') }}</p>
                 </a>
             </li>
             <li>
                 <a class="nav-link" href="/search-product">
                     <i class="nc-icon nc-zoom-split"></i>
-                    <p>Đặt hàng</p>
+                    <p>{{ __('home.order') }}</p>
                 </a>
             </li>
             <li>
                 <a class="nav-link" href="{{route('order.list')}}">
                     <i class="nc-icon nc-circle-09"></i>
-                    <p>Quản lý Đơn đặt hàng</p>
+                    <p>{{ __('home.order management') }}</p>
                 </a>
             </li>
             @if($isAdmin)

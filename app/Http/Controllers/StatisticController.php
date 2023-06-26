@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\StatisticStatus;
 use App\Models\StatisticAccess;
+use App\Models\StatisticCancelOrder;
 use App\Models\StatisticOrderSearch;
 use App\Models\StatisticRevenue;
 use Illuminate\Http\Request;
@@ -76,6 +77,62 @@ class StatisticController extends Controller
             }
         }
         return view('pages/statistic/list-statistic-revenue', compact('statistics'));
+    }
+
+    public function statisticCancel(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $numbers = $request->input('numbers');
+
+        if ($startDate != null && $endDate != null) {
+            if ($numbers == 'low') {
+                $statistics = StatisticCancelOrder::where([
+                    ['datetime', '<=', $endDate],
+                    ['datetime', '>=', $startDate],
+                    ['status', StatisticStatus::ACTIVE]
+                ])->orderBy('numbers', 'DESC')->get();
+            } else {
+                $statistics = StatisticCancelOrder::where([
+                    ['datetime', '<=', $endDate],
+                    ['datetime', '>=', $startDate],
+                    ['status', StatisticStatus::ACTIVE]
+                ])->orderBy('numbers', 'ASC')->get();
+            }
+        } elseif ($startDate != null && $endDate == null) {
+            if ($numbers == 'low') {
+                $statistics = StatisticCancelOrder::where([
+                    ['datetime', '>=', $startDate],
+                    ['status', StatisticStatus::ACTIVE]
+                ])->orderBy('numbers', 'DESC')->get();
+            } else {
+                $statistics = StatisticCancelOrder::where([
+                    ['datetime', '>=', $startDate],
+                    ['status', StatisticStatus::ACTIVE]
+                ])->orderBy('numbers', 'ASC')->get();
+            }
+        } elseif ($startDate == null && $endDate != null) {
+            if ($numbers == 'low') {
+                $statistics = StatisticCancelOrder::where([
+                    ['datetime', '<=', $endDate],
+                    ['status', StatisticStatus::ACTIVE]
+                ])->orderBy('numbers', 'DESC')->get();
+            } else {
+                $statistics = StatisticCancelOrder::where([
+                    ['datetime', '<=', $endDate],
+                    ['status', StatisticStatus::ACTIVE]
+                ])->orderBy('numbers', 'ASC')->get();
+            }
+        } else {
+            if ($numbers == 'low') {
+                $statistics = StatisticCancelOrder::where('status', StatisticStatus::ACTIVE)
+                    ->orderBy('numbers', 'DESC')->get();
+            } else {
+                $statistics = StatisticCancelOrder::where('status', StatisticStatus::ACTIVE)
+                    ->orderBy('numbers', 'ASC')->get();
+            }
+        }
+        return view('pages/statistic/list-statistic-cancel', compact('statistics'));
     }
 
     public function statisticSearch(Request $request)

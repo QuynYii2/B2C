@@ -128,6 +128,36 @@
                                                 onclick="sumbit('{{route('order.update',  $item->id)}}')">
                                             Sửa trạng thái
                                         </button>
+
+                                        @if($item->status == OrderStatus::WAIT_PAYMENT || $item->status == OrderStatus::PAYMENT_SUCCESS)
+                                            <form action="{{route('order.cancel', $item->id)}}" method="post">
+                                                @csrf
+                                                <button type="submit"
+                                                        class="btn btn-primary">
+                                                    Huỷ đơn
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button type="button" disabled
+                                                    class="btn btn-primary">
+                                                Huỷ đơn
+                                            </button>
+                                        @endif
+                                    @else
+                                        @if($item->status == OrderStatus::WAIT_PAYMENT || $item->status == OrderStatus::PAYMENT_SUCCESS)
+                                            <form action="{{route('order.cancel', $item->id)}}" method="post">
+                                                @csrf
+                                                <button type="submit"
+                                                        class="btn btn-primary">
+                                                    Huỷ đơn
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button type="button" disabled
+                                                    class="btn btn-primary">
+                                                Huỷ đơn
+                                            </button>
+                                        @endif
                                     @endif
                                 </div>
                             </td>

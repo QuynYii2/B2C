@@ -85,4 +85,6 @@ Route::group(['middleware' => 'role.admin'], function () {
     Route::post('/statistic-search', [StatisticController::class, 'statisticSearch'])->name('statistic.search');
     Route::get('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.list.order');
     Route::post('/statistic-order', [StatisticController::class, 'statisticOrder'])->name('statistic.order');
+    Route::get('/statistic-revenue', [StatisticController::class, 'statisticRevenue'])->name('statistic.list.revenue');
+    Route::post('/statistic-revenue', [StatisticController::class, 'statisticRevenue'])->name('statistic.revenue');
 });

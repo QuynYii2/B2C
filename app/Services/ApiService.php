@@ -53,7 +53,7 @@ class ApiService implements ApiServiceInterface
             ],
             'headers' => [
                 'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '01d6366a6cmsh2ffddf98b1a9216p1225bdjsn8fa4fa929898'
+                'X-RapidAPI-Key' => 'b39e1a72a5msh6d1b69ec8c1f62bp188244jsn2924c2747d50'
             ]
         ]);
 
@@ -66,24 +66,21 @@ class ApiService implements ApiServiceInterface
     public function get1688($text)
     {
         // TODO: Implement get1688() method.
-        $response = $this->client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_search', [
+        $response = $this->client->request('GET', 'https://16881.p.rapidapi.com/api', [
             'query' => [
-                'keyword' => $text,
-                'start_price' => '0',
-                'end_price' => '99999',
-                'provider' => '1688',
-                'sort' => '_sale',
-                'page' => '20',
-                'cat' => '0',
-                'lang' => 'cn', // available value en,cn,ru
+                'api' => 'item_search_1688',
+            	'q' => $text,
+            	'page_size' => '20',
+            	'page' => '1',
+            	'sort' => 'default',//sales_des, sales_asc, price_asc, price_des
             ],
             'headers' => [
-                'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '231c07007fmsh26451fdd4ad3d83p125123jsn32be11d5a279'
+                'X-RapidAPI-Host' => '16881.p.rapidapi.com',
+                'X-RapidAPI-Key' => 'e5fec28adcmsh01ac8839654caf8p1731bbjsn4ee3310b5513'
             ]
         ]);
-
-        $body = $response->getBody();
+        
+        $body = $response->getBody()->getContents();
         $search1688 = json_decode($body, true);
 
         return $search1688;
@@ -92,16 +89,14 @@ class ApiService implements ApiServiceInterface
     public function detail1688($id)
     {
         // TODO: Implement detail1688() method.
-        $response = $this->client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_get', [
+        $response = $this->client->request('GET', 'https://16881.p.rapidapi.com/api', [
             'query' => [
-                'provider' => '1688',
-                'num_id' => $id,
-                'lang' => 'en',
-                'is_promotion' => '1',
+                'api' => 'item_detail_1688',
+                'num_iid' => $id
             ],
             'headers' => [
-                'X-RapidAPI-Host' => 'taobao-tmall-16882.p.rapidapi.com',
-                'X-RapidAPI-Key' => '039f2a7faamshbd80c6354ad3e9bp188e5bjsn29e22531e480'
+                'X-RapidAPI-Key' => 'e5fec28adcmsh01ac8839654caf8p1731bbjsn4ee3310b5513',
+                'X-RapidAPI-Host' => '16881.p.rapidapi.com'
             ]
         ]);
 

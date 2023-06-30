@@ -28,9 +28,9 @@ class SearchController extends Controller
 
         if ($dropdownValue == 'taobao') {
             $this->dataProduct = $this->apiService->getTaoBao($text);
-        } elseif ($dropdownValue = '1688') {
+        } elseif ($dropdownValue == '1688') {
             $this->dataProduct = $this->apiService->get1688($text);
-        } elseif ($dropdownValue = 'alibaba') {
+        } elseif ($dropdownValue == 'alibaba') {
             $this->dataProduct = $this->apiService->getAliBaBa($text);
         }
 
@@ -67,7 +67,7 @@ class SearchController extends Controller
         $client = new Client();
         $currency = (new BaseController())->getLocation($request);
 
-        $key = "b7211c2138msha0af71d7f60d97dp15b9b8jsn944d7ed17867";
+        $key = "b39e1a72a5msh6d1b69ec8c1f62bp188244jsn2924c2747d50";
 
         $response = $client->request('GET', 'https://taobao-tmall-16882.p.rapidapi.com/item_get', [
             'query' => [
